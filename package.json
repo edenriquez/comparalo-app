@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "start": "open http://localhost:3000  && nodemon --exec babel-node src/server.js",
+    "start": "open http://localhost:3000/categories  && nodemon --exec babel-node src/server.js",
     "build": "babel src --out-dir dist",
     "serve": "node dist/server.js"
   },
