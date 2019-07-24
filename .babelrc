@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 // .babelrc
-=======
->>>>>>> Project setup
 {
   "presets": ["@babel/preset-env"]
 }
