@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "start": "open http://localhost:3000  && nodemon --exec babel-node src/server.js",
+    "start": "open http://localhost:3000/categories  && nodemon --exec babel-node src/server.js",
     "build": "babel src --out-dir dist",
     "serve": "node dist/server.js"
   },
@@ -23,6 +23,7 @@
     "@babel/core": "^7.5.5",
     "@babel/node": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
+    "babel-loader": "^8.0.6",
     "nodemon": "^1.19.1"
   },
   "dependencies": {
