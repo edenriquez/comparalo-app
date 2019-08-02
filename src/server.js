@@ -1,6 +1,5 @@
 var express = require('express');
 var app = express();
-var routes = require('./router')
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -18,7 +17,7 @@ app.use(cors());
 // adding morgan to log HTTP requests
 app.use(morgan('combined'));
 
-app.use('/', routes)
+app.use('/', require('./router')())
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
