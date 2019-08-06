@@ -6,7 +6,7 @@ module.exports.getCategories = (collection, category) => {
 module.exports.getProduct = (categories, params) => {
   return categories.products.filter((i) => {
     if (params.id == i.id) {
-      i.status = params.status
+      return i
     }
   })
 }
