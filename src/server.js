@@ -1,9 +1,13 @@
+require('dotenv').config()
 var express = require('express');
 var app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+import models, {
+  connectDb
+} from './models';
 
 // adding Helmet to enhance your API's security
 app.use(helmet());
@@ -19,6 +23,6 @@ app.use(morgan('combined'));
 
 app.use('/', require('./router')())
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
+connectDb().then(async () => {
+  app.listen(process.env.PORT);
 });

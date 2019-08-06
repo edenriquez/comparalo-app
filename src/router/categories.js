@@ -6,7 +6,8 @@ import {
   allCategories,
   filterCategories,
   filterProducts,
-  filterProductById
+  filterProductById,
+  getProductById
 } from '../controllers/categories';
 
 const CategoriesRouter = () => {
@@ -15,8 +16,8 @@ const CategoriesRouter = () => {
   router.get('/:category', filterCategories);
   router.get('/:category', filterCategories);
   router.get('/:category/products', filterProducts);
+  router.get('/:category/products/:id', getProductById);
   router.put('/:category/products/:id', filterProductById);
-  // TODO: add get category product by id
   return router
 }
 module.exports = CategoriesRouter;

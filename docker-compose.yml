@@ -1,0 +1,8 @@
+version: '3'
+services:
+  db:
+    image: 'healthcheck/mongo'
+    container_name: "amazon-bot"
+    command: mongod --smallfiles --logpath=/dev/null # --quiet
+    ports:
+      - 27017:27017
