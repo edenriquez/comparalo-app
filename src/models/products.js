@@ -7,33 +7,26 @@ const productSchema = new mongoose.Schema({
   },
   mainImage: {
     type: String,
-    unique: true,
   },
   url: {
     type: String,
-    unique: true,
   },
   price: {
     type: String,
-    unique: true,
   },
   status: {
     type: String,
-    unique: true,
   },
 });
 
 productSchema.statics.findById = async function (id) {
-  let product = await this.findOne({
-    id: id,
+  return await this.findOne({
+    id: id
   });
+};
 
-  if (!product) {
-    product = await this.findOne({
-      id: id
-    });
-  }
-  return product;
+productSchema.statics.getAllProducts = async function () {
+  return await this.find();
 };
 
 const Product = mongoose.model('Product', productSchema);
