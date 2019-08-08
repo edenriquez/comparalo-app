@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import Product from './products';
+import Category from './categories';
 
 const connectDb = () => {
   return mongoose.connect(
@@ -9,7 +10,8 @@ const connectDb = () => {
 };
 
 const models = {
-  Product
+  Product,
+  Category
 };
 
 export {

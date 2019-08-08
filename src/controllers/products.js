@@ -5,6 +5,7 @@ var errors = require('../services/errors');
 
 
 const ERROR_NOT_FOUND = errors.ERROR_NOT_FOUND;
+const ERROR_COULD_NOT_SAVE = errors.ERROR_UNABLE_SAVE_PRODUCT;
 const CREATED = 'created'
 
 module.exports.allProducts = async (req, res) => {
@@ -25,7 +26,7 @@ module.exports.createProduct = async (req, res) => {
   let response = await prod.save()
   if (!response) {
     status = 401
-    response = ERROR_COULD_NOT_SAVER
+    response = ERROR_COULD_NOT_SAVE
   }
 
   res.status(status).json(response)

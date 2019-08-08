@@ -7,6 +7,7 @@ import {
   createProduct
 }
 from '../controllers/products';
+
 const ProductsRouter = () => {
   var router = express.Router();
   router.get('/', allProducts);
