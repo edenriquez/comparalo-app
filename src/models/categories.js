@@ -13,6 +13,16 @@ const categorySchema = new mongoose.Schema({
   },
 });
 
+categorySchema.methods.isValid = (data) => {
+  const Joi = require('joi');
+  const schema = Joi.object().keys({
+    id: Joi.string().required(),
+    name: Joi.string().required(),
+    status: Joi.string().required(),
+  })
+  return schema.validate(data)
+
+}
 categorySchema.statics.findByName = async function (name) {
   return await this.findOne(name);
 };

@@ -12,12 +12,24 @@ const productSchema = new mongoose.Schema({
     type: String,
   },
   price: {
-    type: String,
+    type: Number,
   },
   status: {
     type: String,
   },
 });
+
+productSchema.methods.isValid = (data) => {
+  const Joi = require('joi');
+  const schema = Joi.object().keys({
+    id: Joi.string().required(),
+    mainImage: Joi.string().required(),
+    url: Joi.string().uri().trim().required(),
+    price: Joi.number().required(),
+    status: Joi.string().valid("created", "pending").required()
+  });
+  return schema.validate(data);
+};
 
 productSchema.statics.findById = async function (id) {
   return await this.findOne({
