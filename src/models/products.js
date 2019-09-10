@@ -37,6 +37,12 @@ productSchema.statics.findById = async function (id) {
   });
 };
 
+productSchema.statics.deleteById = async function (id) {
+  return await this.deleteOne({
+    id: id
+  });
+};
+
 productSchema.statics.getAllProducts = async function () {
   return await this.find();
 };

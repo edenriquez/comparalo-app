@@ -9,26 +9,51 @@ const ERROR_COULD_NOT_SAVE = errors.ERROR_UNABLE_SAVE_PRODUCT;
 const ERROR_MALFORMED_REQUEST = errors.ERROR_MALFORMED_REQUEST;
 const CREATED = 'created'
 
-module.exports.allProducts = async (req, res) => {
-  const all = await models.Product.getAllProducts()
-  res.json(all);
-}
-
 const generateProductId = () => {
   return `prod_${mongoose.Types.ObjectId()}`
 };
-module.exports.createProduct = async (req, res) => {
-  let status = 200;
-  let response = ''
 
-  const obj = {
+const createProduct = (req) => {
+  return {
     id: generateProductId(),
     mainImage: req.body.main,
     url: req.body.url,
     price: req.body.price,
     status: CREATED
   }
+}
 
+module.exports.getProduct = async (req, res) => {
+  if (!req.params.id) {
+    res.status(404).json({
+      "message": "product not found"
+    })
+  }
+  const product = await models.Product.findById(req.params.id)
+
+  res.json(product)
+}
+
+
+module.exports.deleteProduct = async (req, res) => {
+  if (!req.params.id) {
+    res.status(404).json({
+      "message": "product not found"
+    })
+  }
+  const product = await models.Product.deleteById(req.params.id)
+
+  res.json(product)
+}
+module.exports.allProducts = async (req, res) => {
+  const all = await models.Product.getAllProducts()
+  res.json(all);
+}
+module.exports.createProduct = async (req, res) => {
+  let status = 200;
+  let response = ''
+
+  const obj = createProduct(req)
   const product = new models.Product(obj)
 
   const {
