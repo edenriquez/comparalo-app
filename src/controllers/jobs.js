@@ -24,7 +24,6 @@ module.exports.scrapCategory = async (req, res) => {
   let message;
   let job;
   const queue = kue.createQueue()
-  // TODO: Implement request body validation here
 
   // MOVE THIS CODE TO CATEGORY/NEW ENDPOINT
   // let category = await models.Category.findByName({

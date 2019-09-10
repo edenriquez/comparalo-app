@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 var express = require('express');
 
@@ -18,6 +18,7 @@ const CategoriesRouter = () => {
   router.get('/:category/products', filterProducts);
   router.get('/:category/products/:id', getProductById);
   router.put('/:category/products/:id', filterProductById);
-  return router
-}
+  return router;
+};
+
 module.exports = CategoriesRouter;

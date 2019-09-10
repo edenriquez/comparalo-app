@@ -1,10 +1,10 @@
 import {
   Category
-} from "../services"
+} from "../services";
 
 import {
   db
-} from '../database/db'
+} from '../database/db';
 
 import models from '../models';
 
