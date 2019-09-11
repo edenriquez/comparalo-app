@@ -8,13 +8,18 @@ import {
   getProduct,
   deleteProduct
 }
-from '../controllers/products';
+from '../api/product/products';
+
+import {
+  newProduct
+}
+from '../api/product/validator';
 
 const ProductsRouter = () => {
   var router = express.Router();
   router.get('/', allProducts);
-  router.post('/new', createProduct);
   router.get('/:id', getProduct);
+  router.post('/new', newProduct, createProduct);
   router.delete('/:id/delete', deleteProduct);
   return router
 }

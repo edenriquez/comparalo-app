@@ -44,7 +44,11 @@ productSchema.statics.deleteById = async function (id) {
 };
 
 productSchema.statics.getAllProducts = async function () {
-  return await this.find();
+  var productProjection = {
+    __v: false,
+    _id: false
+  };
+  return await this.find({}, productProjection);
 };
 
 const Product = mongoose.model('Product', productSchema);

@@ -8,12 +8,12 @@ import {
   filterProducts,
   filterProductById,
   getProductById
-} from '../controllers/categories';
+} from '../api/categories';
 
 import {
   scrapCategory
 }
-from '../controllers/jobs';
+from '../jobs/jobs';
 
 
 const CategoriesRouter = () => {
