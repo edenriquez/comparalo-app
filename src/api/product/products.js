@@ -5,8 +5,15 @@ var errors = require('../../services/errors');
 var service = require('../../services/produtcs');
 
 module.exports.allProducts = async (req, res) => {
-  //TODO: refactor this, as promise I should use then and cath
-  res.json(await service.allProducts());
+  service.allProducts()
+    .then((product) => {
+      res.status(200).json(product)
+    })
+    .catch((err) => {
+      res.status(404).json(
+        errors.productNotFound()
+      )
+    })
 }
 
 module.exports.getProduct = async (req, res) => {
