@@ -10,7 +10,7 @@ module.exports.productSchemaValidation = (req, res, next) => {
   const product = new models.Product(obj);
   const {
     error
-  } = product.isValid(obj);
+  } = product.isValid(obj); // perform validation from schema
 
   if (error) {
     const details = error.details[0]
