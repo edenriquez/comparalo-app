@@ -19,6 +19,11 @@ const productSchema = new mongoose.Schema({
   },
 });
 
+const productProtection = {
+  __v: false,
+  _id: false
+};
+
 productSchema.methods.isValid = (data) => {
   const Joi = require('joi');
   const schema = Joi.object().keys({
@@ -31,14 +36,21 @@ productSchema.methods.isValid = (data) => {
   return schema.validate(data);
 };
 
+
 productSchema.statics.findById = async function (id) {
   return await this.findOne({
+    id: id
+  }, productProtection);
+};
+
+productSchema.statics.deleteById = async function (id) {
+  return await this.deleteOne({
     id: id
   });
 };
 
 productSchema.statics.getAllProducts = async function () {
-  return await this.find();
+  return await this.find({}, productProtection);
 };
 
 const Product = mongoose.model('Product', productSchema);

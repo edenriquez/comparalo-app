@@ -8,13 +8,20 @@ import {
   filterProducts,
   filterProductById,
   getProductById
-} from '../controllers/categories';
+} from '../api/categories';
+
+import {
+  scrapCategory
+}
+from '../jobs/jobs';
+
 
 const CategoriesRouter = () => {
   var router = express.Router();
   router.get('/', allCategories);
   router.get('/:category', filterCategories);
   router.get('/:category', filterCategories);
+  router.post('/category/new', scrapCategory);
   router.get('/:category/products', filterProducts);
   router.get('/:category/products/:id', getProductById);
   router.put('/:category/products/:id', filterProductById);

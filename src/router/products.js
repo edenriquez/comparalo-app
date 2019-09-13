@@ -4,14 +4,26 @@ var express = require('express');
 
 import {
   allProducts,
-  createProduct
+  createProduct,
+  getProduct,
+  deleteProduct
 }
-from '../controllers/products';
+from '../api/product/products';
+
+import {
+  productSchemaValidation
+}
+from '../api/product/validator';
 
 const ProductsRouter = () => {
   var router = express.Router();
   router.get('/', allProducts);
-  router.post('/new', createProduct);
+  router.get('/:id', getProduct);
+  router.post('/new',
+    productSchemaValidation,
+    createProduct
+  );
+  router.delete('/:id/delete', deleteProduct);
   return router
 }
 
