@@ -1,15 +1,18 @@
-module.exports.ERROR_NOT_FOUND = {
-  message: "error item not found",
-}
+import {
+  ITEM_NOT_FOUND
+} from '../config/constants';
 
-module.exports.ERROR_UNABLE_SAVE_PRODUCT = {
-  message: "error item could not be saved",
-}
-
-module.exports.ERROR_MALFORMED_REQUEST = (field, context) => {
+export function malformedRequest(field, context) {
   return {
     message: `error malformed request`,
     details: `validation error on field ${field}`,
     context: context
+  }
+}
+
+export function productNotFound() {
+  return {
+    message: ITEM_NOT_FOUND,
+    details: `Id provided was not found in our records`,
   }
 }

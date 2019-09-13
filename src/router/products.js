@@ -11,7 +11,7 @@ import {
 from '../api/product/products';
 
 import {
-  newProduct
+  productSchemaValidation
 }
 from '../api/product/validator';
 
@@ -19,7 +19,10 @@ const ProductsRouter = () => {
   var router = express.Router();
   router.get('/', allProducts);
   router.get('/:id', getProduct);
-  router.post('/new', newProduct, createProduct);
+  router.post('/new',
+    productSchemaValidation,
+    createProduct
+  );
   router.delete('/:id/delete', deleteProduct);
   return router
 }
