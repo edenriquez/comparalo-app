@@ -6,9 +6,13 @@ import {
 
 module.exports.allProducts = async () => {
   // TODO: handle error here with promises
-  return models
-    .Product
-    .getAllProducts()
+  return new Promise(async (resolve, reject) => {
+    const result = await models.Product.getAllProducts()
+    if (!result) {
+      reject(result)
+    }
+    resolve(result)
+  })
 
 }
 module.exports.findProductById = (id) => {
