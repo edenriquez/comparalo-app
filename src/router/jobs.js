@@ -1,16 +1,11 @@
 'use strict'
 
 var express = require('express');
-
-import {
-  getAllJobs,
-  createJob,
-} from '../controllers/jobs';
+const kue = require("kue");
 
 const JobsRouter = () => {
   var router = express.Router();
-  router.get('/', getAllJobs);
-  router.post('/new', createJob);
+  router.use('/', kue.app);
   return router
 }
 module.exports = JobsRouter;

@@ -1,10 +1,12 @@
 import {
   Category
-} from "../services"
+} from "../services";
 
 import {
   db
-} from '../database/db'
+} from '../database/db';
+
+import models from '../models';
 
 var errors = require('../services/errors');
 
@@ -12,7 +14,8 @@ var errors = require('../services/errors');
 const ERROR_NOT_FOUND = errors.ERROR_NOT_FOUND;
 
 module.exports.allCategories = (req, res) => {
-  res.json(db);
+  let products = new models.Product()
+  res.json(products);
 }
 
 module.exports.filterCategories = (req, res) => {

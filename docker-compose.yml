@@ -3,6 +3,10 @@ services:
   db:
     image: 'healthcheck/mongo'
     container_name: "amazon-bot"
-    command: mongod --smallfiles --logpath=/dev/null # --quiet
     ports:
       - 27017:27017
+  redis:
+    image: 'healthcheck/redis'
+    container_name: "amazon-bot-redis"
+    ports:
+      - 6379:6379
