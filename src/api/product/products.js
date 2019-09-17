@@ -1,6 +1,4 @@
 import models from '../../models';
-
-
 var errors = require('../../services/errors');
 var service = require('../../services/produtcs');
 
