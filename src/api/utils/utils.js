@@ -6,27 +6,44 @@ import {
 } from 'mongoose';
 
 
-/** newProductId
- * This method build an unique product id
+/** newId
+ * This method build an unique id´s with custom given prefix
  */
-const newProductId = () => {
-  return `prod_${Types.ObjectId()}`
+const newId = (prefix) => {
+  return `${prefix}_${Types.ObjectId()}`
 };
+
+
+
 
 /** buildProductObject
  * This method should build a valid product schema 
  * @param {object} body should be taken from req object.
  */
 const buildProductObject = (body) => {
+  // TODO: set category
   return {
-    id: newProductId(),
-    mainImage: body.main,
-    url: body.url,
-    price: body.price,
-    status: PRODUCT_STATUSES.CREATED
+    id: newId('prod'),
+    name: body.name,
+    image: body.image,
+    link: body.link,
+    currentPrice: body.price,
   };
 }
 
+const buildSearchObject = (body) => {
+  // TODO: set category
+  // TODO: set vendor name
+  // TODO: set brand
+  // TODO: set attributes
+  return {
+    search_id: newId('search'),
+    product_name: body.name,
+    stats: 1
+  }
+}
+
 module.exports = {
-  buildProductObject
+  buildProductObject,
+  buildSearchObject
 }

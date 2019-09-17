@@ -26,9 +26,10 @@ module.exports.getProduct = async (req, res) => {
     })
 }
 
-module.exports.createProduct = async (req, res) => {
+module.exports.createProduct = async (req, res, next) => {
   service.createProduct(req.body)
     .then((product) => {
+      req.productId = product.id // pass product id through middleware
       res.status(200).json(product)
     })
     .catch((err) => {

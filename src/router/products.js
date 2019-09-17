@@ -15,15 +15,23 @@ import {
 }
 from '../api/product/validator';
 
+import {
+  startCommitOnSearchEngine,
+  endCommitOnSearchEngine
+}
+from '../api/search/search';
+
 const ProductsRouter = () => {
   var router = express.Router();
   router.get('/', allProducts);
   router.get('/:id', getProduct);
   router.post('/new',
     productSchemaValidation,
-    createProduct
+    startCommitOnSearchEngine,
+    createProduct,
   );
   router.delete('/:id/delete', deleteProduct);
+  router.use(endCommitOnSearchEngine)
   return router
 }
 
