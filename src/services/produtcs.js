@@ -13,7 +13,6 @@ module.exports.allProducts = async () => {
     }
     resolve(result)
   })
-
 }
 module.exports.findProductById = (id) => {
   return new Promise(async (resolve, reject) => {

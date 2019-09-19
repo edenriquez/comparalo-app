@@ -4,22 +4,26 @@ const productSchema = new mongoose.Schema({
   id: {
     type: String,
     unique: true,
+    index: true
   },
-  mainImage: {
+  name: {
     type: String,
   },
-  url: {
+  image: {
     type: String,
   },
-  price: {
+  link: {
+    type: String,
+  },
+  currentPrice: {
     type: Number,
   },
-  status: {
+  category: {
     type: String,
   },
 });
 
-const productProtection = {
+const productProjection = {
   __v: false,
   _id: false
 };
@@ -28,19 +32,18 @@ productSchema.methods.isValid = (data) => {
   const Joi = require('joi');
   const schema = Joi.object().keys({
     id: Joi.string().required(),
-    mainImage: Joi.string().required(),
-    url: Joi.string().uri().trim().required(),
-    price: Joi.number().required(),
-    status: Joi.string().valid("created", "pending").required()
+    name: Joi.string(),
+    image: Joi.string().required(),
+    link: Joi.string().uri().trim().required(),
+    currentPrice: Joi.number().required(),
   });
   return schema.validate(data);
 };
 
-
 productSchema.statics.findById = async function (id) {
   return await this.findOne({
     id: id
-  }, productProtection);
+  }, productProjection);
 };
 
 productSchema.statics.deleteById = async function (id) {
@@ -50,7 +53,7 @@ productSchema.statics.deleteById = async function (id) {
 };
 
 productSchema.statics.getAllProducts = async function () {
-  return await this.find({}, productProtection);
+  return await this.find({}, productProjection);
 };
 
 const Product = mongoose.model('Product', productSchema);
