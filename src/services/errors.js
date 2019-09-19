@@ -16,10 +16,16 @@ module.exports.productNotFound = () => {
     details: `Id provided was not found in our records`,
   }
 }
-
 module.exports.couldNotSave = () => {
   return {
     message: ERRORS.COULD_NOT_SAVE_PRODUCT,
     details: `Cannot save product object, try again later`,
+  }
+}
+
+module.exports.resultsNotFound = () => {
+  return {
+    message: ERRORS.RESULTS_NOT_FOUND,
+    details: `Search params not match in our records`,
   }
 }

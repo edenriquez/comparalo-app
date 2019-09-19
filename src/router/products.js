@@ -30,8 +30,8 @@ const ProductsRouter = () => {
     startCommitOnSearchEngine,
     createProduct,
   );
-  router.delete('/:id/delete', deleteProduct);
   router.use(endCommitOnSearchEngine)
+  router.delete('/:id/delete', deleteProduct);
   return router
 }
 

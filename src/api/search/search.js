@@ -2,7 +2,13 @@ var service = require('../../services/search');
 
 
 module.exports.searchOptions = async (req, res) => {
-  return await service.allCoincidences(req.query.q, parseInt(req.query.max))
+  service.allCoincidences(req.query.q, parseInt(req.query.max))
+    .then((result) => {
+      res.status(200).json(result)
+    })
+    .catch((err) => {
+      res.status(404).json(resultsNotFound())
+    })
 }
 
 module.exports.startCommitOnSearchEngine = async (req, res, next) => {

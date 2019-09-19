@@ -39,11 +39,20 @@ var searchSchema = new mongoose.Schema({
 searchSchema.statics.allCoincidences = async function (query, max) {
   const searchRegex = new RegExp(query, 'i')
   return await this.find({
-      product_name: searchRegex,
-      category: searchRegex,
-      vendor: searchRegex,
-      brand: searchRegex,
-      // TODO: attributes is pending to include 
+      "$or": [{
+          product_name: searchRegex
+        },
+        {
+          category: searchRegex
+        },
+        {
+          vendor: searchRegex
+        },
+        {
+          brand: searchRegex
+        },
+        // TODO: attributes is pending to include 
+      ]
     })
     .limit(max)
     .sort({
