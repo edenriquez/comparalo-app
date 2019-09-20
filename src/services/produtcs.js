@@ -5,7 +5,6 @@ import {
 
 
 module.exports.allProducts = async () => {
-  // TODO: handle error here with promises
   return new Promise(async (resolve, reject) => {
     const result = await models.Product.getAllProducts()
     if (!result) {

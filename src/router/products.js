@@ -1,7 +1,6 @@
 'use strict'
 
 var express = require('express');
-
 import {
   allProducts,
   createProduct,
@@ -9,12 +8,10 @@ import {
   deleteProduct
 }
 from '../api/product/products';
-
 import {
   productSchemaValidation
 }
 from '../api/product/validator';
-
 import {
   startCommitOnSearchEngine,
   endCommitOnSearchEngine

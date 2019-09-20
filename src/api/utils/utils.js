@@ -13,9 +13,6 @@ const newId = (prefix) => {
   return `${prefix}_${Types.ObjectId()}`
 };
 
-
-
-
 /** buildProductObject
  * This method should build a valid product schema 
  * @param {object} body should be taken from req object.
@@ -28,6 +25,7 @@ const buildProductObject = (body) => {
     image: body.image,
     link: body.link,
     currentPrice: body.price,
+    status: PRODUCT_STATUSES.UNPUBLISHED
   };
 }
 

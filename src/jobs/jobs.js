@@ -34,7 +34,7 @@ module.exports.scrapCategory = async (req, res) => {
   message = "job already exists"
   if (!job) {
     const queueName = `CAT/${category.name}`
-    const description = `Attemp to scrap AWS category.name`
+    const description = `Attemp to scrap AWS ${category.name}`
     const data = req.body.url
     status = 200
     queue.create(description, {
