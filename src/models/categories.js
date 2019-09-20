@@ -4,9 +4,11 @@ const categorySchema = new mongoose.Schema({
   id: {
     type: String,
     unique: true,
+    index: true
   },
   name: {
     type: String,
+    unique: true
   },
   status: {
     type: String,
@@ -18,7 +20,10 @@ categorySchema.methods.isValid = (data) => {
   const schema = Joi.object().keys({
     id: Joi.string().required(),
     name: Joi.string().required(),
-    status: Joi.string().required(),
+    status: Joi.string().valid(
+      "active",
+      "deactive"
+    ).required()
   })
   return schema.validate(data)
 
