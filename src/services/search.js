@@ -22,6 +22,7 @@ module.exports.startCommitRegistry = async (body) => {
     const exist = await models.Search.findByName(data.product_name)
 
     if (exist) {
+      // it does not create the same registry on db for the same product name
       exist.stats = exist.stats + 1
       const statUpdated = exist.save()
       if (statUpdated) {
@@ -33,7 +34,6 @@ module.exports.startCommitRegistry = async (body) => {
       // TODO: research if is ther any better way to solve this return
       return
     }
-    console.log('IT CONTINUES...');
 
     const result = await search.save()
     if (!result) {

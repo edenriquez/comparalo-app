@@ -1,11 +1,11 @@
-module.exports.getCategories = (collection, category) => {
-  return collection.find(i => category == i.category)
-}
+import models from '../models';
 
-module.exports.getProduct = (categories, params) => {
-  return categories.products.filter((i) => {
-    if (params.id == i.id) {
-      return i
+module.exports.getAllCategories = () => {
+  return new Promise(async (resolve, reject) => {
+    const result = await models.Category.getAllCategories();
+    if (!result) {
+      reject(result)
     }
+    resolve(result)
   })
 }

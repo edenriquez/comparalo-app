@@ -4,6 +4,7 @@ var service = require('../../services/search');
 module.exports.searchOptions = async (req, res) => {
   service.allCoincidences(req.query.q, parseInt(req.query.max))
     .then((result) => {
+
       res.status(200).json(result)
     })
     .catch((err) => {
