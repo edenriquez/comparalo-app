@@ -1,6 +1,7 @@
 import models from '../models';
 import {
-  buildProductObject
+  buildProductObject,
+  updateProductObject
 } from '../api/utils/utils'
 
 
@@ -36,17 +37,16 @@ module.exports.createProduct = (body) => {
 }
 module.exports.updateProduct = (body, productId) => {
   return new Promise(async (resolve, reject) => {
-    const data = buildProductObject(body)
-    const filter = {
+    const result = await models.Product.findOne({
       id: productId
-    }
-    const modify = data
-
-    const result = await models.Product.useFindAndModify(filter, modify, {
-      new: true
     })
     if (!result) {
       reject(result)
+    }
+    const data = updateProductObject(body)
+    const response = await result.updateOne(data)
+    if (!response) {
+      reject(response)
     }
     resolve(response)
   })
