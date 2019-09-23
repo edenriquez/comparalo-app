@@ -34,7 +34,23 @@ module.exports.createProduct = (body) => {
     resolve(response)
   })
 }
+module.exports.updateProduct = (body, productId) => {
+  return new Promise(async (resolve, reject) => {
+    const data = buildProductObject(body)
+    const filter = {
+      id: productId
+    }
+    const modify = data
 
+    const result = await models.Product.useFindAndModify(filter, modify, {
+      new: true
+    })
+    if (!result) {
+      reject(result)
+    }
+    resolve(response)
+  })
+}
 module.exports.deleteProduct = (id) => {
   return new Promise(async (resolve, reject) => {
     const response = await models.Product.deleteById(id)

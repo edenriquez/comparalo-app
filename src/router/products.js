@@ -5,6 +5,7 @@ import {
   allProducts,
   createProduct,
   getProduct,
+  updateProduct,
   deleteProduct
 }
 from '../api/product/products';
@@ -27,8 +28,9 @@ const ProductsRouter = () => {
     startCommitOnSearchEngine,
     createProduct,
   );
-  router.use(endCommitOnSearchEngine)
+  router.put('/:id/update', updateProduct);
   router.delete('/:id/delete', deleteProduct);
+  router.use(endCommitOnSearchEngine)
   return router
 }
 

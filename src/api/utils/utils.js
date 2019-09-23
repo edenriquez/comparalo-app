@@ -20,11 +20,11 @@ const newId = (prefix) => {
 const buildProductObject = (body) => {
   // TODO: set category
   return {
-    id: newId('prod'),
+    id: body.id || newId('prod'),
     name: body.name,
     image: body.image,
     link: body.link,
-    currentPrice: body.price,
+    currentPrice: body.currentPrice,
     status: PRODUCT_STATUSES.UNPUBLISHED
   };
 }

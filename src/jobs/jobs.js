@@ -1,13 +1,7 @@
 var errors = require('../services/errors')
-import {
-  Job,
-  DoneCallback
-} from "kue";
 const kue = require("kue");
 
 
-const CREATED = "created";
-const ERROR_COULD_NOT_SAVER = errors.ERROR_UNABLE_SAVE_PRODUCT
 const PRIORITY_HIGH = "high"
 
 import models from '../models';
