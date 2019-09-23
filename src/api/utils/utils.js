@@ -17,10 +17,21 @@ const newId = (prefix) => {
  * This method should build a valid product schema 
  * @param {object} body should be taken from req object.
  */
+
+const updateProductObject = (body) => {
+  return {
+    name: body.name,
+    image: body.image,
+    link: body.link,
+    currentPrice: body.currentPrice,
+    status: PRODUCT_STATUSES.UNPUBLISHED
+  };
+}
 const buildProductObject = (body) => {
   // TODO: set category
+
   return {
-    id: body.id || newId('prod'),
+    id: newId('prod'),
     name: body.name,
     image: body.image,
     link: body.link,
@@ -42,6 +53,7 @@ const buildSearchObject = (body) => {
 }
 
 module.exports = {
+  updateProductObject,
   buildProductObject,
   buildSearchObject
 }
