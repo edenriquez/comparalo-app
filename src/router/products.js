@@ -1,20 +1,18 @@
 'use strict'
 
 var express = require('express');
-
 import {
   allProducts,
   createProduct,
   getProduct,
+  updateProduct,
   deleteProduct
 }
 from '../api/product/products';
-
 import {
   productSchemaValidation
 }
 from '../api/product/validator';
-
 import {
   startCommitOnSearchEngine,
   endCommitOnSearchEngine
@@ -30,8 +28,9 @@ const ProductsRouter = () => {
     startCommitOnSearchEngine,
     createProduct,
   );
-  router.use(endCommitOnSearchEngine)
+  router.put('/:id/update', updateProduct);
   router.delete('/:id/delete', deleteProduct);
+  router.use(endCommitOnSearchEngine)
   return router
 }
 

@@ -1,13 +1,7 @@
 var errors = require('../services/errors')
-import {
-  Job,
-  DoneCallback
-} from "kue";
 const kue = require("kue");
 
 
-const CREATED = "created";
-const ERROR_COULD_NOT_SAVER = errors.ERROR_UNABLE_SAVE_PRODUCT
 const PRIORITY_HIGH = "high"
 
 import models from '../models';
@@ -34,7 +28,7 @@ module.exports.scrapCategory = async (req, res) => {
   message = "job already exists"
   if (!job) {
     const queueName = `CAT/${category.name}`
-    const description = `Attemp to scrap AWS category.name`
+    const description = `Attemp to scrap AWS ${category.name}`
     const data = req.body.url
     status = 200
     queue.create(description, {

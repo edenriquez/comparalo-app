@@ -18,9 +18,12 @@ const productSchema = new mongoose.Schema({
   currentPrice: {
     type: Number,
   },
-  category: {
+  category: { // category should be linked to categories model id
     type: String,
   },
+  status: {
+    type: String,
+  }
 });
 
 const productProjection = {
@@ -36,6 +39,10 @@ productSchema.methods.isValid = (data) => {
     image: Joi.string().required(),
     link: Joi.string().uri().trim().required(),
     currentPrice: Joi.number().required(),
+    status: Joi.string().valid(
+      "published",
+      "unpublished"
+    ).required()
   });
   return schema.validate(data);
 };
