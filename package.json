@@ -6,7 +6,8 @@
   "scripts": {
     "start": "./scripts/start.sh",
     "build": "babel src --out-dir dist",
-    "serve": "node dist/server.js"
+    "start:prod": "node dist/server.js",
+    "task": "node task-runner.js"
   },
   "repository": {
     "type": "git",
