@@ -30,6 +30,7 @@ const ProductsRouter = () => {
   );
   router.put('/:id/update', updateProduct);
   router.delete('/:id/delete', deleteProduct);
+  // TODO: validate again this is working as expected
   router.use(endCommitOnSearchEngine)
   return router
 }
