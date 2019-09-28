@@ -29,14 +29,17 @@ module.exports.generateProduct = async (req, res) => {
     .save()
 
   // queue process
-  queue.process(description, async (
-    Job,
-    DoneCallback
-  ) => {
-    const result = await scrapProduct(link)
-    if (result) {
-      DoneCallback()
-    }
+  queue.process(description, async (Job, DoneCallback) => {
+    scrapProduct(link)
+      .then((res) => {
+        if (res) {
+          DoneCallback(res)
+        }
+      }).catch((err) => {
+        // TODO: treat this case to report to some tool
+        console.log('ERROR EXECUTING JOB', err);
+      })
+
   });
   message = "job successfully created"
   res.status(200).json({
