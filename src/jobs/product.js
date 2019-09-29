@@ -1,27 +1,29 @@
 const puppeteer = require('puppeteer')
+const commons = require('./commons')
 const chromeBin = '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
+const isDev = (process.env.ENV === 'development') ? true : false
+const settings = (isDev) ? {
+  headless: false,
+  executablePath: chromeBin,
+  slowMo: 250,
+  devtools: true
+} : {}
 
 module.exports.scrapProduct = async (url) => {
-  const screenshot = 'amazon_nyan_cat_pullover.png'
-  try {
-    (async () => {
-      const browser = await puppeteer.launch({
-        headless: false,
-        executablePath: chromeBin
-      })
+  return new Promise(async (resolve, reject) => {
+    try {
+      const browser = await puppeteer.launch(settings)
+
       const page = await browser.newPage()
 
-      await page.setViewport({
-        width: 1280,
-        height: 800
-      })
+      commons.setDebugViewPort(page, 1280, 800)
+
       await page.goto(url)
-      await page.screenshot({
-        path: 'test.png'
-      })
-      await browser.close()
-    })()
-  } catch (err) {
-    console.error(err)
-  }
+
+      await browser.waitForTarget(() => false);
+      resolve(true);
+    } catch (error) {
+      reject(error)
+    }
+  })
 }
