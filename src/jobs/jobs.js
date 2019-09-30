@@ -1,10 +1,51 @@
 var errors = require('../services/errors')
 const kue = require("kue");
-
+import {
+  Job,
+  DoneCallback
+} from 'kue';
+import {
+  scrapProduct
+} from './product';
 
 const PRIORITY_HIGH = "high"
 
-import models from '../models';
+
+module.exports.generateProduct = async (req, res) => {
+  // queue setup
+  let message;
+  const queue = kue.createQueue()
+  const productName = req.body.name
+  const queueName = `PROD/${productName}`
+  const description = `Attemp to scrap AWS ${productName}`
+  const link = req.body.link
+
+  // queue creation
+  queue.create(description, {
+      title: queueName,
+      data: link
+    })
+    .priority(PRIORITY_HIGH)
+    .save()
+
+  // queue process
+  queue.process(description, async (Job, DoneCallback) => {
+    scrapProduct(link)
+      .then((res) => {
+        if (res) {
+          DoneCallback(res)
+        }
+      }).catch((err) => {
+        // TODO: treat this case to report to some tool
+        console.log('ERROR EXECUTING JOB', err);
+      })
+
+  });
+  message = "job successfully created"
+  res.status(200).json({
+    "message": message
+  });
+}
 
 /**
  * scrapCategory should create jobs based on requests made by users 
