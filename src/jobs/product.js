@@ -1,11 +1,14 @@
 const puppeteer = require('puppeteer')
-const commons = require('./commons')
+const commons = require('./commons/commons')
+import {
+  PRODUCT_STATUSES
+} from '../config/constants'
 const chromeBin = '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 const isDev = (process.env.ENV === 'development') ? true : false
 const settings = (isDev) ? {
   headless: false,
   executablePath: chromeBin,
-  // slowMo: 250,
+  slowMo: 250,
   devtools: false
 } : {}
 
@@ -26,26 +29,30 @@ module.exports.scrapProduct = async (url, passedVendor) => {
       if (!passedVendor) {
         passedVendor = Object.entries(vendors).forEach(function (entry) {
           if (entry[1].test(url)) {
-            return entry[0]
+            return entry[0];
           }
         });
       }
 
+      // init browser
       const browser = await puppeteer.launch(settings)
-
       const page = await browser.newPage()
+      commons.setDebugViewPort(page, 1280, 800) // if debug mode is true 
 
-      commons.setDebugViewPort(page, 1280, 800)
-
+      // open product 
       await page.goto(url)
-      // get price depends on vendor
-      const element = await page.$eval('#priceblock_ourprice', el => el.textContent);
-      const featureArticle = (await page.$x('//*[@id="priceblock_ourprice"]'))[0];
 
-      const text = await page.evaluate(el => {
-        return el.textContent;
-      }, featureArticle);
-      console.log(element, text);
+      // get data
+      const price = commons.getPrice(passedVendor, page);
+      const name = commons.getName(passedVendor, page);
+      const status = PRODUCT_STATUSES.UNPUBLISHED
+
+
+      console.log('PRODUCT DETAILS');
+      console.log('PRICE', price);
+      console.log('NAME', name);
+      console.log('STATUS', status);
+      console.log('LINK', url);
 
       await browser.close()
       resolve(true);
