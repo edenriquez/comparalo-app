@@ -21,7 +21,7 @@ const productSchema = new mongoose.Schema({
   category: { // category should be linked to categories model id
     type: String,
   },
-  status: {
+  status: { // published or unpublished, will help to control internally reviews
     type: String,
   }
 });
