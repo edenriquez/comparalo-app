@@ -1,7 +1,7 @@
 const isDev = (process.env.ENV === 'development') ? true : false
 import {
   VENDOR_NAMES
-} from '../config/constants';
+} from '../../config/constants';
 import {
   getAmazonPrice,
   getAmazonName
@@ -10,10 +10,6 @@ import {
   getMercadoPrice,
   getMercadoName
 } from './mercadolibre';
-const amazon = require('../commons/amazon');
-const mercadolibre = require('../commons/mercadolibre');
-AMAZON = 'amazon'
-MERCADO_LIBRE = 'mercadolibre'
 
 module.exports.setDebugViewPort = async (pageContext, width, height) => {
   if (!isDev) {
@@ -32,7 +28,7 @@ module.exports.getPrice = (vendor, page) => {
     case VENDOR_NAMES.MERCADO_LIBRE:
       return getMercadoPrice(page)
     default:
-      throw new Error('Unknown vendorname');
+      throw new Error('Unknown vendorname: ', vendor);
       break;
   };
 };
@@ -44,7 +40,7 @@ module.exports.getName = (vendor, page) => {
     case VENDOR_NAMES.MERCADO_LIBRE:
       return getMercadoName(page)
     default:
-      throw new Error('Unknown vendorname');
+      throw new Error('Unknown vendorname: ', vendor);
       break;
   }
 }
