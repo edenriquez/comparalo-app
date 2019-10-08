@@ -1,5 +1,6 @@
-const puppeteer = require('puppeteer')
-const commons = require('./commons/commons')
+const puppeteer = require('puppeteer');
+const axios = require('axios');
+const commons = require('./commons/commons');
 import {
   PRODUCT_STATUSES
 } from '../config/constants'
@@ -42,24 +43,34 @@ module.exports.scrapProduct = async (url, passedVendor) => {
       // open product 
       await page.goto(url)
 
+      // TODO: introduce some noise here
 
       // get data
       const price = await commons.getPrice(passedVendor, page);
       const name = await commons.getName(passedVendor, page);
       const status = PRODUCT_STATUSES.UNPUBLISHED
 
+      axios.post('http://localhost:3000/products/new', {
+          name: name,
+          link: url,
+          image: "https://picsum.photos/200", // placeholder for now 
+          currentPrice: parseInt(price), // this should be decimal
+          status: status
+        })
+        .then(async (res) => {
+          await browser.close()
+          resolve(res)
+        }).catch(async (err) => {
+          // TODO: convert these into metrics of failure
+          // https://github.com/getsentry/sentry
+          console.log('API ERROR: ', err);
 
-
-      // console.log('PRODUCT DETAILS');
-      // console.log('VENDOR ', passedVendor);
-      // console.log('PRICE', price);
-      // console.log('NAME', name);
-      // console.log('STATUS', status);
-      // console.log('LINK', url);
-
-      await browser.close()
-      resolve(true);
+          await browser.close()
+          reject(err)
+        })
     } catch (error) {
+      // TODO: convert these into metrics of failure
+      // https://github.com/getsentry/sentry
       reject(error)
     }
   })
