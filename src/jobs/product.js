@@ -14,7 +14,7 @@ const settings = (isDev) ? {
 
 const vendors = {
   "amazon": new RegExp("amazon"),
-  "mercado": new RegExp("mercado"),
+  "mercadolibre": new RegExp("mercado"),
   "walmart": new RegExp("walmart"),
   "liverpool": new RegExp("liverpool"),
   "elektra": new RegExp("elektra"),
@@ -26,12 +26,12 @@ module.exports.scrapProduct = async (url, passedVendor) => {
   return new Promise(async (resolve, reject) => {
     try {
       // get vendor if is not provided
-      if (!passedVendor) {
-        passedVendor = Object.entries(vendors).forEach(function (entry) {
-          if (entry[1].test(url)) {
-            return entry[0];
+      if (typeof passedVendor === "undefined") {
+        passedVendor = Object.keys(vendors).filter((e) => {
+          if (vendors[e].test(url)) {
+            return e
           }
-        });
+        })[0]
       }
 
       // init browser
@@ -42,17 +42,20 @@ module.exports.scrapProduct = async (url, passedVendor) => {
       // open product 
       await page.goto(url)
 
+
       // get data
-      const price = commons.getPrice(passedVendor, page);
-      const name = commons.getName(passedVendor, page);
+      const price = await commons.getPrice(passedVendor, page);
+      const name = await commons.getName(passedVendor, page);
       const status = PRODUCT_STATUSES.UNPUBLISHED
 
 
-      console.log('PRODUCT DETAILS');
-      console.log('PRICE', price);
-      console.log('NAME', name);
-      console.log('STATUS', status);
-      console.log('LINK', url);
+
+      // console.log('PRODUCT DETAILS');
+      // console.log('VENDOR ', passedVendor);
+      // console.log('PRICE', price);
+      // console.log('NAME', name);
+      // console.log('STATUS', status);
+      // console.log('LINK', url);
 
       await browser.close()
       resolve(true);

@@ -17,8 +17,8 @@ module.exports.getAmazonName = async (page) => {
     return el.textContent;
   }, articlePath);
   if (!nameById) {
-    return nameByPath;
+    return nameByPath.trim();
   }
-  return nameById;
+  return nameById.trim();
 
 }
