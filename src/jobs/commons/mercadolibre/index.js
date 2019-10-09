@@ -5,9 +5,9 @@ module.exports.getMercadoPrice = async (page) => {
     return el.textContent;
   }, articlePath);
   if (!priceByClass) {
-    return priceByPath;
+    return parseFloat(priceByPath.replace('$', '').replace(',', ''));
   }
-  return priceByClass;
+  return parseFloat(priceByClass.replace('$', '').replace(',', ''));
 }
 module.exports.getMercadoName = async (page) => {
   const nameByClass = await page.$eval('.item-title__primary', el => el.textContent);

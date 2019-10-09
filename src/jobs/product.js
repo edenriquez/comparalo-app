@@ -13,6 +13,7 @@ const settings = (isDev) ? {
   devtools: false
 } : {}
 
+
 const vendors = {
   "amazon": new RegExp("amazon"),
   "mercadolibre": new RegExp("mercado"),
@@ -49,8 +50,8 @@ module.exports.scrapProduct = async (url, passedVendor) => {
       const price = await commons.getPrice(passedVendor, page);
       const name = await commons.getName(passedVendor, page);
       const status = PRODUCT_STATUSES.UNPUBLISHED
-
-      axios.post('http://localhost:3000/products/new', {
+      axios.defaults.baseURL = "http://localhost:3000"
+      axios.post('products/new', {
           name: name,
           link: url,
           image: "https://picsum.photos/200", // placeholder for now 

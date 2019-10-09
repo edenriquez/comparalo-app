@@ -37,7 +37,7 @@ productSchema.methods.isValid = (data) => {
     id: Joi.string().required(),
     name: Joi.string(),
     image: Joi.string().required(),
-    // link: Joi.string().uri().trim().required(),
+    link: Joi.string().trim().required(),
     currentPrice: Joi.number().required(),
     status: Joi.string().valid(
       "published",
