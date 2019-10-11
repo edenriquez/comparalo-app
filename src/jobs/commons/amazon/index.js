@@ -5,9 +5,9 @@ module.exports.getAmazonPrice = async (page) => {
     return el.textContent;
   }, articlePath);
   if (!priceById) {
-    return priceByPath;
+    return parseFloat(priceByPath.replace('$', '').replace(',', ''));
   }
-  return priceById;
+  return parseFloat(priceById.replace('$', '').replace(',', ''));
 }
 
 module.exports.getAmazonName = async (page) => {

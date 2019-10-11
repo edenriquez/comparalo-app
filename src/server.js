@@ -4,7 +4,6 @@ var app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
-
 const morgan = require('morgan');
 import models, {
   connectDb
