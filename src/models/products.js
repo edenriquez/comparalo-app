@@ -21,7 +21,7 @@ const productSchema = new mongoose.Schema({
   category: { // category should be linked to categories model id
     type: String,
   },
-  status: {
+  status: { // published or unpublished, will help to control internally reviews
     type: String,
   }
 });
@@ -37,7 +37,7 @@ productSchema.methods.isValid = (data) => {
     id: Joi.string().required(),
     name: Joi.string(),
     image: Joi.string().required(),
-    link: Joi.string().uri().trim().required(),
+    link: Joi.string().trim().required(),
     currentPrice: Joi.number().required(),
     status: Joi.string().valid(
       "published",

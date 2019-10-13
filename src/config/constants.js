@@ -16,3 +16,8 @@ module.exports.ERRORS = {
   COULD_NOT_SAVE_PRODUCT: "there was an error saving the product",
   RESULTS_NOT_FOUND: "could not found any results related"
 }
+
+module.exports.VENDOR_NAMES = {
+  AMAZON: 'amazon',
+  MERCADO_LIBRE: 'mercadolibre'
+}
