@@ -1,13 +1,12 @@
 module.exports.getAmazonPrice = async (page) => {
-  const priceById = await page.$eval('#priceblock_ourprice', el => el.textContent);
-  const articlePath = (await page.$x('//*[@id="priceblock_ourprice"]'))[0];
-  const priceByPath = await page.evaluate(el => {
-    return el.textContent;
-  }, articlePath);
-  if (!priceById) {
-    return parseFloat(priceByPath.replace('$', '').replace(',', ''));
-  }
-  return parseFloat(priceById.replace('$', '').replace(',', ''));
+  const price = (await page.$x("//*[starts-with(@id, 'priceblock_')]"))
+  // FUCKING ISSUE HERE ...
+  return price.filter(async (res) => {
+    const final = await page.evaluate(el => {
+      return parseFloat(el.textContent.replace('$', '').replace(',', ''));
+    }, res);
+    return final;
+  })
 }
 
 module.exports.getAmazonName = async (page) => {
