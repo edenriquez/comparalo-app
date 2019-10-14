@@ -56,6 +56,7 @@ module.exports.scrapProduct = async (url, passedVendor) => {
       const price = await commons.getPrice(passedVendor, page);
       const name = await commons.getName(passedVendor, page);
       const status = PRODUCT_STATUSES.UNPUBLISHED
+
       axios.defaults.baseURL = "http://localhost:3000"
       axios.post('products/new', {
           name: name,

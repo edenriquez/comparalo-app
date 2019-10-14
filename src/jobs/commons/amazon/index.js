@@ -1,12 +1,11 @@
 module.exports.getAmazonPrice = async (page) => {
-  const price = (await page.$x("//*[starts-with(@id, 'priceblock_')]"))
-  // FUCKING ISSUE HERE ...
-  return price.filter(async (res) => {
-    const final = await page.evaluate(el => {
-      return parseFloat(el.textContent.replace('$', '').replace(',', ''));
-    }, res);
-    return final;
-  })
+  // TODO: fix this, temporal hack by getting value pointing to second index
+  const prices = (await page.$x("//*[starts-with(@id, 'priceblock_')]"))[1]
+  const textPrice = (await page.evaluate(el => {
+    return el.textContent;
+  }, prices));
+  const response = parseFloat(textPrice.replace('$', '').replace(',', ''))
+  return response ? response : 0
 }
 
 module.exports.getAmazonName = async (page) => {
