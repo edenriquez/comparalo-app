@@ -11,6 +11,11 @@ import {
   getMercadoName
 } from './mercadolibre';
 
+import {
+  getWalmartPrice,
+  getWalmartName
+} from './walmart';
+
 module.exports.setDebugViewPort = async (pageContext, width, height) => {
   if (!isDev) {
     return
@@ -27,6 +32,8 @@ module.exports.getPrice = (vendor, page) => {
       return getAmazonPrice(page)
     case VENDOR_NAMES.MERCADO_LIBRE:
       return getMercadoPrice(page)
+    case VENDOR_NAMES.WALMART:
+      return getWalmartPrice(page)
     default:
       throw new Error('Unknown vendorname: ', vendor);
       break;
@@ -39,6 +46,8 @@ module.exports.getName = (vendor, page) => {
       return getAmazonName(page)
     case VENDOR_NAMES.MERCADO_LIBRE:
       return getMercadoName(page)
+    case VENDOR_NAMES.WALMART:
+      return getWalmartName(page)
     default:
       throw new Error('Unknown vendorname: ', vendor);
       break;

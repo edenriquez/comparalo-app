@@ -70,8 +70,6 @@ module.exports.scrapProduct = async (url, passedVendor) => {
           resolve(res)
         }).catch(async (err) => {
           await browser.close()
-          console.log('ERROR API ', err);
-
           Sentry.captureException(new Error(err));
           reject(err)
         })
