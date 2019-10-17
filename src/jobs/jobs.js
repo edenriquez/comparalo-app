@@ -17,7 +17,7 @@ module.exports.generateProduct = async (req, res) => {
   const queue = kue.createQueue()
   const productName = req.body.name
   const queueName = `PROD/${productName}`
-  const description = `Attemp to scrap AWS ${productName}`
+  const description = `Attemp to scrap product ${productName}`
   const link = req.body.link
 
   // queue creation
