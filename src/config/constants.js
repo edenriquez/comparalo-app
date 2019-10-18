@@ -21,5 +21,8 @@ module.exports.VENDOR_NAMES = {
   AMAZON: 'amazon',
   MERCADO_LIBRE: 'mercadolibre',
   WALMART: 'walmart',
-  LIVERPOOL: 'liverpool'
+  LIVERPOOL: 'liverpool',
+  ELEKTRA: 'elektra',
+  BESTBUY: 'bestbuy'
+
 }
