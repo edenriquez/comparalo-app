@@ -20,5 +20,6 @@ module.exports.ERRORS = {
 module.exports.VENDOR_NAMES = {
   AMAZON: 'amazon',
   MERCADO_LIBRE: 'mercadolibre',
-  WALMART: 'walmart'
+  WALMART: 'walmart',
+  LIVERPOOL: 'liverpool'
 }
