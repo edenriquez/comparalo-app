@@ -18,5 +18,4 @@ module.exports.getAmazonName = async (page) => {
     return nameByPath.trim();
   }
   return nameById.trim();
-
 }
