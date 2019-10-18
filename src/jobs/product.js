@@ -27,7 +27,6 @@ const vendors = {
   "walmart": new RegExp("walmart"),
   "liverpool": new RegExp("liverpool"),
   "elektra": new RegExp("elektra"),
-  "coopel": new RegExp("coopel"),
   "bestbuy": new RegExp("bestbuy")
 };
 
