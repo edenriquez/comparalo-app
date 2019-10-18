@@ -1,13 +1,11 @@
 module.exports.getAmazonPrice = async (page) => {
-  const priceById = await page.$eval('#priceblock_ourprice', el => el.textContent);
-  const articlePath = (await page.$x('//*[@id="priceblock_ourprice"]'))[0];
-  const priceByPath = await page.evaluate(el => {
+  // TODO: fix this, temporal hack by getting value pointing to second index
+  const prices = (await page.$x("//*[starts-with(@id, 'priceblock_')]"))[1]
+  const textPrice = (await page.evaluate(el => {
     return el.textContent;
-  }, articlePath);
-  if (!priceById) {
-    return parseFloat(priceByPath.replace('$', '').replace(',', ''));
-  }
-  return parseFloat(priceById.replace('$', '').replace(',', ''));
+  }, prices));
+  const response = parseFloat(textPrice.replace('$', '').replace(',', ''))
+  return response ? response : 0
 }
 
 module.exports.getAmazonName = async (page) => {
