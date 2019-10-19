@@ -1,0 +1,21 @@
+module.exports.getLiverpoolPrice = async (page) => {
+  const prices = (await page.$x("//*[@id='__next']/div[1]/section[1]/div/main/div[4]/div[2]/div/div[2]/p"))[0]
+  const textPrice = (await page.evaluate(el => {
+    return el.textContent;
+  }, prices));
+  const response = parseFloat(textPrice.replace('$', '').replace(',', ''))
+
+  return response ? response : 0
+}
+
+module.exports.getLiverpoolName = async (page) => {
+  const nameByClass = await page.$eval('.a-product__information--title', el => el.textContent);
+  const articlePath = (await page.$x("//*[@id='__next']/div[1]/section[1]/div/main/div[4]/h1"))[0]
+  const nameByPath = (await page.evaluate(el => {
+    return el.textContent;
+  }, articlePath));
+  if (!nameByClass) {
+    return nameByPath.trim();
+  }
+  return nameByClass.trim();
+}

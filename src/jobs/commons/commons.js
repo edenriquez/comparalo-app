@@ -16,6 +16,21 @@ import {
   getWalmartName
 } from './walmart';
 
+import {
+  getLiverpoolPrice,
+  getLiverpoolName
+} from './liverpool';
+
+import {
+  getElektraPrice,
+  getElektraName
+} from './elektra';
+
+import {
+  getBestBuyPrice,
+  getBestBuyName
+} from './bestbuy';
+
 module.exports.setDebugViewPort = async (pageContext, width, height) => {
   if (!isDev) {
     return
@@ -34,6 +49,12 @@ module.exports.getPrice = (vendor, page) => {
       return getMercadoPrice(page)
     case VENDOR_NAMES.WALMART:
       return getWalmartPrice(page)
+    case VENDOR_NAMES.LIVERPOOL:
+      return getLiverpoolPrice(page)
+    case VENDOR_NAMES.ELEKTRA:
+      return getElektraPrice(page)
+    case VENDOR_NAMES.BESTBUY:
+      return getBestBuyPrice(page)
     default:
       throw new Error('Unknown vendorname: ', vendor);
       break;
@@ -48,6 +69,12 @@ module.exports.getName = (vendor, page) => {
       return getMercadoName(page)
     case VENDOR_NAMES.WALMART:
       return getWalmartName(page)
+    case VENDOR_NAMES.LIVERPOOL:
+      return getLiverpoolName(page)
+    case VENDOR_NAMES.ELEKTRA:
+      return getElektraName(page)
+    case VENDOR_NAMES.BESTBUY:
+      return getBestBuyName(page)
     default:
       throw new Error('Unknown vendorname: ', vendor);
       break;
