@@ -37,7 +37,8 @@ productHistorySchema.methods.isValid = (data) => {
     product_id: Joi.string().required(),
     msi: Joi.string(),
     shipment: Joi.string(),
-    vendorRank: Joi.number()
+    vendorRank: Joi.number(),
+    vendorName: Joi.string()
   });
   return schema.validate(data);
 };
