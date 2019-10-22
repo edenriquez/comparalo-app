@@ -40,6 +40,17 @@ const buildProductObject = (body) => {
   };
 }
 
+const buildProductHistoryObjetc = (body) => {
+  return {
+    price: body.currentPrice,
+    msi: body.meta.msi,
+    shipment: body.meta.shipment,
+    vendorRank: body.meta.vendorRank,
+    vendorName: body.meta.vendorName,
+    created_at: Date.now()
+  }
+}
+
 const buildSearchObject = (body) => {
   // TODO: set category
   // TODO: set vendor name
@@ -55,5 +66,6 @@ const buildSearchObject = (body) => {
 module.exports = {
   updateProductObject,
   buildProductObject,
-  buildSearchObject
+  buildSearchObject,
+  buildProductHistoryObjetc
 }

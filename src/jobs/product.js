@@ -32,13 +32,11 @@ const vendors = {
 
 module.exports.scrapProduct = async (url, passedVendor) => {
   return new Promise(async (resolve, reject) => {
-    // init browser
     const browser = await puppeteer.launch(settings)
     try {
       const page = await browser.newPage()
-      commons.setDebugViewPort(page, 1280, 800) // if debug mode is true 
+      commons.setDebugViewPort(page, 1280, 800)
 
-      // open product 
       await page.goto(url)
 
       // get vendor if is not provided
@@ -55,15 +53,16 @@ module.exports.scrapProduct = async (url, passedVendor) => {
       const price = await commons.getPrice(passedVendor, page);
       const name = await commons.getName(passedVendor, page);
       const status = PRODUCT_STATUSES.UNPUBLISHED
-
+      const options = {
+        name: name,
+        link: url,
+        image: "https://picsum.photos/200", // TODO: placeholder for now 
+        currentPrice: price, // this should be decimal
+        status: status,
+        meta: {}, // COMPLETE THIS
+      }
       axios.defaults.baseURL = "http://localhost:3000"
-      axios.post('products/new', {
-          name: name,
-          link: url,
-          image: "https://picsum.photos/200", // placeholder for now 
-          currentPrice: price, // this should be decimal
-          status: status
-        })
+      axios.post('products/new', options)
         .then(async (res) => {
           await browser.close()
           resolve(res)
