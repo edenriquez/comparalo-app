@@ -4,7 +4,8 @@ import {
 } from '../../config/constants';
 import {
   getAmazonPrice,
-  getAmazonName
+  getAmazonName,
+  getAmazonMeta
 } from './amazon'
 import {
   getMercadoPrice,
@@ -75,6 +76,26 @@ module.exports.getName = (vendor, page) => {
       return getElektraName(page)
     case VENDOR_NAMES.BESTBUY:
       return getBestBuyName(page)
+    default:
+      throw new Error('Unknown vendorname: ', vendor);
+      break;
+  }
+}
+
+module.exports.getMeta = (vendor, page) => {
+  switch (vendor) {
+    case VENDOR_NAMES.AMAZON:
+      return getAmazonMeta(page)
+      // case VENDOR_NAMES.MERCADO_LIBRE:
+      //   return getMercadoMeta(page)
+      // case VENDOR_NAMES.WALMART:
+      //   return getWalmartMeta(page)
+      // case VENDOR_NAMES.LIVERPOOL:
+      //   return getLiverpoolMeta(page)
+      // case VENDOR_NAMES.ELEKTRA:
+      //   return getElektraMeta(page)
+      // case VENDOR_NAMES.BESTBUY:
+      //   return getBestBuyMeta(page)
     default:
       throw new Error('Unknown vendorname: ', vendor);
       break;
