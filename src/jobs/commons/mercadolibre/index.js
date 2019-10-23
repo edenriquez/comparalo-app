@@ -9,6 +9,7 @@ module.exports.getMercadoPrice = async (page) => {
   }
   return parseFloat(priceByClass.replace('$', '').replace(',', ''));
 }
+
 module.exports.getMercadoName = async (page) => {
   const nameByClass = await page.$eval('.item-title__primary', el => el.textContent);
   const articlePath = (await page.$x('//*[@id="short-desc"]/div/header/h1'))[0];
@@ -19,4 +20,18 @@ module.exports.getMercadoName = async (page) => {
     return nameByPath.trim();
   }
   return nameByClass.trim();
+}
+
+module.exports.getMercadoMeta = async (page) => {
+  const rankPath = (await page.$x('//*[@id="root-app"]/div/div[2]/div[3]/div[1]/div[1]/div/section/header/div/div/h2'))[0];
+  let rank = await page.evaluate(el => {
+    return el.textContent;
+  }, rankPath);
+
+  return {
+    vendorName: "mercado libre",
+    vendorRank: rank || 0,
+    shippingDetails: shippingDetails,
+    installments: (installments > 0) ? installments : "no montly installments"
+  }
 }
