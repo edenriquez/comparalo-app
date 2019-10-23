@@ -43,11 +43,11 @@ const buildProductObject = (body) => {
 const buildProductHistoryObjetc = (body) => {
   return {
     price: body.currentPrice,
-    msi: body.meta.msi,
-    shipment: body.meta.shipment,
+    installments: body.meta.installments,
+    shippingDetails: body.meta.shippingDetails,
     vendorRank: body.meta.vendorRank,
     vendorName: body.meta.vendorName,
-    created_at: Date.now()
+    createdAt: Date.now()
   }
 }
 

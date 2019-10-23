@@ -53,14 +53,24 @@ module.exports.scrapProduct = async (url, passedVendor) => {
       const price = await commons.getPrice(passedVendor, page);
       const name = await commons.getName(passedVendor, page);
       const status = PRODUCT_STATUSES.UNPUBLISHED
+
+      // meta data
+      let meta = await commons.getMeta(passedVendor, page);
+      if (meta) {
+        meta.price = price
+      } else {
+        Sentry.captureException(new Error("Could not retrieve meta for product ", name));
+      }
+
       const options = {
         name: name,
         link: url,
         image: "https://picsum.photos/200", // TODO: placeholder for now 
-        currentPrice: price, // this should be decimal
+        currentPrice: price,
         status: status,
-        meta: {}, // COMPLETE THIS
+        meta: meta
       }
+
       axios.defaults.baseURL = "http://localhost:3000"
       axios.post('products/new', options)
         .then(async (res) => {
