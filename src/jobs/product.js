@@ -53,9 +53,15 @@ module.exports.scrapProduct = async (url, passedVendor) => {
       const price = await commons.getPrice(passedVendor, page);
       const name = await commons.getName(passedVendor, page);
       const status = PRODUCT_STATUSES.UNPUBLISHED
+
       // meta data
       let meta = await commons.getMeta(passedVendor, page);
-      meta.price = price
+      if (meta) {
+        meta.price = price
+      } else {
+        Sentry.captureException(new Error("Could not retrieve meta for product ", name));
+      }
+
       const options = {
         name: name,
         link: url,
@@ -64,6 +70,7 @@ module.exports.scrapProduct = async (url, passedVendor) => {
         status: status,
         meta: meta
       }
+
       axios.defaults.baseURL = "http://localhost:3000"
       axios.post('products/new', options)
         .then(async (res) => {

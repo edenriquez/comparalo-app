@@ -8,22 +8,22 @@ const productHistorySchema = new mongoose.Schema({
   price: {
     type: String,
   },
-  msi: {
+  installments: {
     type: String,
   },
-  shipment: {
+  shippingDetails: { // shipping details
     type: String,
   },
-  vendorRank: {
+  vendorRank: { // product rank
     type: Number,
   },
   vendorName: { // optional
     type: String,
   },
-  created_at: {
+  createdAt: {
     type: Date,
   },
-  updated_at: {
+  updatedAt: {
     type: Date,
     required: true,
     default: Date.now
@@ -35,8 +35,8 @@ productHistorySchema.methods.isValid = (data) => {
   const Joi = require('joi');
   const schema = Joi.object().keys({
     product_id: Joi.string().required(),
-    msi: Joi.string(),
-    shipment: Joi.string(),
+    installments: Joi.string(),
+    shippingDetails: Joi.string(),
     vendorRank: Joi.number(),
     vendorName: Joi.string()
   });
