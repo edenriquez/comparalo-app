@@ -42,7 +42,8 @@ productSchema.methods.isValid = (data) => {
     status: Joi.string().valid(
       "published",
       "unpublished"
-    ).required()
+    ).required(),
+    meta: Joi.object()
   });
   return schema.validate(data);
 };

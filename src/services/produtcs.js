@@ -1,7 +1,8 @@
 import models from '../models';
 import {
   buildProductObject,
-  updateProductObject
+  updateProductObject,
+  buildProductHistoryObjetc
 } from '../api/utils/utils'
 
 
@@ -29,6 +30,17 @@ module.exports.createProduct = (body) => {
     const data = buildProductObject(body)
     const entity = new models.Product(data)
     const response = await entity.save()
+    if (body.meta && response.id) {
+      const dataHistory = buildProductHistoryObjetc(body)
+      dataHistory.product_id = response.id
+      const entityHistory = new models.ProducHistory(dataHistory)
+      if (await entityHistory.save()) {
+        // TODO: update with logger 
+        console.log('product history updated for ', response.id)
+      } else {
+        console.log('product history cannot be updated for ', response.id)
+      }
+    }
     if (!response) {
       reject(response)
     }
