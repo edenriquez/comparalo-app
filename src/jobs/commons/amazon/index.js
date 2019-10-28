@@ -44,6 +44,6 @@ module.exports.getAmazonMeta = async (page) => {
     vendorName: "amazon",
     vendorRank: rank || 0,
     shippingDetails: shippingDetails,
-    installments: (installments > 0) ? installments : "no montly installments"
+    installments: (installments.length > 0) ? installments : "no montly installments"
   }
 }
