@@ -23,15 +23,27 @@ module.exports.getMercadoName = async (page) => {
 }
 
 module.exports.getMercadoMeta = async (page) => {
-  const rankPath = (await page.$x('//*[@id="root-app"]/div/div[2]/div[3]/div[1]/div[1]/div/section/header/div/div/h2'))[0];
+  const rankPath = (await page.$x('//*[starts-with(@id,"reviewsCard")]/div/div[1]/span[1]'))[0];
+  const shippingPath = (await page.$x('//*[starts-with(@id,"productInfo")]/div[1]/fieldset[2]/article/div[1]/p[1]/span'))[0];
+  const installmentsPath = (await page.$x('//*[starts-with(@id,"productInfo")]/div[1]/fieldset[1]/article/div[2]/p[1]'))[0]
   let rank = await page.evaluate(el => {
     return el.textContent;
   }, rankPath);
+
+  let shippingDetails = await page.evaluate(el => {
+    return el.textContent;
+  }, shippingPath);
+
+  let installments = await page.evaluate(el => {
+    return el.textContent;
+  }, installmentsPath);
+
+  installments = installments.replace(/\s+/g, " ").trim();
 
   return {
     vendorName: "mercado libre",
     vendorRank: rank || 0,
     shippingDetails: shippingDetails,
-    installments: (installments > 0) ? installments : "no montly installments"
+    installments: (installments.length > 0) ? installments : "no montly installments"
   }
 }

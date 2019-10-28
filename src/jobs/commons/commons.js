@@ -10,7 +10,8 @@ import {
 } from './amazon'
 import {
   getMercadoPrice,
-  getMercadoName
+  getMercadoName,
+  getMercadoMeta
 } from './mercadolibre';
 
 import {
