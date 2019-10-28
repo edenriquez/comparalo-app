@@ -1,4 +1,5 @@
-const isDev = (process.env.ENV === 'development') ? true : false
+const isDev = (process.env.ENV === 'development')
+
 import {
   VENDOR_NAMES
 } from '../../config/constants';
@@ -86,8 +87,8 @@ module.exports.getMeta = (vendor, page) => {
   switch (vendor) {
     case VENDOR_NAMES.AMAZON:
       return getAmazonMeta(page)
-      // case VENDOR_NAMES.MERCADO_LIBRE:
-      //   return getMercadoMeta(page)
+    case VENDOR_NAMES.MERCADO_LIBRE:
+      return getMercadoMeta(page)
       // case VENDOR_NAMES.WALMART:
       //   return getWalmartMeta(page)
       // case VENDOR_NAMES.LIVERPOOL:

@@ -21,13 +21,13 @@ module.exports.getAmazonName = async (page) => {
 }
 
 module.exports.getAmazonMeta = async (page) => {
-  const vendorPath = (await page.$x('//*[starts-with(@id,"acrPopover")]/span[1]/a/i[1]/span'))[0];
+  const rankPath = (await page.$x('//*[starts-with(@id,"acrPopover")]/span[1]/a/i[1]/span'))[0];
   const shippingPath = (await page.$x('//*[starts-with(@id,"price-shipping-message")]'))[0];
   const installmentsPath = (await page.$x('//*[starts-with(@id,"installmentCalculator")]'))[0];
 
   let rank = await page.evaluate(el => {
     return el.textContent;
-  }, vendorPath);
+  }, rankPath);
 
   let shippingDetails = await page.evaluate(el => {
     return el.textContent;
@@ -38,7 +38,7 @@ module.exports.getAmazonMeta = async (page) => {
   }, installmentsPath);
 
   installments = installments.replace(/\s+/g, " ").trim();
-  rank = parseFloat(rank.replace('$', '').replace(',', ''))
+  rank = parseFloat(rank.replace('$', '').replace(',', '')) // TODO: fix this, we dont need replace $
 
   return {
     vendorName: "amazon",
