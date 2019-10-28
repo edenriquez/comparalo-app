@@ -15,3 +15,19 @@ module.exports.getWalmartName = async (page) => {
 
   return nameByPath.trim();
 }
+
+module.exports.getWalmartMeta = async (page) => {
+  const installmentsPath = (await page.$x('//*[starts-with(@id,"imagePickerZoomContainer")]/div[2]/p'))[0]
+
+  let installments = await page.evaluate(el => {
+    return el.textContent;
+  }, installmentsPath);
+
+  return {
+    vendorName: "wallmart",
+    vendorRank: 0,
+    shippingDetails: '',
+    installments: (installments.length > 0) ? installments : "no montly installments"
+  }
+
+}

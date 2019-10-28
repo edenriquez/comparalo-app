@@ -19,3 +19,19 @@ module.exports.getLiverpoolName = async (page) => {
   }
   return nameByClass.trim();
 }
+
+module.exports.getLiverpoolMeta = async (page) => {
+  const installmentsPath = (await page.$x('//*[starts-with(@id,"target")]/div/div/div[2]/div/ul/li[1]/p'))[0]
+
+  let installments = await page.evaluate(el => {
+    return el.textContent;
+  }, installmentsPath);
+
+  return {
+    vendorName: "liverpool",
+    vendorRank: 0,
+    shippingDetails: '',
+    installments: (installments.length > 0) ? installments : "no montly installments"
+  }
+
+}
