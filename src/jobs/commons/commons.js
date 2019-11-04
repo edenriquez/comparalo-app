@@ -16,22 +16,26 @@ import {
 
 import {
   getWalmartPrice,
-  getWalmartName
+  getWalmartName,
+  getWalmartMeta
 } from './walmart';
 
 import {
   getLiverpoolPrice,
-  getLiverpoolName
+  getLiverpoolName,
+  getLiverpoolMeta
 } from './liverpool';
 
 import {
   getElektraPrice,
-  getElektraName
+  getElektraName,
+  getElektraMeta
 } from './elektra';
 
 import {
   getBestBuyPrice,
-  getBestBuyName
+  getBestBuyName,
+  getBestBuyMeta
 } from './bestbuy';
 
 module.exports.setDebugViewPort = async (pageContext, width, height) => {
@@ -90,14 +94,14 @@ module.exports.getMeta = (vendor, page) => {
       return getAmazonMeta(page)
     case VENDOR_NAMES.MERCADO_LIBRE:
       return getMercadoMeta(page)
-      // case VENDOR_NAMES.WALMART:
-      //   return getWalmartMeta(page)
-      // case VENDOR_NAMES.LIVERPOOL:
-      //   return getLiverpoolMeta(page)
-      // case VENDOR_NAMES.ELEKTRA:
-      //   return getElektraMeta(page)
-      // case VENDOR_NAMES.BESTBUY:
-      //   return getBestBuyMeta(page)
+    case VENDOR_NAMES.WALMART:
+      return getWalmartMeta(page)
+    case VENDOR_NAMES.LIVERPOOL:
+      return getLiverpoolMeta(page)
+    case VENDOR_NAMES.ELEKTRA:
+      return getElektraMeta(page)
+    case VENDOR_NAMES.BESTBUY:
+      return getBestBuyMeta(page)
     default:
       throw new Error('Unknown vendorname: ', vendor);
       break;
