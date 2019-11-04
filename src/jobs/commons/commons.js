@@ -86,7 +86,7 @@ module.exports.getName = (vendor, page) => {
       throw new Error('Unknown vendorname: ', vendor);
       break;
   }
-}
+};
 
 module.exports.getMeta = (vendor, page) => {
   switch (vendor) {
@@ -106,4 +106,4 @@ module.exports.getMeta = (vendor, page) => {
       throw new Error('Unknown vendorname: ', vendor);
       break;
   }
-}
+};

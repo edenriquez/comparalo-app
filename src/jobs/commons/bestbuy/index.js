@@ -12,32 +12,31 @@ module.exports.getBestBuyName = async (page) => {
     return el.textContent;
   }, articlePath);
   return nameByPath.trim();
-}
-
+};
 module.exports.getBestBuyMeta = async (page) => {
-  // const rankPath = (await page.$x('//*[starts-with(@id,"acrPopover")]/span[1]/a/i[1]/span'))[0];
-  // const shippingPath = (await page.$x('//*[starts-with(@id,"price-shipping-message")]'))[0];
-  // const installmentsPath = (await page.$x('//*[starts-with(@id,"installmentCalculator")]'))[0];
+  const rankPath = (await page.$x('//*[starts-with(@id,"sku-model")]/ul/li[3]/div/span[2]/span[1]'))[0];
+  const shippingPath = (await page.$x('//*[starts-with(@id,"fulfillment-options")]/div/div[1]/div[2]'))[0];
+  const installmentsPath = (await page.$x('//*[starts-with(@id,"widget-")]/div/div/div/p'))[1];
 
-  // let rank = await page.evaluate(el => {
-  //   return el.textContent;
-  // }, rankPath);
+  let rank = await page.evaluate(el => {
+    return el.textContent;
+  }, rankPath);
 
-  // let shippingDetails = await page.evaluate(el => {
-  //   return el.textContent;
-  // }, shippingPath);
+  let shippingDetails = await page.evaluate(el => {
+    return el.textContent;
+  }, shippingPath);
 
-  // let installments = await page.evaluate(el => {
-  //   return el.textContent;
-  // }, installmentsPath);
+  let installments = await page.evaluate(el => {
+    return el.textContent;
+  }, installmentsPath);
 
-  // installments = installments.replace(/\s+/g, " ").trim();
-  // rank = parseFloat(rank.replace('$', '').replace(',', '')) // TODO: fix this, we dont need replace $
+  installments = installments.replace(/\s+/g, " ").trim();
+  rank = parseFloat(rank.replace('$', '').replace(',', '')) // TODO: fix this, we dont need replace $
 
-  // return {
-  //   vendorName: "amazon",
-  //   vendorRank: rank || 0,
-  //   shippingDetails: shippingDetails,
-  //   installments: (installments.length > 0) ? installments : "no montly installments"
-  // }
-}
+  return {
+    vendorName: "bestbuy",
+    vendorRank: rank || 0,
+    shippingDetails: shippingDetails,
+    installments: (installments.length > 0) ? installments : "no montly installments"
+  };
+};
