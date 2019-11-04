@@ -52,6 +52,7 @@ module.exports.scrapProduct = async (url, passedVendor) => {
       // get data
       const price = await commons.getPrice(passedVendor, page);
       const name = await commons.getName(passedVendor, page);
+      const image = await commons.getImage(passedVendor, page);
       let meta = await commons.getMeta(passedVendor, page);
       const status = PRODUCT_STATUSES.UNPUBLISHED
 
@@ -61,11 +62,11 @@ module.exports.scrapProduct = async (url, passedVendor) => {
       const options = {
         name: name,
         link: url,
-        image: "https://picsum.photos/200", // TODO: placeholder for now 
+        image: image,
         currentPrice: price,
         status: status,
         meta: meta
-      }
+      };
 
       axios.defaults.baseURL = "http://localhost:3000"
       axios.post('products/new', options)

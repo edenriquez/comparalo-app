@@ -1,3 +1,4 @@
+import { getImageByPath } from "../shared";
 module.exports.getAmazonPrice = async (page) => {
   // TODO: fix this, temporal hack by getting value pointing to second index
   const prices = (await page.$x("//*[starts-with(@id, 'priceblock_')]"))[2]
@@ -18,7 +19,12 @@ module.exports.getAmazonName = async (page) => {
     return nameByPath.trim();
   }
   return nameById.trim();
-}
+};
+
+module.exports.getAmazonImage = async (page) => {
+  const image = await getImageByPath('//*[starts-with(@id,"landingImage")]', 0, page);
+  return image;
+};
 
 module.exports.getAmazonMeta = async (page) => {
   const rankPath = (await page.$x('//*[starts-with(@id,"acrPopover")]/span[1]/a/i[1]/span'))[0];
