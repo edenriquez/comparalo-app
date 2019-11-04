@@ -1,5 +1,7 @@
+import { getImageByPath } from "../shared";
+
 module.exports.getElektraPrice = async (page) => {
-  const priceByPath = (await page.$x('//*[starts-with(@id,"buybox_price")]'))[0]
+  const priceByPath = (await page.$x('//*[starts-with(@id,"buybox_price")]/span'))[0];
   const price = await page.evaluate(el => {
     return el.textContent;
   }, priceByPath);
@@ -14,9 +16,14 @@ module.exports.getElektraName = async (page) => {
   return name.trim();
 }
 
+module.exports.getElektraImage = async (page) =>{
+  const image  = await getImageByPath('//*[starts-with(@id,"image_main_image")]', 0, page);
+  return image;
+};
+
 module.exports.getElektraMeta = async (page) => {
-  const shippingPath = (await page.$x('//*[starts-with(@id,"information_productInfo")]/div[4]/div[2]/div/p[1]'))[0];
-  const installmentsPath = (await page.$x('//*[starts-with(@id,"buybox_buy_installments")]'))[0]
+  const shippingPath = (await page.$x('/html/body/footer/div[1]/div[2]/div[2]/span[1]'))[0];
+  const installmentsPath = (await page.$x('//*[starts-with(@id,"buybox_buy_installments")]'))[0];
 
   let shippingDetails = await page.evaluate(el => {
     return el.textContent;
