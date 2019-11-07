@@ -12,7 +12,7 @@ import {
   PRODUCT_STATUSES
 } from '../config/constants'
 const chromeBin = '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
-const isDev = (process.env.ENV === 'development') ? true : false
+const isDev = (process.env.ENV === 'development')
 const settings = (isDev) ? {
   headless: false,
   executablePath: chromeBin,
@@ -52,24 +52,21 @@ module.exports.scrapProduct = async (url, passedVendor) => {
       // get data
       const price = await commons.getPrice(passedVendor, page);
       const name = await commons.getName(passedVendor, page);
+      const image = await commons.getImage(passedVendor, page);
+      let meta = await commons.getMeta(passedVendor, page);
       const status = PRODUCT_STATUSES.UNPUBLISHED
 
       // meta data
-      let meta = await commons.getMeta(passedVendor, page);
-      if (meta) {
-        meta.price = price
-      } else {
-        Sentry.captureException(new Error("Could not retrieve meta for product ", name));
-      }
+      meta.price = price
 
       const options = {
         name: name,
         link: url,
-        image: "https://picsum.photos/200", // TODO: placeholder for now 
+        image: image,
         currentPrice: price,
         status: status,
         meta: meta
-      }
+      };
 
       axios.defaults.baseURL = "http://localhost:3000"
       axios.post('products/new', options)

@@ -54,6 +54,19 @@ productSchema.statics.findById = async function (id) {
   }, productProjection);
 };
 
+productSchema.statics.filterProductsByCategory = async function (categoryName) {
+  return await this.find({
+    category: categoryName
+  }, productProjection)
+}
+
+productSchema.statics.getProductByCategory = async function (categoryName, id) {
+  return await this.find({
+    category: categoryName,
+    id: id
+  }, productProjection)
+}
+
 productSchema.statics.deleteById = async function (id) {
   return await this.deleteOne({
     id: id

@@ -33,6 +33,12 @@ categorySchema.statics.getAllCategories = async function () {
   return await this.find({});
 };
 
+categorySchema.statics.findCategory = async function (categoryName) {
+  return await this.find({
+    name: categoryName
+  });
+}
+
 categorySchema.statics.findByName = async function (name) {
   return await this.findOne(name);
 };

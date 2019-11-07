@@ -1,35 +1,48 @@
-const isDev = (process.env.ENV === 'development') ? true : false
+const isDev = (process.env.ENV === 'development')
+
 import {
   VENDOR_NAMES
 } from '../../config/constants';
+
 import {
   getAmazonPrice,
   getAmazonName,
+  getAmazonImage,
   getAmazonMeta
 } from './amazon'
 import {
   getMercadoPrice,
-  getMercadoName
+  getMercadoName,
+  getMercadoImage,
+  getMercadoMeta
 } from './mercadolibre';
 
 import {
   getWalmartPrice,
-  getWalmartName
+  getWalmartName,
+  getWalmartImage,
+  getWalmartMeta
 } from './walmart';
 
 import {
   getLiverpoolPrice,
-  getLiverpoolName
+  getLiverpoolName,
+  getLiverpoolImage,
+  getLiverpoolMeta
 } from './liverpool';
 
 import {
   getElektraPrice,
-  getElektraName
+  getElektraName,
+  getElektraImage,
+  getElektraMeta
 } from './elektra';
 
 import {
   getBestBuyPrice,
-  getBestBuyName
+  getBestBuyName,
+  getBestBuyImage,
+  getBestBuyMeta
 } from './bestbuy';
 
 module.exports.setDebugViewPort = async (pageContext, width, height) => {
@@ -78,7 +91,25 @@ module.exports.getName = (vendor, page) => {
       return getBestBuyName(page)
     default:
       throw new Error('Unknown vendorname: ', vendor);
-      break;
+  }
+};
+
+module.exports.getImage = (vendor, page) => {
+  switch (vendor) {
+    case VENDOR_NAMES.AMAZON:
+      return getAmazonImage(page);
+    case VENDOR_NAMES.MERCADO_LIBRE:
+      return getMercadoImage(page)
+    case VENDOR_NAMES.WALMART:
+      return getWalmartImage(page)
+    case VENDOR_NAMES.LIVERPOOL:
+      return getLiverpoolImage(page)
+    case VENDOR_NAMES.ELEKTRA:
+      return getElektraImage(page)
+    case VENDOR_NAMES.BESTBUY:
+      return getBestBuyImage(page)
+    default:
+      throw new Error('Unknown vendorname: ', vendor);
   }
 }
 
@@ -86,18 +117,17 @@ module.exports.getMeta = (vendor, page) => {
   switch (vendor) {
     case VENDOR_NAMES.AMAZON:
       return getAmazonMeta(page)
-      // case VENDOR_NAMES.MERCADO_LIBRE:
-      //   return getMercadoMeta(page)
-      // case VENDOR_NAMES.WALMART:
-      //   return getWalmartMeta(page)
-      // case VENDOR_NAMES.LIVERPOOL:
-      //   return getLiverpoolMeta(page)
-      // case VENDOR_NAMES.ELEKTRA:
-      //   return getElektraMeta(page)
-      // case VENDOR_NAMES.BESTBUY:
-      //   return getBestBuyMeta(page)
+    case VENDOR_NAMES.MERCADO_LIBRE:
+      return getMercadoMeta(page)
+    case VENDOR_NAMES.WALMART:
+      return getWalmartMeta(page)
+    case VENDOR_NAMES.LIVERPOOL:
+      return getLiverpoolMeta(page)
+    case VENDOR_NAMES.ELEKTRA:
+      return getElektraMeta(page)
+    case VENDOR_NAMES.BESTBUY:
+      return getBestBuyMeta(page)
     default:
       throw new Error('Unknown vendorname: ', vendor);
-      break;
   }
-}
+};
