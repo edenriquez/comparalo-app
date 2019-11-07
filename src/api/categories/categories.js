@@ -26,8 +26,8 @@ module.exports.filterCategory = (req, res) => {
     })
 }
 
-module.exports.filterProducts = (req, res) => {
-  service.filterProducts(req)
+module.exports.filterProductsByCategory = (req, res) => {
+  service.filterProductsByCategory(req.params.category)
     .then((category) => {
       res.status(200).json(category)
     })
@@ -39,7 +39,7 @@ module.exports.filterProducts = (req, res) => {
 }
 
 module.exports.getProductById = (req, res) => {
-  service.getProductById(req.params.id)
+  service.getProductById(req.params.category, req.params.id)
     .then((category) => {
       res.status(200).json(category)
     })

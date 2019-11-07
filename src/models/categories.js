@@ -39,18 +39,6 @@ categorySchema.statics.findCategory = async function (categoryName) {
   });
 }
 
-categorySchema.statics.getProductById = async function (id) {
-  return await this.find({
-    //  TODO: query specific product related to current category 
-  })
-}
-
-categorySchema.statics.filterProducts = async function (categoryName) {
-  return await this.find({
-    // TODO: query products related to this category
-  })
-}
-
 categorySchema.statics.findByName = async function (name) {
   return await this.findOne(name);
 };

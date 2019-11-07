@@ -19,9 +19,9 @@ module.exports.filterCategory = (categoryName) => {
   })
 }
 
-module.exports.filterProducts = (categoryName) => {
+module.exports.filterProductsByCategory = (categoryName) => {
   return new Promise(async (resolve, reject) => {
-    const result = await models.Category.filterProducts(categoryName);
+    const result = await models.Product.filterProductsByCategory(categoryName);
     if (!result) {
       reject(result)
     }
@@ -29,9 +29,9 @@ module.exports.filterProducts = (categoryName) => {
   })
 }
 
-module.exports.getProductById = (id) => {
+module.exports.getProductById = (categoryName, id) => {
   return new Promise(async (resolve, reject) => {
-    const result = await models.Category.getProductById(id);
+    const result = await models.Product.getProductByCategory(categoryName, id);
     if (!result) {
       reject(result)
     }
