@@ -1,11 +1,16 @@
 <script>
-	export let name;
+	import Search from './components/Search.svelte'
+	import Header from './components/Header.svelte'
+	export let headerText;
+	export let placeholder;
 </script>
 
 <style>
-	h1 {
-		color: purple;
-	}
+:global(body) {
+	margin: 0;
+	padding: 0;
+}
 </style>
 
-<h1>Hello {name}!</h1>
+<Header headerText={headerText} />
+<Search placeholder={placeholder}/>

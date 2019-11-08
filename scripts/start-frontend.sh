@@ -1,2 +1,2 @@
 docker-compose up -d
-cd ./frontend && npm run start
+cd ./frontend && npm run dev
