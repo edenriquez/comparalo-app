@@ -9,7 +9,6 @@ import {
   getProductById
 } from '../api/categories/categories';
 
-
 const CategoriesRouter = () => {
   var router = express.Router();
   router.get('/', allCategories);

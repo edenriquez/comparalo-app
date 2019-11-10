@@ -26,7 +26,7 @@ const ProductsRouter = () => {
   router.post('/new',
     productSchemaValidation,
     startCommitOnSearchEngine,
-    createProduct,
+    createProduct
   );
   router.put('/:id/update', updateProduct);
   router.delete('/:id/delete', deleteProduct);
