@@ -1,26 +1,198 @@
 <script>
-	const BACKEND_BASE_API = 'http://localhost:3000'
-	export let placeholder;
-	import axios from "axios";
-	const handleSearch = () => {
-		const searchValue = document.getElementById('searchBarValue').value
-		axios
-		.get(`${BACKEND_BASE_API}/search/options?q=${searchValue}&max=10?`)
-		.then((response) =>{
-			console.log('responses', response)
-		})
-		.catch(console.warn)
-	}
- </script>
+  const BACKEND_BASE_API = "http://localhost:3000";
+  export let placeholderText;
+  import axios from "axios";
+
+  const debounce = (func, delay) => {
+    let debounceTimer;
+    return function() {
+      const context = this;
+      const args = arguments;
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => func.apply(context, args), delay);
+    };
+  };
+
+  const handleSearch = event => {
+    const searchValue = event.target.value;
+    axios
+      .get(`${BACKEND_BASE_API}/search/options?q=${searchValue}&max=10?`)
+      .then(response => {
+        console.log("responses", response);
+      })
+      .catch(console.warn);
+  };
+  const handleFocusOnSearch = event => {
+    const searchInput = event.target;
+    const span = searchInput.nextElementSibling.firstElementChild;
+    span.style.display = "none";
+    span.style.opacity = "0";
+    span.style.transition = "opacity 1.5s ease-out .8s ";
+    const searchDiv = span.parentElement;
+    searchDiv.style.width = "80px";
+  };
+  const handleFocusOutSearch = event => {
+    const searchInput = event.target;
+    const span = searchInput.nextElementSibling.firstElementChild;
+    span.style.display = "block";
+    span.style.opacity = "1";
+    const searchDiv = span.parentElement;
+    searchDiv.style.width = "180px";
+  };
+</script>
 
 <style>
-	input {
-		border-radius: 10px;
-	}
+  @font-face {
+    src: url("https://fonts.googleapis.com/css?family=Inconsolata:700");
+    font-family: "Inconsolata";
+  }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+  }
+
+  body {
+    background: #252525;
+  }
+
+  .container {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 300px;
+    height: 100px;
+  }
+  .container .search {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 180px;
+    height: 80px;
+    background: crimson;
+    border-radius: 50px;
+    transition: all 1s;
+    z-index: 4;
+    box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.4);
+  }
+  .container .search:hover {
+    cursor: pointer;
+  }
+  .container .search::before {
+    content: "";
+    position: absolute;
+    margin: auto;
+    top: 22px;
+    right: 0;
+    bottom: 0;
+    left: -80px;
+    width: 12px;
+    height: 2px;
+    background: white;
+    transform: rotate(45deg);
+    transition: all 0.5s;
+  }
+  .container .search::after {
+    content: "";
+    position: absolute;
+    margin: auto;
+    top: -5px;
+    right: 0;
+    bottom: 0;
+    left: -110px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50px;
+    border: 2px solid white;
+    transition: all 0.5s;
+  }
+  .container .search__text {
+    position: absolute;
+    color: #fff;
+    left: 55px;
+    top: 30px;
+  }
+  .container input {
+    font-family: "Inconsolata", monospace;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    outline: none;
+    border: none;
+    background: crimson;
+    color: white;
+    text-shadow: 0 0 10px crimson;
+    padding: 0 80px 0 20px;
+    border-radius: 30px;
+    box-shadow: 0 0 25px 0 crimson, 0 20px 25px 0 rgba(0, 0, 0, 0.2);
+    transition: all 1s;
+    opacity: 0;
+    z-index: 5;
+    font-weight: bolder;
+    letter-spacing: 0.1em;
+  }
+  .container input:hover {
+    cursor: pointer;
+  }
+  .container input:focus {
+    width: 300px;
+    opacity: 1;
+    cursor: text;
+  }
+  .container input:focus ~ .search {
+    right: -250px;
+    background: #151515;
+    z-index: 6;
+  }
+  .container input:focus ~ .search::before {
+    top: 0;
+    left: 0;
+    width: 25px;
+  }
+  .container input:focus ~ .search::after {
+    top: 0;
+    left: 0;
+    width: 25px;
+    height: 2px;
+    border: none;
+    background: white;
+    border-radius: 0%;
+    transform: rotate(-45deg);
+  }
+  .container input::placeholder {
+    color: white;
+    opacity: 0.5;
+    font-weight: bolder;
+  }
 </style>
 
-<div>
-    <input id="searchBarValue" type="text" placeholder={placeholder}>
-	<button on:click={handleSearch}>Go!</button>
+<!-- TODO: put advanced search -->
+<!-- vendor url : product name filtered by vendor -->
+<div class="container">
+  <input
+    type="text"
+    placeholder={placeholderText}
+    on:keydown={debounce(handleSearch, 500)}
+    on:focus={handleFocusOnSearch}
+    on:blur={handleFocusOutSearch} />
+  <div class="search">
+    <span class="search__text">click to search</span>
+  </div>
 </div>
-

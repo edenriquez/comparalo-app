@@ -4,7 +4,7 @@ const app = new App({
 	target: document.body,
 	props: {
 		headerText: 'comparaloapp',
-		placeholder: 'Busca un producto!'
+		placeholderText: 'Busca un producto!'
 	}
 });
 
