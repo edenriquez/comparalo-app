@@ -69,7 +69,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    width: 300px;
+    max-width: 800px;
+    width: 100%;
     height: 100px;
   }
   .container .search {
@@ -86,6 +87,12 @@
     transition: all 1s;
     z-index: 4;
     box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.4);
+    -webkit-transition-property: background-color, left;
+    transition-property: background-color, left;
+    -webkit-transition-duration: 0.5s, 0.5s;
+    transition-duration: 0.5s, 0.5s;
+    -webkit-transition-timing-function: ease, ease-out;
+    transition-timing-function: ease, ease-out;
   }
   .container .search:hover {
     cursor: pointer;
@@ -142,7 +149,7 @@
     padding: 0 80px 0 20px;
     border-radius: 30px;
     box-shadow: 0 0 25px 0 crimson, 0 20px 25px 0 rgba(0, 0, 0, 0.2);
-    transition: all 1s;
+    transition: all 0.2s;
     opacity: 0;
     z-index: 5;
     font-weight: bolder;
@@ -152,12 +159,13 @@
     cursor: pointer;
   }
   .container input:focus {
-    width: 300px;
+    min-width: 300px;
+    width: 80%;
     opacity: 1;
     cursor: text;
   }
   .container input:focus ~ .search {
-    right: -250px;
+    left: 70%;
     background: #151515;
     z-index: 6;
   }
