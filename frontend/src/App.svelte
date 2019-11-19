@@ -1,8 +1,10 @@
 <script>
   import Search from "./components/Search.svelte";
   import Header from "./components/Header.svelte";
+  import Categories from "./components/Categories.svelte";
   export let headerFirstText;
   export let headerSecondText;
+  export let headerThirdText;
   export let placeholderText;
 </script>
 
@@ -16,6 +18,7 @@
 </style>
 
 <div class="flex flex-wrap">
-  <Header {headerFirstText} {headerSecondText} />
+  <Header {headerFirstText} {headerSecondText} {headerThirdText} />
   <Search {placeholderText} />
+  <Categories />
 </div>
