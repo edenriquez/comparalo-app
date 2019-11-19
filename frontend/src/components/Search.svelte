@@ -42,10 +42,6 @@
 </script>
 
 <style>
-  @font-face {
-    src: url("https://fonts.googleapis.com/css?family=Inconsolata:700");
-    font-family: "Inconsolata";
-  }
   * {
     margin: 0;
     padding: 0;
@@ -69,7 +65,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    width: 300px;
+    max-width: 800px;
+    width: 100%;
     height: 100px;
   }
   .container .search {
@@ -81,11 +78,36 @@
     left: 0;
     width: 180px;
     height: 80px;
-    background: crimson;
     border-radius: 50px;
     transition: all 1s;
     z-index: 4;
     box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.4);
+    -webkit-transition-property: background-color, left;
+    transition-property: background-color, left;
+    -webkit-transition-duration: 0.5s, 0.5s;
+    transition-duration: 0.5s, 0.5s;
+    -webkit-transition-timing-function: ease, ease-out;
+    transition-timing-function: ease, ease-out;
+    background: rgb(72, 187, 120);
+    background: -moz-linear-gradient(
+      90deg,
+      rgba(72, 187, 120, 1) 0%,
+      rgba(93, 208, 169, 1) 35%,
+      rgba(99, 217, 146, 1) 100%
+    );
+    background: -webkit-linear-gradient(
+      90deg,
+      rgba(72, 187, 120, 1) 0%,
+      rgba(93, 208, 169, 1) 35%,
+      rgba(99, 217, 146, 1) 100%
+    );
+    background: linear-gradient(
+      90deg,
+      rgba(72, 187, 120, 1) 0%,
+      rgba(93, 208, 169, 1) 35%,
+      rgba(99, 217, 146, 1) 100%
+    );
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#48bb78",endColorstr="#63d992",GradientType=1);
   }
   .container .search:hover {
     cursor: pointer;
@@ -125,7 +147,6 @@
     top: 30px;
   }
   .container input {
-    font-family: "Inconsolata", monospace;
     position: absolute;
     margin: auto;
     top: 0;
@@ -136,13 +157,12 @@
     height: 50px;
     outline: none;
     border: none;
-    background: crimson;
-    color: white;
-    text-shadow: 0 0 10px crimson;
+    background: rgb(249, 249, 249);
+    color: gray;
     padding: 0 80px 0 20px;
     border-radius: 30px;
-    box-shadow: 0 0 25px 0 crimson, 0 20px 25px 0 rgba(0, 0, 0, 0.2);
-    transition: all 1s;
+    /* box-shadow: 0 0 25px 0 rgb(249, 249, 249), 0 20px 25px 0 rgba(0, 0, 0, 0.2); */
+    transition: all 0.2s;
     opacity: 0;
     z-index: 5;
     font-weight: bolder;
@@ -152,12 +172,16 @@
     cursor: pointer;
   }
   .container input:focus {
-    width: 300px;
+    min-width: 300px;
+    width: 80%;
     opacity: 1;
     cursor: text;
   }
+  .container input:focus::placeholder {
+    color: #ccc;
+  }
   .container input:focus ~ .search {
-    right: -250px;
+    left: 70%;
     background: #151515;
     z-index: 6;
   }

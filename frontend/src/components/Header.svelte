@@ -1,22 +1,22 @@
 <script>
-	export let headerText;
+  export let headerFirstText;
+  export let headerSecondText;
 </script>
 
 <style>
-	header {
-		background: #ccc;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 150px;
-	}
-    h1{
-        text-align: center;
-        max-width: 50%;
-    }
+  header {
+    display: flex;
+    align-items: center;
+    height: 150px;
+  }
+  span {
+    font-family: "Oswald", sans-serif;
+  }
 </style>
 
-<header>
-    <h1>{headerText}</h1>
+<header class="px-3 w-full">
+  <h1 class="text-left font-bold">
+    <span class="text-5xl text-black-100">{headerFirstText}</span>
+    <span class="text-5xl text-green-500">{headerSecondText}</span>
+  </h1>
 </header>
-
