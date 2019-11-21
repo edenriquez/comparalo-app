@@ -5,6 +5,7 @@ const app = new App({
 	props: {
 		headerFirstText: 'Comparalo',
 		headerSecondText: 'App!',
+		headerThirdText: 'Enjoy the experience',
 		placeholderText: 'Search a product'
 	}
 });
