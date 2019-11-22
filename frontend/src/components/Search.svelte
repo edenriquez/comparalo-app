@@ -1,7 +1,8 @@
 <script>
+  import axios from "axios";
+  import SearchResults from "./SearchResults.svelte";
   const BACKEND_BASE_API = "http://localhost:3000";
   export let placeholderText;
-  import axios from "axios";
 
   const debounce = (func, delay) => {
     let debounceTimer;
@@ -12,16 +13,19 @@
       debounceTimer = setTimeout(() => func.apply(context, args), delay);
     };
   };
-
+  let results;
+  let resultShouldRender;
   const handleSearch = event => {
     const searchValue = event.target.value;
     axios
       .get(`${BACKEND_BASE_API}/search/options?q=${searchValue}&max=10?`)
       .then(response => {
-        console.log("responses", response);
+        results = response.data;
+        resultShouldRender = results.length > 0;
       })
       .catch(console.warn);
   };
+
   const handleFocusOnSearch = event => {
     const searchInput = event.target;
     const span = searchInput.nextElementSibling.firstElementChild;
@@ -67,9 +71,9 @@
     height: 100px;
   }
   .container .search {
-    position: absolute;
+    position: relative;
     margin: auto;
-    top: 0;
+    top: 10;
     right: 0;
     bottom: 0;
     left: 0;
@@ -154,7 +158,7 @@
     height: 50px;
     outline: none;
     border: none;
-    background: rgb(249, 249, 249);
+    background: rgb(247, 241, 241);
     color: gray;
     padding: 0 80px 0 20px;
     border-radius: 30px;
@@ -178,7 +182,7 @@
     color: #ccc;
   }
   .container input:focus ~ .search {
-    left: 70%;
+    left: 40%;
     background: #151515;
     z-index: 6;
   }
@@ -216,4 +220,7 @@
   <div class="search">
     <span class="search__text">click to search</span>
   </div>
+  {#if resultShouldRender}
+    <SearchResults {results} />
+  {/if}
 </div>
