@@ -8,7 +8,6 @@
     border-radius: 15px;
   }
   .search-results {
-    border: 1px solid rgb(247, 241, 241);
     max-height: 250px;
     overflow-y: scroll;
   }
@@ -18,10 +17,12 @@
   }
 </style>
 
-<div class="search-results-container flex flex-wrap w-full my-4 mx-20">
+<div
+  id="search-results"
+  class="search-results-container flex flex-wrap w-full my-4 mx-20">
   <div class="search-results">
     {#each results as result}
-      <div class="result p-4 mx-1 my-1">{result.product_name}</div>
+      <div class="result p-4 mx-2 my-2">{result.product_name}</div>
     {/each}
   </div>
 </div>

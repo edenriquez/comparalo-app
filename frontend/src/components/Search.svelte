@@ -16,6 +16,9 @@
   let results;
   let resultShouldRender;
   const handleSearch = event => {
+    if (event.keyCode === 8) {
+      return;
+    }
     const searchValue = event.target.value;
     axios
       .get(`${BACKEND_BASE_API}/search/options?q=${searchValue}&max=10?`)
@@ -42,6 +45,8 @@
     span.style.opacity = "1";
     const searchDiv = span.parentElement;
     searchDiv.style.width = "180px";
+    // Disable search results
+    resultShouldRender = false;
   };
 </script>
 
@@ -162,7 +167,7 @@
     color: gray;
     padding: 0 80px 0 20px;
     border-radius: 30px;
-    /* box-shadow: 0 0 25px 0 rgb(249, 249, 249), 0 20px 25px 0 rgba(0, 0, 0, 0.2); */
+
     transition: all 0.2s;
     opacity: 0;
     z-index: 5;
