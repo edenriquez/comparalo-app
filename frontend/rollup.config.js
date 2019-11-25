@@ -6,7 +6,7 @@ import {
 	terser
 } from 'rollup-plugin-terser';
 import rollup_start_dev from './rollup_start_dev';
-import autoPreprocess from 'svelte-preprocess';
+// import autoPreprocess from 'svelte-preprocess';
 
 const production = !process.env.ROLLUP_WATCH;
 
