@@ -13,6 +13,7 @@
       debounceTimer = setTimeout(() => func.apply(context, args), delay);
     };
   };
+
   let results;
   let resultShouldRender;
   const handleSearch = event => {
@@ -25,6 +26,11 @@
       .then(response => {
         results = response.data;
         resultShouldRender = results.length > 0;
+        const searchInput = event.target;
+        searchInput.style.background = "rgb(255, 255, 255)";
+        searchInput.style.boxShadow =
+          "rgb(130, 128, 123) -10px 18px 62px -17px";
+          searchInput.style.marginTop ='15px' 
       })
       .catch(console.warn);
   };
@@ -46,6 +52,9 @@
     const searchDiv = span.parentElement;
     searchDiv.style.width = "180px";
     // Disable search results
+    searchInput.style.background = "rgb(247, 241, 241)";
+    searchInput.style.boxShadow = "";
+    searchInput.style.marginTop ='25px' 
     resultShouldRender = false;
   };
 </script>
@@ -61,10 +70,6 @@
   body {
     width: 100%;
     height: 100%;
-  }
-
-  body {
-    background: #252525;
   }
 
   .container {
@@ -84,7 +89,7 @@
     left: 0;
     width: 180px;
     height: 80px;
-    border-radius: 50px;
+    border-radius: 20px;
     transition: all 1s;
     z-index: 4;
     box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.4);
@@ -136,7 +141,7 @@
     content: "";
     position: absolute;
     margin: auto;
-    top: -5px;
+    top: 0;
     right: 0;
     bottom: 0;
     left: -110px;
@@ -166,7 +171,7 @@
     background: rgb(247, 241, 241);
     color: gray;
     padding: 0 80px 0 20px;
-    border-radius: 30px;
+    border-radius: 10px;
 
     transition: all 0.2s;
     opacity: 0;
