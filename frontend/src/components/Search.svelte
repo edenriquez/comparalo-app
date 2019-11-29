@@ -17,17 +17,17 @@
   let results;
   let resultShouldRender;
   const handleSearch = event => {
-    results = [];
-    resultShouldRender = true;
     if (event.keyCode === 8) {
+      resultShouldRender = false;
       return;
     }
+    results = [];
+    resultShouldRender = true;
     const searchValue = event.target.value;
     axios
       .get(`${BACKEND_BASE_API}/search/options?q=${searchValue}&max=10?`)
       .then(response => {
         results = response.data;
-        // resultShouldRender = results.length > 0;
         const searchInput = event.target;
         searchInput.style.background = "rgb(255, 255, 255)";
         searchInput.style.boxShadow =
@@ -57,7 +57,7 @@
     searchInput.style.background = "rgb(247, 241, 241)";
     searchInput.style.boxShadow = "";
     searchInput.style.marginTop ='25px' 
-    // resultShouldRender = false;
+    resultShouldRender = false;
   };
 </script>
 
