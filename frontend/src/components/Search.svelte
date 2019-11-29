@@ -17,6 +17,8 @@
   let results;
   let resultShouldRender;
   const handleSearch = event => {
+    results = [];
+    resultShouldRender = true;
     if (event.keyCode === 8) {
       return;
     }
@@ -25,7 +27,7 @@
       .get(`${BACKEND_BASE_API}/search/options?q=${searchValue}&max=10?`)
       .then(response => {
         results = response.data;
-        resultShouldRender = results.length > 0;
+        // resultShouldRender = results.length > 0;
         const searchInput = event.target;
         searchInput.style.background = "rgb(255, 255, 255)";
         searchInput.style.boxShadow =
@@ -55,7 +57,7 @@
     searchInput.style.background = "rgb(247, 241, 241)";
     searchInput.style.boxShadow = "";
     searchInput.style.marginTop ='25px' 
-    resultShouldRender = false;
+    // resultShouldRender = false;
   };
 </script>
 
@@ -230,7 +232,5 @@
   <div class="search">
     <span class="search__text">click to search</span>
   </div>
-  {#if resultShouldRender}
-    <SearchResults {results} />
-  {/if}
+  <SearchResults {results} {resultShouldRender} />
 </div>
