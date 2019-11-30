@@ -55,6 +55,10 @@
     background: rgb(250, 249, 249);
     border-radius: 15px;
   }
+  .result img {
+    width: 50px;
+    margin-top: -40px;
+  }
 </style>
 {#if resultShouldRender}
   <div
@@ -66,10 +70,10 @@
           <div class="w-full md:w-1/3 lg:w-full p-2">
             {#each results as result}
               <div class="result pl-4 pr-4 pt-2 mb-4 text-left relative flex-grow">
-                <div class="skeleton-box w-1/6 inline-block" style="padding-top: 10%"></div>
+                <img class="inline-block" src="{result.image || "https://picsum.photos/200"}" alt="">
                 <div class="inline-block w-4/5">
-                  <span class="block h-5 w-1/2 mx-2 my-2">{result.product_name.substring(0, 15)}</span>
-                  <span class="skeleton-box block h-5 w-1/6 mx-2"></span>
+                  <span class="block h-5 w-1/2 mx-2 my-2">{result.product_name.substring(0, 25)}</span>
+                  <span class="block h-5 w-1/6 mx-2 text-gray-500">{result.category || 'Otro'}</span>
                 </div>
               </div>
             {/each}
