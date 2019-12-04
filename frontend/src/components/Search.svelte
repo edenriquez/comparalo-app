@@ -1,7 +1,8 @@
 <script>
+  import axios from "axios";
+  import SearchResults from "./SearchResults.svelte";
   const BACKEND_BASE_API = "http://localhost:3000";
   export let placeholderText;
-  import axios from "axios";
 
   const debounce = (func, delay) => {
     let debounceTimer;
@@ -13,15 +14,29 @@
     };
   };
 
+  let results;
+  let resultShouldRender;
   const handleSearch = event => {
+    if (event.keyCode === 8) {
+      resultShouldRender = false;
+      return;
+    }
+    results = [];
+    resultShouldRender = true;
     const searchValue = event.target.value;
     axios
       .get(`${BACKEND_BASE_API}/search/options?q=${searchValue}&max=10?`)
       .then(response => {
-        console.log("responses", response);
+        results = response.data;
+        const searchInput = event.target;
+        searchInput.style.background = "rgb(255, 255, 255)";
+        searchInput.style.boxShadow =
+          "rgb(130, 128, 123) -10px 18px 62px -17px";
+          searchInput.style.marginTop ='15px' 
       })
       .catch(console.warn);
   };
+
   const handleFocusOnSearch = event => {
     const searchInput = event.target;
     const span = searchInput.nextElementSibling.firstElementChild;
@@ -38,6 +53,11 @@
     span.style.opacity = "1";
     const searchDiv = span.parentElement;
     searchDiv.style.width = "180px";
+    // Disable search results
+    searchInput.style.background = "rgb(247, 241, 241)";
+    searchInput.style.boxShadow = "";
+    searchInput.style.marginTop ='25px' 
+    resultShouldRender = false;
   };
 </script>
 
@@ -54,31 +74,24 @@
     height: 100%;
   }
 
-  body {
-    background: #252525;
-  }
-
   .container {
-    position: absolute;
-    margin: auto;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
     max-width: 800px;
     width: 100%;
     height: 100px;
   }
   .container .search {
-    position: absolute;
+    position: relative;
     margin: auto;
-    top: 0;
+    top: 10;
     right: 0;
     bottom: 0;
     left: 0;
     width: 180px;
     height: 80px;
-    border-radius: 50px;
+    border-radius: 20px;
     transition: all 1s;
     z-index: 4;
     box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.4);
@@ -130,7 +143,7 @@
     content: "";
     position: absolute;
     margin: auto;
-    top: -5px;
+    top: 0;
     right: 0;
     bottom: 0;
     left: -110px;
@@ -157,11 +170,11 @@
     height: 50px;
     outline: none;
     border: none;
-    background: rgb(249, 249, 249);
+    background: rgb(247, 241, 241);
     color: gray;
     padding: 0 80px 0 20px;
-    border-radius: 30px;
-    /* box-shadow: 0 0 25px 0 rgb(249, 249, 249), 0 20px 25px 0 rgba(0, 0, 0, 0.2); */
+    border-radius: 10px;
+
     transition: all 0.2s;
     opacity: 0;
     z-index: 5;
@@ -181,7 +194,7 @@
     color: #ccc;
   }
   .container input:focus ~ .search {
-    left: 70%;
+    left: 40%;
     background: #151515;
     z-index: 6;
   }
@@ -209,7 +222,7 @@
 
 <!-- TODO: put advanced search -->
 <!-- vendor url : product name filtered by vendor -->
-<div class="container">
+<div class="flex flex-wrap w-full container my-32">
   <input
     type="text"
     placeholder={placeholderText}
@@ -219,4 +232,5 @@
   <div class="search">
     <span class="search__text">click to search</span>
   </div>
+  <SearchResults {results} {resultShouldRender} />
 </div>
