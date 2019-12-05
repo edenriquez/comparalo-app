@@ -14,10 +14,11 @@
       labels: ["January", "February", "March", "April", "May", "June"],
       datasets: [
         {
-          label: "Custom Label Name",
+          label: "Product Price",
           backgroundColor: gradient,
           pointBackgroundColor: "white",
-          borderWidth: 1,
+          pointBorderWidth: 10,
+          borderWidth: 3,
           borderColor: "#911215",
           data: [50, 55, 80, 81, 54, 50]
         }
@@ -36,7 +37,7 @@
           {
             gridLines: {
               color: "rgba(200, 200, 200, 0.05)",
-              lineWidth: 1
+              lineWidth: 0.5
             }
           }
         ],
@@ -44,7 +45,10 @@
           {
             gridLines: {
               color: "rgba(200, 200, 200, 0.08)",
-              lineWidth: 1
+              lineWidth: 0.5
+            },
+            ticks: {
+              display: false // TODO: check this
             }
           }
         ]
@@ -55,17 +59,16 @@
         }
       },
       legend: {
-        display: false
+        display: true
       },
       point: {
         backgroundColor: "white"
       },
       tooltips: {
-        titleFontFamily: "Open Sans",
         backgroundColor: "rgba(0,0,0,0.3)",
         titleFontColor: "red",
         caretSize: 5,
-        cornerRadius: 2,
+        cornerRadius: 5,
         xPadding: 10,
         yPadding: 10
       }
@@ -85,7 +88,7 @@
     height: 100%;
   }
 
-  body {
+  .cont {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -108,7 +111,7 @@
     -webkit-animation: fadeIn 600ms cubic-bezier(0.57, 0.25, 0.65, 1) 1 forwards;
     animation: fadeIn 600ms cubic-bezier(0.57, 0.25, 0.65, 1) 1 forwards;
     opacity: 0;
-    max-width: 640px;
+    max-width: 1200px;
     width: 100%;
   }
 
@@ -130,7 +133,7 @@
   }
 </style>
 
-<div>
+<div class="cont">
   <div class="line-chart">
     <div class="aspect-ratio">
       <canvas id="chart" />
