@@ -37,7 +37,7 @@ var searchSchema = new mongoose.Schema({
 });
 
 searchSchema.statics.allCoincidences = async function (query, max) {
-  const searchRegex = new RegExp(query, 'i')
+  const searchRegex = new RegExp(query, 'i');
   return await this.find({
       "$or": [{
           product_name: searchRegex

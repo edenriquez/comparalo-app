@@ -1,4 +1,6 @@
 <script>
+  import {link} from 'svelte-spa-router'
+  
   export let results;
   export let resultShouldRender;
 </script>
@@ -72,7 +74,11 @@
               <div class="result pl-4 pr-4 pt-2 mb-4 text-left relative flex-grow">
                 <img class="inline-block" src="{result.image || "https://picsum.photos/200"}" alt="">
                 <div class="inline-block w-4/5">
-                  <span class="block h-5 w-1/2 mx-2 my-2">{result.product_name.substring(0, 25)}</span>
+                  <span class="block h-5 w-1/2 mx-2 my-2">
+                    <a href="/product/{result.search_id}" use:link>
+                    {result.product_name.substring(0, 25)}
+                    </a>
+                  </span>
                   <span class="block h-5 w-1/6 mx-2 text-gray-500">{result.category || 'Otro'}</span>
                 </div>
               </div>

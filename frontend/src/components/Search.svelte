@@ -28,6 +28,7 @@
       .get(`${BACKEND_BASE_API}/search/options?q=${searchValue}&max=10?`)
       .then(response => {
         results = response.data;
+        window.results = results;
         const searchInput = event.target;
         searchInput.style.background = "rgb(255, 255, 255)";
         searchInput.style.boxShadow =
@@ -57,7 +58,7 @@
     searchInput.style.background = "rgb(247, 241, 241)";
     searchInput.style.boxShadow = "";
     searchInput.style.marginTop ='25px' 
-    resultShouldRender = false;
+    // resultShouldRender = false;
   };
 </script>
 
