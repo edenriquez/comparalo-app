@@ -136,20 +136,35 @@
       opacity: 1;
     }
   }
+  .beadcrumb{
+    border: 1px solid #f2f1f1;
+  }
+  .beadcrumb-gray{
+    color: #ccc;
+  }
+  .beadcrumb-active{
+    color: #4299e1;
+  }
 </style>
 
- <div class=" justify-center flex flex-wrap w-full">
- <!-- TODO: make this as a external component -->
-  <div class="beadcrumb">
-    {#each routes as route}
-      <a href="/{route}" use:link>/{route}</a>
+  <div class="beadcrumb shadow-lg rounded p-4 my-16 mx-4">
+    {#each routes as route, i}
+      {#if i == 0}
+        <a class="beadcrumb-gray" href="/{route}" use:link> {route}</a>
+      {:else if i == routes.length -1 }
+        <span class="beadcrumb-gray px-2"> > </span> 
+        <a class="beadcrumb-active" href="/{route}" use:link> {route}</a>
+      {:else}
+          <span class="beadcrumb-gray px-2"> > </span> 
+          <a class="beadcrumb-gray" href="/{route}" use:link> {route}</a>
+      {/if}
     {/each}
     
   </div>
-  <h1 class=" w-full text-center my-10 text-blue-500">Product {params.search_id}</h1>
+ <div class=" justify-center flex flex-wrap w-full">
   <div class="w-full line-chart">
   <div class="text-center">
-    <span class="text-4xl text-gray-500">Lowest Price:</span>
+    <span class="text-2xl text-gray-500">Lowest Price:</span>
     <span class="text-5xl font-bold block">$500.00</span>
   </div>
     <div class=" aspect-ratio">

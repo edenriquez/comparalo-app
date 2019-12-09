@@ -1,56 +1,89 @@
 import { getImageByPath } from "../shared";
 
 module.exports.getMercadoPrice = async (page) => {
-  const priceByClass = await page.$eval('.price-tag-fraction', el => el.textContent);
-  const articlePath = (await page.$x('//*[@id="productInfo"]/fieldset[1]/span/span[2]'))[0];
-  const priceByPath = await page.evaluate(el => {
-    return el.textContent;
-  }, articlePath);
-  if (!priceByClass) {
-    return parseFloat(priceByPath.replace('$', '').replace(',', ''));
+  let data = true;
+  let productPrice;
+  while (data){
+    const product = (await page.$x('/html/head/script[10]/text()'))[0];
+    let productObj = await page.evaluate(el => {
+      return el.textContent;
+    }, product);
+    try{
+      productPrice = JSON.parse(productObj).offers.price;
+      data = false;
+    }catch(err){
+      data = true;
+    }
   }
-  return parseFloat(priceByClass.replace('$', '').replace(',', ''));
+  return productPrice;
 }
 
 module.exports.getMercadoName = async (page) => {
-  const nameByClass = await page.$eval('.item-title__primary', el => el.textContent);
-  const articlePath = (await page.$x('//*[@id="short-desc"]/div/header/h1'))[0];
-  const nameByPath = await page.evaluate(el => {
-    return el.textContent;
-  }, articlePath);
-  if (!nameByClass) {
-    return nameByPath.trim();
+  let data = true;
+  let productName;
+  while (data){
+    const product = (await page.$x('/html/head/script[10]/text()'))[0];
+    let productObj = await page.evaluate(el => {
+      return el.textContent;
+    }, product);
+    try{
+      productName = JSON.parse(productObj).name;
+      data = false;
+    }catch(err){
+      data = true;
+    }
   }
-  return nameByClass.trim();
+  return productName;
 }
 
 module.exports.getMercadoImage = async (page) =>{
- const image  = await getImageByPath('//*[starts-with(@id,"gallery_")]/div/figure[1]/a/img', 0, page);
- return image;
+  let data = true;
+  let productImage;
+  while (data){
+    const product = (await page.$x('/html/head/script[10]/text()'))[0];
+    let productObj = await page.evaluate(el => {
+      return el.textContent;
+    }, product);
+    try{
+      productImage = JSON.parse(productObj).image;
+      data = false;
+    }catch(err){
+      data = true;
+    }
+  }
+  return productImage;
 };
-
 module.exports.getMercadoMeta = async (page) => {
-  const rankPath = (await page.$x('//*[starts-with(@id,"reviewsCard")]/div/div[1]/span[1]'))[0];
-  const shippingPath = (await page.$x('//*[starts-with(@class,"payment-info")]'))[0];
-  const installmentsPath = (await page.$x('//*[starts-with(@id,"productInfo")]/div[1]/fieldset[1]/article/div[2]/p[1]'))[0]
-  let rank = await page.evaluate(el => {
-    return el.textContent;
-  }, rankPath);
+  const dataLayer = await page.evaluate(() => dataLayer[0]);
+  /** dataLayer
+   * installment_info: "12f"
+   * free_shipping: true
+   */
+  let data = true;
+  let rank;
 
-  let shippingDetails = await page.evaluate(el => {
-    return el.textContent;
-  }, shippingPath);
-
-  let installments = await page.evaluate(el => {
-    return el.textContent;
-  }, installmentsPath);
-
-  installments = installments.replace(/\s+/g, " ").trim();
-
+  while (data){
+    const product = (await page.$x('/html/head/script[10]/text()'))[0];
+    let productObj = await page.evaluate(el => {
+      return el.textContent;
+    }, product);
+    try{
+      rank = JSON.parse(productObj).aggregateRating.ratingValue;
+      data = false;
+    }catch(err){
+      data = true;
+    }
+  }
+  let shippingDetails = dataLayer.installment_info;
+  let installments = null;
+  if (dataLayer.free_shipping){
+    installments = 'Envio gratis';
+  }
+  
   return {
     vendorName: "mercado libre",
     vendorRank: rank || 0,
     shippingDetails: shippingDetails,
-    installments: (installments.length > 0) ? installments : "no montly installments"
-  }
-}
+    installments: (installments !== null) ? installments : "no montly installments"
+  };
+};
