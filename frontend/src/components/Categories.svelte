@@ -33,7 +33,7 @@
   }
 </style>
 
-<div class="md:flex md:flex-wrap w-full md:mb-4 my-32 ">
+<div class="md:flex md:flex-wrap w-full md:mb-4 my-10 ">
   {#each categories as category, index}
     <div
       on:mouseover={removeAllMinusCurrent}
