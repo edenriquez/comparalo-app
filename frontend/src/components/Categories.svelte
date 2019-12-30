@@ -8,7 +8,7 @@
     { name: "Other" }
   ];
 
-  const removeAllMinusCurrent = e => {
+  const removeAllButCurrent = e => {
     const el = document.querySelectorAll(".category");
     el.forEach(current => {
       current.children[0].classList.remove("category__active");
@@ -36,7 +36,7 @@
 <div class="md:flex md:flex-wrap w-full md:mb-4 my-10 ">
   {#each categories as category, index}
     <div
-      on:mouseover={removeAllMinusCurrent}
+      on:mouseover={removeAllButCurrent}
       on:mouseleave={returnSelection}
       class="md:flex-1 sm:w-full m-10 text-center category">
       <span

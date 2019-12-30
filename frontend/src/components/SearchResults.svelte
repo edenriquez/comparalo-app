@@ -3,6 +3,13 @@
 
   export let results;
   export let resultShouldRender;
+  export let isHoveringResults = false;
+  const hoverOutHandler = () => {
+    isHoveringResults = false;
+  };
+  const hoverHandler = () => {
+    isHoveringResults = true;
+  };
 </script>
 
 <style>
@@ -70,7 +77,10 @@
     class="search-results-container flex flex-wrap w-full mx-20">
     <div class="search-results flex flex-col flex-grow">
       {#if results.length > 0}
-        <div class=" w-full flex flex-wrap">
+        <div
+          on:mouseenter={hoverHandler}
+          on:mouseleave={hoverOutHandler}
+          class=" w-full flex flex-wrap">
           <div class="w-full md:w-1/3 lg:w-full p-2">
             {#each results as result}
               <div
