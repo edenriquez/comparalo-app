@@ -1,8 +1,8 @@
 <script>
   import axios from "axios";
   import SearchResults from "./SearchResults.svelte";
-  // TODO: move to constants
-  const BACKEND_BASE_API = "http://localhost:3000";
+  import { CONSTANTS } from "../config/constants";
+
   export let placeholderText;
   let results;
   let resultShouldRender;
@@ -27,7 +27,9 @@
     resultShouldRender = true;
     const searchValue = event.target.value;
     axios
-      .get(`${BACKEND_BASE_API}/search/options?q=${searchValue}&max=10?`)
+      .get(
+        `${CONSTANTS.BACKEND_BASE_API}/search/options?q=${searchValue}&max=10?`
+      )
       .then(response => {
         results = response.data;
         window.results = results;
