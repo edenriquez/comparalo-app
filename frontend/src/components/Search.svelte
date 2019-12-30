@@ -4,7 +4,9 @@
   // TODO: move to constants
   const BACKEND_BASE_API = "http://localhost:3000";
   export let placeholderText;
-
+  let results;
+  let resultShouldRender;
+  let isHoveringResults;
   const debounce = (func, delay) => {
     let debounceTimer;
     return function() {
@@ -15,9 +17,8 @@
     };
   };
 
-  let results;
-  let resultShouldRender;
   const handleSearch = event => {
+    // backspace
     if (event.keyCode === 8) {
       resultShouldRender = false;
       return;
@@ -59,7 +60,10 @@
     searchInput.style.background = "rgb(247, 241, 241)";
     searchInput.style.boxShadow = "";
     searchInput.style.marginTop = "25px";
-    resultShouldRender = false;
+    searchInput.value = "";
+
+    // if mouse is not on any result should hide results
+    resultShouldRender = !isHoveringResults ? false : true;
   };
 </script>
 
@@ -240,6 +244,6 @@
     <div class="search">
       <span class="search__text">click to search</span>
     </div>
-    <SearchResults {results} {resultShouldRender} />
+    <SearchResults {results} {resultShouldRender} bind:isHoveringResults />
   </div>
 </div>
