@@ -1,18 +1,124 @@
 <script>
   import { link } from "svelte-spa-router";
-
+  import Modal from "../pages/Modal.svelte";
   export let results;
   export let resultShouldRender;
   export let isHoveringResults = false;
+  import dynamics from "dynamics.js";
+  import { onMount } from "svelte";
   const hoverOutHandler = () => {
     isHoveringResults = false;
   };
   const hoverHandler = () => {
     isHoveringResults = true;
   };
+  const showModalHandler = () => {
+    console.log("handlerrr..");
+
+    resultShouldRender = false;
+
+    var btnOpen = document.querySelector(".js-open");
+
+    var modal = document.querySelector(".js-modal");
+    var wrap = document.querySelector(".wrap");
+
+    var modalChildren = modal.children;
+
+    function hideModal() {
+      dynamics.animate(
+        modal,
+        {
+          opacity: 0,
+          translateY: 100
+        },
+        {
+          type: dynamics.spring,
+          frequency: 50,
+          friction: 600,
+          duration: 1500
+        }
+      );
+    }
+
+    function showModal() {
+      // Define initial properties
+      dynamics.css(modal, {
+        opacity: 0,
+        scale: 0.5
+      });
+
+      // Animate to final properties
+      dynamics.animate(
+        modal,
+        {
+          opacity: 1,
+          scale: 1
+        },
+        {
+          type: dynamics.spring,
+          frequency: 300,
+          friction: 400,
+          duration: 1000
+        }
+      );
+    }
+
+    function showModalChildren() {
+      // Animate each child individually
+      for (var i = 0; i < modalChildren.length; i++) {
+        var item = modalChildren[i];
+
+        // Define initial properties
+        dynamics.css(item, {
+          opacity: 0,
+          translateY: 30
+        });
+
+        // Animate to final properties
+        dynamics.animate(
+          item,
+          {
+            opacity: 1,
+            translateY: 0
+          },
+          {
+            type: dynamics.spring,
+            frequency: 300,
+            friction: 400,
+            duration: 1000,
+            delay: 100 + i * 40
+          }
+        );
+      }
+    }
+
+    function toggleClasses() {
+      wrap.style.display = "block";
+      btnOpen.classList.toggle("is-active");
+      modal.classList.remove("not-active");
+      modal.classList.toggle("is-active");
+    }
+
+    // Open nav when clicking sandwich button
+    // btnOpen.addEventListener("click", function(e) {
+    //   toggleClasses();
+    //   showModal();
+    //   showModalChildren();
+    // });
+    toggleClasses();
+    showModal();
+    showModalChildren();
+  };
 </script>
 
 <style>
+  .btn-open {
+    display: none;
+  }
+  .btn-open {
+    display: block;
+  }
+
   .skeleton-box {
     position: relative;
     overflow: hidden;
@@ -50,6 +156,9 @@
     }
   }
 
+  .add-item {
+    border-radius: 0px 0px 15px 15px;
+  }
   .search-results-container {
     margin-top: -50px;
     background: rgb(247, 241, 241);
@@ -71,16 +180,16 @@
   }
 </style>
 
+<Modal />
 {#if resultShouldRender}
   <div
+    on:mouseenter={hoverHandler}
+    on:mouseleave={hoverOutHandler}
     id="search-results"
     class="search-results-container flex flex-wrap w-full mx-20">
     <div class="search-results flex flex-col flex-grow">
       {#if results.length > 0}
-        <div
-          on:mouseenter={hoverHandler}
-          on:mouseleave={hoverOutHandler}
-          class=" w-full flex flex-wrap">
+        <div class=" w-full flex flex-wrap">
           <div class="w-full md:w-1/3 lg:w-full p-2">
             {#each results as result}
               <div
@@ -101,6 +210,24 @@
                 </div>
               </div>
             {/each}
+          </div>
+        </div>
+      {:else if results.length === 0}
+        <div class=" w-full flex flex-wrap">
+          <div class="w-full md:w-1/3 lg:w-full p-2">
+            <div class="flex flex-col flex-grow">
+              <div
+                class="skeleton-result-container pl-4 pr-4 pt-2 mb-4 text-left
+                relative flex-grow">
+                <div
+                  class="skeleton-box w-1/6 inline-block"
+                  style="padding-top: 10%" />
+                <div class="inline-block w-4/5">
+                  <span class="skeleton-box block h-5 w-1/2 mx-2 my-2" />
+                  <span class="skeleton-box block h-5 w-1/6 mx-2" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       {:else}
@@ -125,6 +252,14 @@
           </div>
         </div>
       {/if}
+    </div>
+    <div class=" w-full flex ">
+      <button
+        on:click={showModalHandler}
+        class="js-open btn-open w-full bg-blue-500 hover:bg-blue-700 text-white
+        font-bold py-2 px-4 add-item ">
+        Agregar nuevo +
+      </button>
     </div>
   </div>
 {/if}
