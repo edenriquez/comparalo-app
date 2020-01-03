@@ -4,6 +4,7 @@
 
   onMount(async () => {
     var btnClose = document.querySelector(".js-close");
+    var btnFinish = document.querySelector(".js-finish");
     var modal = document.querySelector(".js-modal");
     var wrap = document.querySelector(".wrap");
 
@@ -11,7 +12,7 @@
 
     function hideModal() {
       dynamics.animate(
-        modal,
+        wrap,
         {
           opacity: 0,
           translateY: 100
@@ -35,15 +36,22 @@
       hideModal();
       dynamics.setTimeout(toggleClasses, 500);
     });
+
+    btnFinish.addEventListener("click", function(e) {
+      hideModal();
+      dynamics.setTimeout(toggleClasses, 500);
+    });
   });
 </script>
 
 <style>
   .wrap {
-    left: 26%;
+    top: -150%;
     position: absolute;
     z-index: 10;
-    margin: auto;
+    width: 60vw;
+    height: 60vh;
+    display: none;
   }
   .modal-image {
     width: 40px;
@@ -60,7 +68,6 @@
     margin-bottom: 0.5em;
   }
   p {
-    margin-bottom: 2em;
     color: #666;
   }
   button {
@@ -95,18 +102,50 @@
     padding: 2em 3em;
     text-align: center;
     border-radius: 0.5em;
+    height: 100%;
+    width: 100%;
+  }
+  .modal-input {
+    height: 50px;
+    outline: none;
+    border: none;
+    background: rgb(247, 241, 241);
+    color: gray;
+    padding: 0 80px 0 20px;
+    border-radius: 10px;
+
+    transition: all 0.2s;
+    opacity: 0;
+    z-index: 5;
+    font-weight: bolder;
+    letter-spacing: 0.1em;
+  }
+  .tag-remove:before {
+    padding: 10px;
+    content: "x";
+    color: #ccc;
+    font-weight: 300;
+    font-family: Arial, sans-serif;
+    float: right;
+    cursor: pointer;
   }
 </style>
 
-<div class="wrap">
+<div class="wrap shadow-lg">
+  <div class="tag-remove js-close" />
   <div class="modal js-modal not-active">
-    <div class="modal-image">
-      <svg viewBox="0 0 32 32" style="fill:#48DB71">
+    <!-- <div class="modal-image">
+       <svg viewBox="0 0 32 32" style="fill:#48DB71">
         <path d="M1 14 L5 10 L13 18 L27 4 L31 8 L13 26 z" />
-      </svg>
-    </div>
-    <h1>Nice job!</h1>
-    <p>To dismiss click the button below</p>
-    <button class="js-close">Dismiss</button>
+      </svg> 
+    </div> -->
+
+    <h1>No encontraste lo que estabas buscando?</h1>
+    <p>A countinuacion ingresa la URL del producto que quieres seguir!</p>
+    <input
+      class="modal-input my-10"
+      type="text"
+      placeholder="Url del producto" />
+    <button class="js-finish">Terminar</button>
   </div>
 </div>

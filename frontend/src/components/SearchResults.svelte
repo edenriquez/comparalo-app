@@ -13,12 +13,8 @@
     isHoveringResults = true;
   };
   const showModalHandler = () => {
-    console.log("handlerrr..");
-
     resultShouldRender = false;
-
     var btnOpen = document.querySelector(".js-open");
-
     var modal = document.querySelector(".js-modal");
     var wrap = document.querySelector(".wrap");
 
@@ -42,14 +38,14 @@
 
     function showModal() {
       // Define initial properties
-      dynamics.css(modal, {
+      dynamics.css(wrap, {
         opacity: 0,
         scale: 0.5
       });
 
       // Animate to final properties
       dynamics.animate(
-        modal,
+        wrap,
         {
           opacity: 1,
           scale: 1
@@ -98,13 +94,6 @@
       modal.classList.remove("not-active");
       modal.classList.toggle("is-active");
     }
-
-    // Open nav when clicking sandwich button
-    // btnOpen.addEventListener("click", function(e) {
-    //   toggleClasses();
-    //   showModal();
-    //   showModalChildren();
-    // });
     toggleClasses();
     showModal();
     showModalChildren();
@@ -112,13 +101,6 @@
 </script>
 
 <style>
-  .btn-open {
-    display: none;
-  }
-  .btn-open {
-    display: block;
-  }
-
   .skeleton-box {
     position: relative;
     overflow: hidden;
@@ -180,7 +162,6 @@
   }
 </style>
 
-<Modal />
 {#if resultShouldRender}
   <div
     on:mouseenter={hoverHandler}
@@ -192,23 +173,23 @@
         <div class=" w-full flex flex-wrap">
           <div class="w-full md:w-1/3 lg:w-full p-2">
             {#each results as result}
-              <div
-                class="result pl-4 pr-4 pt-2 mb-4 text-left relative flex-grow">
-                <img
-                  class="inline-block"
-                  src={result.image || 'https://picsum.photos/200'}
-                  alt="" />
-                <div class="inline-block w-4/5">
-                  <span class="block h-5 w-1/2 mx-2 my-2">
-                    <a href="/product/{result.search_id}" use:link>
+              <a href="/product/{result.search_id}" use:link>
+                <div
+                  class="result pl-4 pr-4 pt-2 mb-4 text-left relative flex-grow">
+                  <img
+                    class="inline-block"
+                    src={result.image || 'https://picsum.photos/200'}
+                    alt="" />
+                  <div class="inline-block w-4/5">
+                    <span class="block h-5 w-1/2 mx-2 my-2">
                       {result.product_name.substring(0, 25)}
-                    </a>
-                  </span>
-                  <span class="block h-5 w-1/6 mx-2 text-gray-500">
-                    {result.category || 'Otro'}
-                  </span>
+                    </span>
+                    <span class="block h-5 w-1/6 mx-2 text-gray-500">
+                      {result.category || 'Otro'}
+                    </span>
+                  </div>
                 </div>
-              </div>
+              </a>
             {/each}
           </div>
         </div>
@@ -263,3 +244,4 @@
     </div>
   </div>
 {/if}
+<Modal />
