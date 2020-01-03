@@ -25,6 +25,7 @@
     }
     results = [];
     resultShouldRender = true;
+
     const searchValue = event.target.value;
     axios
       .get(
@@ -32,7 +33,6 @@
       )
       .then(response => {
         results = response.data;
-        window.results = results;
         const searchInput = event.target;
         searchInput.style.background = "rgb(255, 255, 255)";
         searchInput.style.boxShadow =
@@ -63,7 +63,6 @@
     searchInput.style.boxShadow = "";
     searchInput.style.marginTop = "25px";
     searchInput.value = "";
-
     // if mouse is not on any result should hide results
     resultShouldRender = !isHoveringResults ? false : true;
   };
@@ -246,6 +245,6 @@
     <div class="search">
       <span class="search__text">click to search</span>
     </div>
-    <SearchResults {results} {resultShouldRender} bind:isHoveringResults />
+    <SearchResults {results} bind:resultShouldRender bind:isHoveringResults />
   </div>
 </div>

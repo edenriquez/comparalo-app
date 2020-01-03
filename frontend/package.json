@@ -24,10 +24,10 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "dev-tailwind": "run-p start:dev dev watch:tailwind",
+    "dev-tailwind": "run-p dev watch:tailwind",
     "build-tailwind": "npm run build:tailwind && rollup -c",
     "start": "sirv public --single",
-    "start:dev": "sirv public --single --dev",
+    "start:dev": "sirv public --single --dev --port 4002",
     "build:tailwind": "NODE_ENV=production postcss public/tailwind.css -o public/index.css",
     "watch:tailwind": "postcss public/tailwind.css -o public/index.css -w"
   }

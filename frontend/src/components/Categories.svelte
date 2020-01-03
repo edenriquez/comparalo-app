@@ -1,7 +1,6 @@
 <script>
   // TODO: temporal hack
   let currentCategoryIndex = 0;
-
   const categories = [
     { name: "Electronicos" },
     { name: "Videojuegos" },
