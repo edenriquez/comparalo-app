@@ -1,9 +1,12 @@
 <script>
   import axios from "axios";
   import SearchResults from "./SearchResults.svelte";
-  const BACKEND_BASE_API = "http://localhost:3000";
-  export let placeholderText;
+  import { CONSTANTS } from "../config/constants";
 
+  export let placeholderText;
+  let results;
+  let resultShouldRender;
+  let isHoveringResults;
   const debounce = (func, delay) => {
     let debounceTimer;
     return function() {
@@ -14,26 +17,27 @@
     };
   };
 
-  let results;
-  let resultShouldRender;
   const handleSearch = event => {
+    // backspace
     if (event.keyCode === 8) {
       resultShouldRender = false;
       return;
     }
     results = [];
     resultShouldRender = true;
+
     const searchValue = event.target.value;
     axios
-      .get(`${BACKEND_BASE_API}/search/options?q=${searchValue}&max=10?`)
+      .get(
+        `${CONSTANTS.BACKEND_BASE_API}/search/options?q=${searchValue}&max=10?`
+      )
       .then(response => {
         results = response.data;
-        window.results = results;
         const searchInput = event.target;
         searchInput.style.background = "rgb(255, 255, 255)";
         searchInput.style.boxShadow =
           "rgb(130, 128, 123) -10px 18px 62px -17px";
-          searchInput.style.marginTop ='15px' 
+        searchInput.style.marginTop = "15px";
       })
       .catch(console.warn);
   };
@@ -57,8 +61,10 @@
     // Disable search results
     searchInput.style.background = "rgb(247, 241, 241)";
     searchInput.style.boxShadow = "";
-    searchInput.style.marginTop ='25px' 
-    // resultShouldRender = false;
+    searchInput.style.marginTop = "25px";
+    searchInput.value = "";
+    // if mouse is not on any result should hide results
+    resultShouldRender = !isHoveringResults ? false : true;
   };
 </script>
 
@@ -219,19 +225,26 @@
     opacity: 0.5;
     font-weight: bolder;
   }
+  .main-background {
+    background: url("https://landkit.goodthemes.co/assets/img/illustrations/illustration-8.png")
+      no-repeat center center;
+    background-size: contain;
+  }
 </style>
 
 <!-- TODO: put advanced search -->
 <!-- vendor url : product name filtered by vendor -->
-<div class="flex flex-wrap w-full container my-32">
-  <input
-    type="text"
-    placeholder={placeholderText}
-    on:keydown={debounce(handleSearch, 500)}
-    on:focus={handleFocusOnSearch}
-    on:blur={handleFocusOutSearch} />
-  <div class="search">
-    <span class="search__text">click to search</span>
+<div class="w-full flex-wrap main-background my-10">
+  <div class="flex flex-wrap w-full container my-32">
+    <input
+      type="text"
+      placeholder={placeholderText}
+      on:keydown={debounce(handleSearch, 500)}
+      on:focus={handleFocusOnSearch}
+      on:blur={handleFocusOutSearch} />
+    <div class="search">
+      <span class="search__text">click to search</span>
+    </div>
+    <SearchResults {results} bind:resultShouldRender bind:isHoveringResults />
   </div>
-  <SearchResults {results} {resultShouldRender} />
 </div>
