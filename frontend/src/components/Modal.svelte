@@ -118,7 +118,7 @@
               class="block uppercase tracking-wide text-gray-700 text-xs
               font-bold mb-2"
               for="grid-first-name">
-              Nombre del producto
+              Nombre del producto 1
             </label>
             <input
               class="appearance-none block w-full text-gray-700 rounded py-3
@@ -136,7 +136,7 @@
               class="block uppercase tracking-wide text-gray-700 text-xs
               font-bold mb-2"
               for="grid-second-name">
-              Nombre del producto
+              Nombre del producto 2
             </label>
             <input
               class="appearance-none block w-full text-gray-700 rounded py-3

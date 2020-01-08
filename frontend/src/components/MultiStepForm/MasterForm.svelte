@@ -23,20 +23,36 @@
     });
   });
 
-  const previousStep = e => {
-    const prev = e.target;
+  const previousStep = () => {
     if (currentStep - 1 > -1) {
       currentStep -= 1;
+      let stepBefore = document.querySelectorAll(
+        "[data-step-number='" + (currentStep + 1) + "']"
+      )[0];
+      let step = document.querySelectorAll(
+        "[data-step-number='" + currentStep + "']"
+      )[0];
+      stepBefore.classList.add("step-not-active");
+      step.classList.remove("step-not-active");
     }
-    console.log(currentStep);
   };
-  const nextStep = e => {
+  const nextStep = () => {
     let steps = document.querySelectorAll(".step");
-    const next = e.target;
+    let stepBefore = document.querySelectorAll(
+      "[data-step-number='" + currentStep + "']"
+    )[0];
+    stepBefore.classList.remove("step-is-active");
+    stepBefore.classList.add("step-not-active");
     if (currentStep + 1 <= steps.length - 1) {
       currentStep += 1;
+
+      let step = document.querySelectorAll(
+        "[data-step-number='" + currentStep + "']"
+      )[0];
+
+      step.classList.remove("step-not-active");
+      step.classList.add("step-is-active");
     }
-    console.log(currentStep);
   };
 </script>
 
