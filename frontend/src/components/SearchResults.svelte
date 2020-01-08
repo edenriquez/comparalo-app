@@ -1,6 +1,6 @@
 <script>
   import { link } from "svelte-spa-router";
-  import Modal from "../pages/Modal.svelte";
+  import Modal from "./Modal.svelte";
   export let results;
   export let resultShouldRender;
   export let isHoveringResults = false;
@@ -160,6 +160,13 @@
     width: 50px;
     margin-top: -40px;
   }
+  .btn-add {
+    border-radius: 0px 0px 15px 15px;
+    background: #60d49d;
+  }
+  .btn-add:hover {
+    background: #4ab483;
+  }
 </style>
 
 {#if resultShouldRender}
@@ -237,9 +244,9 @@
     <div class=" w-full flex ">
       <button
         on:click={showModalHandler}
-        class="js-open btn-open w-full bg-blue-500 hover:bg-blue-700 text-white
-        font-bold py-2 px-4 add-item ">
-        Agregar nuevo +
+        class="js-open btn-add w-full text-white font-thin py-2 px-4 add-item ">
+        <span class="font-hairline">+</span>
+        Agregar nuevo
       </button>
     </div>
   </div>
