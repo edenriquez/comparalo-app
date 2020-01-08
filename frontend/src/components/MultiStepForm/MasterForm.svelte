@@ -1,6 +1,7 @@
 <script>
   export let stepsDescription;
   let currentStep = 0;
+  window.curr = currentStep;
   import { onMount } from "svelte";
   const uuidv4 = () => {
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
@@ -21,6 +22,22 @@
       }
     });
   });
+
+  const previousStep = e => {
+    const prev = e.target;
+    if (currentStep - 1 > -1) {
+      currentStep -= 1;
+    }
+    console.log(currentStep);
+  };
+  const nextStep = e => {
+    let steps = document.querySelectorAll(".step");
+    const next = e.target;
+    if (currentStep + 1 <= steps.length - 1) {
+      currentStep += 1;
+    }
+    console.log(currentStep);
+  };
 </script>
 
 <style>
@@ -41,6 +58,11 @@
   .multistep-right-sidebar {
     flex: 6;
   }
+  .multistep-continue-button {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
   .separator-check {
     width: 40px;
     height: 40px;
@@ -59,7 +81,17 @@
     margin-bottom: 2px;
     margin-top: 2px;
   }
-
+  .multistep-master-form {
+    height: 100%;
+  }
+  #multistep-prev {
+    cursor: pointer;
+    margin-right: 20px;
+  }
+  #multistep-next {
+    cursor: pointer;
+    margin-left: 20px;
+  }
   .dot {
     height: 8px;
     width: 8px;
@@ -102,6 +134,11 @@
       <slot />
     </div>
     <!-- end of  StepForm  -->
+    <div class="multistep-continue-button">
+      <span on:click={previousStep} id="multistep-prev">prev</span>
+      |
+      <span on:click={nextStep} id="multistep-next">next</span>
+    </div>
   </form>
 </div>
 <!-- <button
