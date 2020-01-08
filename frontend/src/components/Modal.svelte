@@ -87,7 +87,7 @@
     padding: 2em 3em;
     text-align: center;
     border-radius: 0.5em;
-    height: auto;
+    height: 100%;
     width: auto;
   }
 
