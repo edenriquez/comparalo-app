@@ -22,7 +22,6 @@
       }
     });
   });
-
   const previousStep = () => {
     let steps = document.querySelectorAll(".step");
     if (currentStep - 1 > -1) {
@@ -75,6 +74,20 @@
     padding: 11px 10px 2px;
     z-index: 10;
   }
+  .separator-check-current {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: #5e40db;
+    padding: 11px 10px 2px;
+    z-index: 10;
+    box-shadow: 0px 1px 8px #5e40db;
+  }
+  .separator-check-number {
+    color: white;
+    margin-top: -3px;
+  }
   .separator-line {
     border-right: 2px solid #ccc;
     margin: 0 auto;
@@ -121,15 +134,21 @@
       {/each}
     </div>
     <div class="separator">
-      {#each stepsDescription as step}
+      {#each stepsDescription as step, index}
         <div class="separator-line">
           <span class="dot" />
         </div>
-        <div class="separator-check">
-          <svg viewBox="0 0 32 32" style="fill:#48DB71">
-            <path d="M1 14 L5 10 L13 18 L27 4 L31 8 L13 26 z" />
-          </svg>
-        </div>
+        {#if currentStep === index}
+          <div class="separator-check-current">
+            <div class="separator-check-number">{currentStep + 1}</div>
+          </div>
+        {:else}
+          <div class="separator-check">
+            <svg viewBox="0 0 32 32" style="fill:#48DB71">
+              <path d="M1 14 L5 10 L13 18 L27 4 L31 8 L13 26 z" />
+            </svg>
+          </div>
+        {/if}
       {/each}
     </div>
     <!-- This slot represents StepForm  -->
