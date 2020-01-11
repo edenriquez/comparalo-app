@@ -1,10 +1,14 @@
 <script>
   import { onMount } from "svelte";
   import dynamics from "dynamics.js";
-
+  import { Form, Step } from "./MultiStepForm";
+  let stepsDescription = [
+    { title: "Step One", subtitle: "subtitle" },
+    { title: "Step Two", subtitle: "subtitle" }
+  ];
   onMount(async () => {
     var btnClose = document.querySelector(".js-close");
-    var btnFinish = document.querySelector(".js-finish");
+
     var modal = document.querySelector(".js-modal");
     var wrap = document.querySelector(".wrap");
 
@@ -36,16 +40,12 @@
       hideModal();
       dynamics.setTimeout(toggleClasses, 500);
     });
-
-    btnFinish.addEventListener("click", function(e) {
-      hideModal();
-      dynamics.setTimeout(toggleClasses, 500);
-    });
   });
 </script>
 
 <style>
   .wrap {
+    overflow-y: scroll;
     top: -150%;
     position: absolute;
     z-index: 10;
@@ -53,15 +53,7 @@
     height: 60vh;
     display: none;
   }
-  .modal-image {
-    width: 40px;
-    height: 40px;
-    margin: 0 auto;
-    border-radius: 50%;
-    box-shadow: 0 0 0 2px #48db71;
-    padding: 11px 10px 2px;
-    margin-bottom: 2em;
-  }
+
   h1 {
     font-size: 1.5em;
     font-weight: bold;
@@ -73,19 +65,12 @@
   button {
     font-size: 1.25em;
     font-weight: bold;
-    background-color: #000;
     border: none;
     padding: 0.5em 1em;
     color: #fff;
-    box-shadow: 0 0 0 2px #000 inset;
     border-radius: 0.25em;
     cursor: pointer;
     transition: background 0.4s ease, color 0.4s ease;
-  }
-  button:hover {
-    box-shadow: 0 0 0 2px #000 inset;
-    color: #000;
-    background-color: transparent;
   }
   .btn-open {
     display: none;
@@ -103,23 +88,9 @@
     text-align: center;
     border-radius: 0.5em;
     height: 100%;
-    width: 100%;
+    width: auto;
   }
-  .modal-input {
-    height: 50px;
-    outline: none;
-    border: none;
-    background: rgb(247, 241, 241);
-    color: gray;
-    padding: 0 80px 0 20px;
-    border-radius: 10px;
 
-    transition: all 0.2s;
-    opacity: 0;
-    z-index: 5;
-    font-weight: bolder;
-    letter-spacing: 0.1em;
-  }
   .tag-remove:before {
     padding: 10px;
     content: "x";
@@ -131,21 +102,51 @@
   }
 </style>
 
-<div class="wrap shadow-lg">
+<div class="wrap bg-white shadow-lg">
   <div class="tag-remove js-close" />
-  <div class="modal js-modal not-active">
+  <div class="modal js-modal not-active ">
     <!-- <div class="modal-image">
        <svg viewBox="0 0 32 32" style="fill:#48DB71">
         <path d="M1 14 L5 10 L13 18 L27 4 L31 8 L13 26 z" />
       </svg> 
     </div> -->
-
-    <h1>No encontraste lo que estabas buscando?</h1>
-    <p>A countinuacion ingresa la URL del producto que quieres seguir!</p>
-    <input
-      class="modal-input my-10"
-      type="text"
-      placeholder="Url del producto" />
-    <button class="js-finish">Terminar</button>
+    <Form {stepsDescription}>
+      <Step>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full px-3 mb-6 md:mb-0">
+            <label
+              class="block uppercase tracking-wide text-gray-700 text-xs
+              font-bold mb-2"
+              for="grid-first-name">
+              Nombre del producto 1
+            </label>
+            <input
+              class="appearance-none block w-full text-gray-700 rounded py-3
+              px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              id="grid-first-name"
+              type="text"
+              placeholder="Nike Air" />
+          </div>
+        </div>
+      </Step>
+      <Step>
+        <div class="flex flex-wrap -mx-3 mb-6">
+          <div class="w-full px-3 mb-6 md:mb-0">
+            <label
+              class="block uppercase tracking-wide text-gray-700 text-xs
+              font-bold mb-2"
+              for="grid-second-name">
+              Nombre del producto 2
+            </label>
+            <input
+              class="appearance-none block w-full text-gray-700 rounded py-3
+              px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+              id="grid-second-name"
+              type="text"
+              placeholder="Nike Air" />
+          </div>
+        </div>
+      </Step>
+    </Form>
   </div>
 </div>
