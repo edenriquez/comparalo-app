@@ -74,6 +74,15 @@
     padding: 11px 10px 2px;
     z-index: 10;
   }
+  .separator-check-pending{
+    width: 40px;
+    height: 40px;
+    margin: 0 auto;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px #48db71;
+    padding: 11px 10px 2px;
+    z-index: 10;
+  }
   .separator-check-current {
     width: 40px;
     height: 40px;
@@ -86,6 +95,9 @@
   }
   .separator-check-number {
     color: white;
+    margin-top: -3px;
+  }
+  .separator-check-number-blank{
     margin-top: -3px;
   }
   .separator-line {
@@ -140,13 +152,17 @@
         </div>
         {#if currentStep === index}
           <div class="separator-check-current">
-            <div class="separator-check-number">{currentStep + 1}</div>
+            <div class="separator-check-number">{index + 1}</div>
           </div>
-        {:else}
+        {:else if currentStep > index}
           <div class="separator-check">
             <svg viewBox="0 0 32 32" style="fill:#48DB71">
               <path d="M1 14 L5 10 L13 18 L27 4 L31 8 L13 26 z" />
             </svg>
+          </div>
+        {:else if currentStep < index}
+          <div class="separator-check-pending">
+            <div class="separator-check-number-blank">{index + 1}</div>
           </div>
         {/if}
       {/each}
