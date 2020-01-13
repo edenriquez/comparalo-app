@@ -3,12 +3,29 @@
   let currentStep = 0;
   window.curr = currentStep;
   import { onMount } from "svelte";
+  // TODO: think about it if this is nedeed or useless
   const uuidv4 = () => {
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
       var r = (Math.random() * 16) | 0,
         v = c == "x" ? r : (r & 0x3) | 0x8;
       return v.toString(16);
     });
+  };
+
+  const setPrevButtonOpacity = () => {
+    let prev = document.querySelector("#multistep-prev");
+    prev.style.opacity = 1;
+    if (currentStep == 0) {
+      prev.style.opacity = 0.5;
+    }
+  };
+
+  const setNextButtonOpacity = itemsLenght => {
+    let next = document.querySelector("#multistep-next");
+    next.style.opacity = 1;
+    if (currentStep == itemsLenght - 1) {
+      next.style.opacity = 0.5;
+    }
   };
 
   onMount(async () => {
@@ -21,7 +38,10 @@
         step.classList.add("step-is-active");
       }
     });
+    setPrevButtonOpacity();
+    setNextButtonOpacity(steps.length);
   });
+
   const previousStep = () => {
     let steps = document.querySelectorAll(".step");
     if (currentStep - 1 > -1) {
@@ -29,7 +49,10 @@
       currentStep -= 1;
       steps[currentStep].classList.remove("step-not-active");
     }
+    setPrevButtonOpacity();
+    setNextButtonOpacity(steps.length);
   };
+
   const nextStep = () => {
     let steps = document.querySelectorAll(".step");
     if (currentStep + 1 <= steps.length - 1) {
@@ -39,6 +62,8 @@
       steps[currentStep].classList.remove("step-not-active");
       steps[currentStep].classList.add("step-is-active");
     }
+    setPrevButtonOpacity();
+    setNextButtonOpacity(steps.length);
   };
 </script>
 
@@ -74,6 +99,15 @@
     padding: 11px 10px 2px;
     z-index: 10;
   }
+  .separator-check-pending {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px #48db71;
+    padding: 11px 10px 2px;
+    z-index: 10;
+  }
   .separator-check-current {
     width: 40px;
     height: 40px;
@@ -86,6 +120,9 @@
   }
   .separator-check-number {
     color: white;
+    margin-top: -3px;
+  }
+  .separator-check-number-blank {
     margin-top: -3px;
   }
   .separator-line {
@@ -140,13 +177,17 @@
         </div>
         {#if currentStep === index}
           <div class="separator-check-current">
-            <div class="separator-check-number">{currentStep + 1}</div>
+            <div class="separator-check-number">{index + 1}</div>
           </div>
-        {:else}
+        {:else if currentStep > index}
           <div class="separator-check">
             <svg viewBox="0 0 32 32" style="fill:#48DB71">
               <path d="M1 14 L5 10 L13 18 L27 4 L31 8 L13 26 z" />
             </svg>
+          </div>
+        {:else if currentStep < index}
+          <div class="separator-check-pending">
+            <div class="separator-check-number-blank">{index + 1}</div>
           </div>
         {/if}
       {/each}
