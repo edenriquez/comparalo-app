@@ -136,13 +136,13 @@
             <label
               class="block uppercase tracking-wide text-gray-700 text-xs
               font-bold mb-2"
-              for="grid-second-name">
+              for="grid-first-name">
               Nombre del producto 2
             </label>
             <input
               class="appearance-none block w-full text-gray-700 rounded py-3
               px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-              id="grid-second-name"
+              id="grid-first-name"
               type="text"
               placeholder="Nike Air" />
           </div>

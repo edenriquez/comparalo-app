@@ -3,12 +3,29 @@
   let currentStep = 0;
   window.curr = currentStep;
   import { onMount } from "svelte";
+  // TODO: think about it if this is nedeed or useless
   const uuidv4 = () => {
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
       var r = (Math.random() * 16) | 0,
         v = c == "x" ? r : (r & 0x3) | 0x8;
       return v.toString(16);
     });
+  };
+
+  const setPrevButtonOpacity = () => {
+    let prev = document.querySelector("#multistep-prev");
+    prev.style.opacity = 1;
+    if (currentStep == 0) {
+      prev.style.opacity = 0.5;
+    }
+  };
+
+  const setNextButtonOpacity = itemsLenght => {
+    let next = document.querySelector("#multistep-next");
+    next.style.opacity = 1;
+    if (currentStep == itemsLenght - 1) {
+      next.style.opacity = 0.5;
+    }
   };
 
   onMount(async () => {
@@ -21,7 +38,10 @@
         step.classList.add("step-is-active");
       }
     });
+    setPrevButtonOpacity();
+    setNextButtonOpacity(steps.length);
   });
+
   const previousStep = () => {
     let steps = document.querySelectorAll(".step");
     if (currentStep - 1 > -1) {
@@ -29,7 +49,10 @@
       currentStep -= 1;
       steps[currentStep].classList.remove("step-not-active");
     }
+    setPrevButtonOpacity();
+    setNextButtonOpacity(steps.length);
   };
+
   const nextStep = () => {
     let steps = document.querySelectorAll(".step");
     if (currentStep + 1 <= steps.length - 1) {
@@ -39,6 +62,8 @@
       steps[currentStep].classList.remove("step-not-active");
       steps[currentStep].classList.add("step-is-active");
     }
+    setPrevButtonOpacity();
+    setNextButtonOpacity(steps.length);
   };
 </script>
 
@@ -74,7 +99,7 @@
     padding: 11px 10px 2px;
     z-index: 10;
   }
-  .separator-check-pending{
+  .separator-check-pending {
     width: 40px;
     height: 40px;
     margin: 0 auto;
@@ -97,7 +122,7 @@
     color: white;
     margin-top: -3px;
   }
-  .separator-check-number-blank{
+  .separator-check-number-blank {
     margin-top: -3px;
   }
   .separator-line {
