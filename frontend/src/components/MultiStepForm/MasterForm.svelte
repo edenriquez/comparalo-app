@@ -1,7 +1,6 @@
 <script>
-  export let stepsDescription;
+  export let multiStepOptions;
   let currentStep = 0;
-  window.curr = currentStep;
   import { onMount } from "svelte";
   // TODO: think about it if this is nedeed or useless
   const uuidv4 = () => {
@@ -84,6 +83,7 @@
   }
   .multistep-right-sidebar {
     flex: 6;
+    text-align: left;
   }
   .multistep-continue-button {
     position: absolute;
@@ -158,12 +158,25 @@
     margin-top: 40px;
     text-align: right;
   }
+  .multistep-form-title {
+    text-align: left;
+    color: #636262;
+    font-weight: bold;
+  }
+  .multistep-form-subtitle {
+    text-align: left;
+    color: rgb(223, 219, 219);
+    margin-bottom: 30px;
+    font-weight: lighter;
+  }
 </style>
 
 <div class="multistep-master-form">
+  <h1 class="multistep-form-title">{multiStepOptions.formTitle}</h1>
+  <h5 class="multistep-form-subtitle">{multiStepOptions.formSubtitle}</h5>
   <form class="multistep-form">
     <div class="multistep-left-sidebar">
-      {#each stepsDescription as step}
+      {#each multiStepOptions.stepsDescription as step}
         <div class="multistep-title-side">
           <span class="name">{step.title}</span>
           <span class="subtitle">{step.subtitle}</span>
@@ -171,7 +184,7 @@
       {/each}
     </div>
     <div class="separator">
-      {#each stepsDescription as step, index}
+      {#each multiStepOptions.stepsDescription as step, index}
         <div class="separator-line">
           <span class="dot" />
         </div>
