@@ -108,7 +108,7 @@
   }
 </style>
 
-<div class="wrap bg-white outline-shadow">
+<div class="wrap bg-white shadow-outline">
   <div class="tag-remove js-close" />
   <div class="modal js-modal not-active ">
     <!-- <div class="modal-image">
