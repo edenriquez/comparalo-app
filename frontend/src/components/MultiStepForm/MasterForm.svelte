@@ -82,7 +82,7 @@
     flex: 1;
   }
   .multistep-right-sidebar {
-    flex: 6;
+    flex: 3;
     text-align: left;
   }
   .multistep-continue-button {

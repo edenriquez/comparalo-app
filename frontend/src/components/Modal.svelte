@@ -6,9 +6,9 @@
     formTitle: "Nuevo Producto",
     formSubtitle: "Ingresa el producto que deseas seguir",
     stepsDescription: [
-      { title: "Step One", subtitle: "subtitle" },
-      { title: "Step Two", subtitle: "subtitle" },
-      { title: "Step Three", subtitle: "subtitle" }
+      { title: "Descripcion", subtitle: "describe tu nuevo producto" },
+      { title: "Categoria", subtitle: "agrega una categoria a tu producto" },
+      { title: "Guardar", subtitle: "envia tu producto a nuestro sistema" }
     ]
   };
 
@@ -52,11 +52,11 @@
 <style>
   .wrap {
     overflow-y: scroll;
-    top: -150%;
+    top: -200%;
     position: absolute;
     z-index: 10;
     width: 60vw;
-    height: 60vh;
+    height: auto;
     display: none;
   }
 
