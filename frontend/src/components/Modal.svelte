@@ -2,11 +2,16 @@
   import { onMount } from "svelte";
   import dynamics from "dynamics.js";
   import { Form, Step } from "./MultiStepForm";
-  let stepsDescription = [
-    { title: "Step One", subtitle: "subtitle" },
-    { title: "Step Two", subtitle: "subtitle" },
-    { title: "Step Three", subtitle: "subtitle" }
-  ];
+  let multiStepOptions = {
+    formTitle: "Nuevo Producto",
+    formSubtitle: "Ingresa el producto que deseas seguir",
+    stepsDescription: [
+      { title: "Descripcion", subtitle: "describe tu nuevo producto" },
+      { title: "Categoria", subtitle: "agrega una categoria a tu producto" },
+      { title: "Guardar", subtitle: "envia tu producto a nuestro sistema" }
+    ]
+  };
+
   onMount(async () => {
     var btnClose = document.querySelector(".js-close");
 
@@ -47,11 +52,11 @@
 <style>
   .wrap {
     overflow-y: scroll;
-    top: -150%;
+    top: -200%;
     position: absolute;
     z-index: 10;
     width: 60vw;
-    height: 60vh;
+    height: auto;
     display: none;
   }
 
@@ -103,7 +108,7 @@
   }
 </style>
 
-<div class="wrap bg-white shadow-lg">
+<div class="wrap bg-white shadow-outline">
   <div class="tag-remove js-close" />
   <div class="modal js-modal not-active ">
     <!-- <div class="modal-image">
@@ -111,7 +116,7 @@
         <path d="M1 14 L5 10 L13 18 L27 4 L31 8 L13 26 z" />
       </svg> 
     </div> -->
-    <Form {stepsDescription}>
+    <Form {multiStepOptions}>
       <Step>
         <div class="flex flex-wrap -mx-3 mb-6">
           <div class="w-full px-3 mb-6 md:mb-0">
