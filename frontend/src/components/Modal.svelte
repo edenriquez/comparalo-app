@@ -14,6 +14,15 @@
 
   onMount(async () => {
     var btnClose = document.querySelector(".js-close");
+    var modalBackground = document.getElementById("animated-modal");
+
+    window.onclick = function(event) {
+      if (event.target == modalBackground) {
+        modalBackground.style.display = "none";
+        hideModal();
+        dynamics.setTimeout(toggleClasses, 500);
+      }
+    };
 
     var modal = document.querySelector(".js-modal");
     var wrap = document.querySelector(".wrap");
@@ -21,6 +30,7 @@
     var modalChildren = modal.children;
 
     function hideModal() {
+      modalBackground.style.display = "none";
       dynamics.animate(
         wrap,
         {
@@ -37,6 +47,7 @@
     }
 
     function toggleClasses() {
+      document.body.style.overflowY = "scroll";
       modal.classList.remove("not-active");
       modal.classList.toggle("is-active");
       wrap.style.display = "none";
@@ -106,16 +117,26 @@
     float: right;
     cursor: pointer;
   }
+
+  .modal-background {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  }
 </style>
 
+<div id="animated-modal" class="modal-background" />
 <div class="wrap bg-white shadow-outline">
   <div class="tag-remove js-close" />
   <div class="modal js-modal not-active ">
-    <!-- <div class="modal-image">
-       <svg viewBox="0 0 32 32" style="fill:#48DB71">
-        <path d="M1 14 L5 10 L13 18 L27 4 L31 8 L13 26 z" />
-      </svg> 
-    </div> -->
     <Form {multiStepOptions}>
       <Step>
         <div class="flex flex-wrap -mx-3 mb-6">

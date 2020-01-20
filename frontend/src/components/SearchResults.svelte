@@ -17,7 +17,7 @@
     var btnOpen = document.querySelector(".js-open");
     var modal = document.querySelector(".js-modal");
     var wrap = document.querySelector(".wrap");
-
+    var modalBackground = document.getElementById("animated-modal");
     var modalChildren = modal.children;
 
     function hideModal() {
@@ -89,7 +89,9 @@
     }
 
     function toggleClasses() {
+      document.body.style.overflowY = "hidden";
       wrap.style.display = "block";
+      modalBackground.style.display = "block";
       btnOpen.classList.toggle("is-active");
       modal.classList.remove("not-active");
       modal.classList.toggle("is-active");
