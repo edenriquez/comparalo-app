@@ -40,6 +40,42 @@
     setPrevButtonOpacity();
     setNextButtonOpacity(steps.length);
   });
+  const formHasError = step => {
+    const requiredFields = step.querySelectorAll("[required]");
+    let hasError = false;
+    let errorMessages = [];
+    requiredFields.forEach(el => {
+      if (!el.checkValidity()) {
+        hasError = true;
+        errorMessages.push(el.dataset.multistepErrorMessage);
+      }
+    });
+    if (hasError) {
+      showError(errorMessages);
+    }
+    return hasError;
+  };
+  const deleteChildNodes = el => {
+    while (el.firstChild) {
+      el.removeChild(el.firstChild);
+    }
+  };
+
+  const showError = errorMessages => {
+    let errorField = document.querySelector("#multistep-error-messages");
+    deleteChildNodes(errorField);
+    errorField.style.visibility = "visible";
+    errorField.style.opacity = 1;
+    errorMessages.forEach(message => {
+      let p = document.createElement("p");
+      p.innerText = message;
+      errorField.appendChild(p);
+    });
+    setTimeout(() => {
+      errorField.style.visibility = "hidden";
+      errorField.style.opacity = 0;
+    }, 3000);
+  };
 
   const previousStep = () => {
     let steps = document.querySelectorAll(".step");
@@ -54,6 +90,9 @@
 
   const nextStep = () => {
     let steps = document.querySelectorAll(".step");
+    if (formHasError(steps[currentStep])) {
+      return;
+    }
     if (currentStep + 1 <= steps.length - 1) {
       steps[currentStep].classList.remove("step-is-active");
       steps[currentStep].classList.add("step-not-active");
@@ -169,9 +208,22 @@
     margin-bottom: 30px;
     font-weight: lighter;
   }
+  #multistep-error-messages {
+    position: absolute;
+    height: auto;
+    width: auto;
+    border-left: 10px solid red;
+    text-align: left;
+    padding-left: 10px;
+    background: #fff;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.2s linear;
+  }
 </style>
 
 <div class="multistep-master-form">
+  <div id="multistep-error-messages" />
   <h1 class="multistep-form-title">{multiStepOptions.formTitle}</h1>
   <h5 class="multistep-form-subtitle">{multiStepOptions.formSubtitle}</h5>
   <form class="multistep-form">
@@ -217,19 +269,3 @@
     </div>
   </form>
 </div>
-<!-- <button
-  class="js-finish hover:bg-green-900 py-2 px-4 rounded inline-flex items-center">
-  <svg
-    class="fill-current w-4 h-4 mr-2"
-    xmlns="http://www.w3.org/2000/svg"
-    id="Capa_1"
-    enable-background="new 0 0 465.882 465.882"
-    height="512"
-    viewBox="0 0 465.882 465.882"
-    width="512">
-    <path
-      d="m465.882 0-465.882 262.059 148.887 55.143 229.643-215.29-174.674
-      235.65.142.053-.174-.053v128.321l83.495-97.41 105.77 39.175z" />
-  </svg>
-  Enviar!
-</button> -->
