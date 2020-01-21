@@ -6,8 +6,7 @@
     formTitle: "Nuevo Producto",
     formSubtitle: "Ingresa el producto que deseas seguir",
     stepsDescription: [
-      { title: "Descripcion", subtitle: "describe tu nuevo producto" },
-      { title: "Categoria", subtitle: "agrega una categoria a tu producto" },
+      { title: "Nuevo Producto", subtitle: "Detalla las caracteristicas" },
       { title: "Guardar", subtitle: "envia tu producto a nuestro sistema" }
     ]
   };
@@ -131,6 +130,11 @@
     background-color: rgb(0, 0, 0); /* Fallback color */
     background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
   }
+
+  #select-categories {
+    height: 40px;
+    border: 0px;
+  }
 </style>
 
 <div id="animated-modal" class="modal-background" />
@@ -145,50 +149,47 @@
               class="block uppercase tracking-wide text-gray-700 text-xs
               font-bold mb-2"
               for="grid-first-name">
-              Nombre del producto 1
+              Url del producto:
             </label>
             <input
               class="appearance-none block w-full text-gray-700 rounded py-3
               px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
               id="grid-first-name"
-              type="text"
-              placeholder="Nike Air" />
+              type="url"
+              placeholder="http://example.com/iphone-x"
+              required
+              data-multistep-error-message="El formato de la url es incorrecto" />
           </div>
-        </div>
-      </Step>
-      <Step>
-        <div class="flex flex-wrap -mx-3 mb-6">
+
           <div class="w-full px-3 mb-6 md:mb-0">
             <label
               class="block uppercase tracking-wide text-gray-700 text-xs
               font-bold mb-2"
               for="grid-first-name">
-              Nombre del producto 2
+              Categoria:
             </label>
-            <input
-              class="appearance-none block w-full text-gray-700 rounded py-3
-              px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-              id="grid-first-name"
-              type="text"
-              placeholder="Nike Air" />
+
+            <select
+              class="block appearance-none w-full bg-white border
+              border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded
+              shadow leading-tight focus:outline-none focus:shadow-outline"
+              name="block"
+              id="select-categories">
+              <option value="electronica">Electronica</option>
+              <option value="hogar">Hogar</option>
+              <option value="ropa">Ropa</option>
+              <option value="salud">Salud y belleza</option>
+              <option value="tecnologia">Tecnologia</option>
+              <option value="videojuegos">Videojuegos</option>
+              <option value="alimentos">Alimentos</option>
+            </select>
           </div>
         </div>
       </Step>
       <Step>
         <div class="flex flex-wrap -mx-3 mb-6">
           <div class="w-full px-3 mb-6 md:mb-0">
-            <label
-              class="block uppercase tracking-wide text-gray-700 text-xs
-              font-bold mb-2"
-              for="grid-second-name">
-              Nombre del producto 2
-            </label>
-            <input
-              class="appearance-none block w-full text-gray-700 rounded py-3
-              px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-              id="grid-second-name"
-              type="text"
-              placeholder="Nike Air" />
+            <!-- TODO SET UP BUTTON -->
           </div>
         </div>
       </Step>
