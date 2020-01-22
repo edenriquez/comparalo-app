@@ -1,16 +1,32 @@
 <script>
+  import axios from "axios";
   import { onMount } from "svelte";
   import dynamics from "dynamics.js";
   import { Form, Step } from "./MultiStepForm";
-  let multiStepOptions = {
-    formTitle: "Nuevo Producto",
-    formSubtitle: "Ingresa el producto que deseas seguir",
-    stepsDescription: [
-      { title: "Nuevo Producto", subtitle: "Detalla las caracteristicas" },
-      { title: "Guardar", subtitle: "Envia tu producto a nuestro sistema" }
-    ]
-  };
+  let productUrl,
+    subscribeEmail,
+    multiStepOptions = {
+      formTitle: "Nuevo Producto",
+      formSubtitle: "Ingresa el producto que deseas seguir",
+      stepsDescription: [
+        { title: "Nuevo Producto", subtitle: "Detalla las caracteristicas" },
+        { title: "Guardar", subtitle: "Envia tu producto a nuestro sistema" }
+      ]
+    },
+    categories = [
+      { id: "electronica", text: `Electronica` },
+      { id: "hogar", text: `Hogar` },
+      { id: "ropa", text: `Ropa` },
+      { id: "salud", text: `Salud y belleza` },
+      { id: "tecnologia", text: `Tecnologia` },
+      { id: "videojuegos", text: `Videojuegos` },
+      { id: "alimentos", text: `Alimentos` }
+    ],
+    selected;
 
+  const handleSubmit = () => {
+    console.log(`some selection ${selected.id}`, productUrl, subscribeEmail);
+  };
   onMount(async () => {
     var btnClose = document.querySelector(".js-close");
     var modalBackground = document.getElementById("animated-modal");
@@ -65,7 +81,6 @@
     top: -200%;
     position: absolute;
     z-index: 10;
-    width: 60vw;
     height: auto;
     display: none;
   }
@@ -156,57 +171,40 @@
             <label
               class="block uppercase tracking-wide text-gray-700 text-xs
               font-bold mb-2"
-              for="grid-first-name">
-              Url: (requerido)
+              for="form-url-field">
+              Url:
+              <span class="text-gray-500">(requerido)</span>
             </label>
             <input
               class="appearance-none block w-full text-gray-700 rounded py-3
               px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-              id="grid-first-name"
+              id="form-url-field"
               type="url"
-              placeholder="http://example.com/iphone-x"
               required
-              data-multistep-error-message="El formato de la url es incorrecto" />
+              data-multistep-error-message="El formato de la url es incorrecto"
+              bind:value={productUrl}
+              placeholder="http://example.com/iphone-x" />
           </div>
-
           <div class="w-full px-3 mb-6 md:mb-0">
             <label
               class="block uppercase tracking-wide text-gray-700 text-xs
               font-bold mb-2"
-              for="grid-first-name">
-              Nombre: (opcional)
+              for="form-category-field">
+              Categoria:
+              <span class="text-gray-500">(requerido)</span>
             </label>
-            <input
-              class="appearance-none block w-full text-gray-700 rounded py-3
-              px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-              id="grid-first-name"
-              type="text"
-              placeholder="Iphone X"
-              required
-              data-multistep-error-message="El nombre no puede estar vacio" />
-          </div>
-
-          <div class="w-full px-3 mb-6 md:mb-0">
-            <label
-              class="block uppercase tracking-wide text-gray-700 text-xs
-              font-bold mb-2"
-              for="grid-first-name">
-              Categoria: (opcional)
-            </label>
-
             <select
               class="block appearance-none w-full bg-white border
               border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded
               shadow leading-tight focus:outline-none focus:shadow-outline"
               name="block"
-              id="select-categories">
-              <option value="electronica">Electronica</option>
-              <option value="hogar">Hogar</option>
-              <option value="ropa">Ropa</option>
-              <option value="salud">Salud y belleza</option>
-              <option value="tecnologia">Tecnologia</option>
-              <option value="videojuegos">Videojuegos</option>
-              <option value="alimentos">Alimentos</option>
+              id="select-categories"
+              required
+              data-multistep-error-message="Necesitas seleccionar una categoria"
+              bind:value={selected}>
+              {#each categories as category}
+                <option value={category}>{category.text}</option>
+              {/each}
             </select>
           </div>
         </div>
@@ -217,17 +215,17 @@
             <label
               class="block uppercase tracking-wide text-gray-700 text-xs
               font-bold mb-2"
-              for="grid-first-name">
-              Email: (opcional)
+              for="form-email-field">
+              Email:
+              <span class="text-gray-500">(opcional)</span>
             </label>
             <input
               class="appearance-none block w-full text-gray-700 rounded py-3
               px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-              id="grid-first-name"
+              id="form-email-field"
               type="email"
               placeholder="Suscribete para recibir mas informacion!"
-              required
-              data-multistep-error-message="El email ingresado es incorrecto" />
+              bind:value={subscribeEmail} />
           </div>
           <div class="flex w-full px-3 mb-6 md:mb-0 my-2">
             <div class="right-separator" />
@@ -326,7 +324,8 @@
             <button
               class="w-full bg-transparent hover:bg-blue-500 text-blue-700
               font-semibold hover:text-white py-2 px-4 border border-blue-500
-              hover:border-transparent rounded">
+              hover:border-transparent rounded"
+              on:click|preventDefault={handleSubmit}>
               Guardar
             </button>
           </div>
