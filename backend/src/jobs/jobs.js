@@ -15,22 +15,26 @@ module.exports.generateProduct = async (req, res) => {
   // queue setup
   let message;
   const queue = kue.createQueue()
-  const productName = req.body.name
+  const productName = req.body.name || '[new product]'
   const queueName = `PROD/${productName}`
   const description = `Attemp to scrap product ${productName}`
-  const link = req.body.link
-
+  const url = req.body.url;
+  const category = req.body.category;
+  process.env.GENERATED_WITH_KUE = true;
   // queue creation
   queue.create(description, {
       title: queueName,
-      data: link
+      data: {
+        url,
+        category
+      }
     })
     .priority(PRIORITY_HIGH)
     .save()
 
   // queue process
   queue.process(description, async (Job, DoneCallback) => {
-    scrapProduct(link)
+    scrapProduct(url, category, '')
       .then((res) => {
         if (res) {
           DoneCallback(res)
