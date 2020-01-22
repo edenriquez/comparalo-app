@@ -174,6 +174,7 @@
     margin-top: 2px;
   }
   .multistep-master-form {
+    padding: 30px;
     height: 100%;
   }
   #multistep-prev {
@@ -210,6 +211,7 @@
   }
   #multistep-error-messages {
     position: absolute;
+    right: 0;
     height: auto;
     width: auto;
     border-left: 10px solid red;
