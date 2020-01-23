@@ -34,7 +34,6 @@ module.exports.scrapProduct = async (url, passedCategory, passedVendor) => {
   return new Promise(async (resolve, reject) => {
     const headlessActive = (process.env.GENERATED_WITH_KUE ? true : false)
     settings.headless = headlessActive
-    console.log('SETTINGS HEADLESS ', settings.headless)
     const browser = await puppeteer.launch(settings)
     try {
       const page = await browser.newPage()
