@@ -3,6 +3,7 @@
   import { onMount } from "svelte";
   import dynamics from "dynamics.js";
   import { Form, Step } from "./MultiStepForm";
+
   let productUrl,
     subscribeEmail,
     multiStepOptions = {
@@ -26,7 +27,19 @@
     selected;
 
   const handleSubmit = () => {
-    console.log(`some selection ${selected.id}`, productUrl, subscribeEmail);
+    const options = {
+      url: productUrl,
+      category: selected.id
+    };
+    axios.defaults.baseURL = "http://localhost:3000";
+    axios
+      .post("jobs/product/new", options)
+      .then(async res => {
+        console.log("NEW PRODUCT ", res);
+      })
+      .catch(async err => {
+        console.log("ERROR SENDING PRODUCT ", err);
+      });
   };
   onMount(async () => {
     var btnClose = document.querySelector(".js-close");
