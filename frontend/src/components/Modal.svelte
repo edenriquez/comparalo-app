@@ -14,13 +14,14 @@
       ]
     },
     categories = [
-      { id: "electronica", text: `Electronica` },
-      { id: "hogar", text: `Hogar` },
-      { id: "ropa", text: `Ropa` },
-      { id: "salud", text: `Salud y belleza` },
-      { id: "tecnologia", text: `Tecnologia` },
-      { id: "videojuegos", text: `Videojuegos` },
-      { id: "alimentos", text: `Alimentos` }
+      { id: "electronic", text: `Electronica` },
+      { id: "home", text: `Hogar` },
+      { id: "clothing", text: `Ropa` },
+      { id: "health", text: `Salud y belleza` },
+      { id: "technology", text: `Tecnologia` },
+      { id: "videogames", text: `Videojuegos` },
+      { id: "food", text: `Alimentos` },
+      { id: "other", text: `otra` }
     ],
     selected;
 
