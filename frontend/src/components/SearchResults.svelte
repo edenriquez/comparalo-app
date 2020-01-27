@@ -187,7 +187,7 @@
                   class="result pl-4 pr-4 pt-2 mb-4 text-left relative flex-grow">
                   <img
                     class="inline-block"
-                    src={result.image || 'https://picsum.photos/200'}
+                    src={result.product_image || 'https://picsum.photos/200'}
                     alt="" />
                   <div class="inline-block w-4/5">
                     <span class="block h-5 w-1/2 mx-2 my-2">
