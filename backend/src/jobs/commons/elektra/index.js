@@ -24,6 +24,7 @@ module.exports.getElektraImage = async (page) => {
 };
 
 module.exports.getElektraMeta = async (page) => {
+  // TODO: fix this using skuJson object 
   // const shippingPath = (await page.$x('/html/body/footer/div[1]/div[2]/div[2]/span[1]'))[0];
   // const installmentsPath = (await page.$x('//*[starts-with(@id,"buybox_buy_installments")]'))[0];
 
@@ -40,7 +41,8 @@ module.exports.getElektraMeta = async (page) => {
   return {
     vendorName: "elektra",
     vendorRank: 0,
-    shippingDetails: shippingDetails || '',
-    installments: (installments.length > 0) ? installments : "no montly installments"
+    shippingDetails: '',
+    installments: ''
+    // // // installments: (installments.length > 0) ? installments : "no montly installments"
   }
 }
