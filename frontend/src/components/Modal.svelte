@@ -3,7 +3,7 @@
   import { onMount } from "svelte";
   import dynamics from "dynamics.js";
   import { Form, Step } from "./MultiStepForm";
-
+  import { CONSTANTS } from "../config/constants";
   let productUrl,
     subscribeEmail,
     multiStepOptions = {
@@ -31,7 +31,7 @@
       url: productUrl,
       category: selected.id
     };
-    axios.defaults.baseURL = "http://localhost:3000";
+    axios.defaults.baseURL = CONSTANTS.BACKEND_BASE_API;
     axios
       .post("jobs/product/new", options)
       .then(async res => {

@@ -2,7 +2,9 @@ const puppeteer = require('puppeteer');
 const axios = require('axios');
 const commons = require('./commons/commons');
 const Sentry = require('@sentry/node');
-
+import {
+  CONSTANTS
+} from '../config/constants'
 Sentry.init({
   dsn: process.env.SENTRY_API
 });
@@ -49,13 +51,19 @@ module.exports.scrapProduct = async (url, passedCategory, passedVendor) => {
           }
         })[0]
       }
+
       // TODO: introduce some noise here
 
       // get data
       const price = await commons.getPrice(passedVendor, page);
       const name = await commons.getName(passedVendor, page);
       const image = await commons.getImage(passedVendor, page);
-      let meta = await commons.getMeta(passedVendor, page);
+      let meta;
+      try {
+        meta = await commons.getMeta(passedVendor, page);
+      } catch (error) {
+        meta = {}
+      }
       const category = passedCategory
       const status = PRODUCT_STATUSES.UNPUBLISHED
 
@@ -72,13 +80,12 @@ module.exports.scrapProduct = async (url, passedCategory, passedVendor) => {
         category: category
       };
 
-      axios.defaults.baseURL = "http://localhost:3000"
+      await browser.close()
+      axios.defaults.baseURL = CONSTANTS.BACKEND_BASE_API
       axios.post('products/new', options)
         .then(async (res) => {
-          await browser.close()
           resolve(res)
         }).catch(async (err) => {
-          await browser.close()
           Sentry.captureException(new Error(err));
           reject(err)
         })

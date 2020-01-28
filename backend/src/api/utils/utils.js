@@ -63,6 +63,8 @@ const buildSearchObject = (body) => {
   return {
     search_id: newId('search'),
     product_name: body.name,
+    product_image: body.image,
+    category: body.category,
     stats: 1
   }
 }

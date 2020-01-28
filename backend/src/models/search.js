@@ -9,8 +9,10 @@ var searchSchema = new mongoose.Schema({
   },
   product_name: {
     type: String,
-    unique: true,
     index: true
+  },
+  product_image: {
+    type: String,
   },
   category: {
     type: String,

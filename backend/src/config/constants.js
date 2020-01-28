@@ -3,6 +3,9 @@ module.exports.PRODUCT_STATUSES = {
   UNPUBLISHED: "unpublished"
 }
 
+module.exports.CONSTANTS = {
+  BACKEND_BASE_API: "http://localhost:3000"
+}
 /**
  * Error constant messages {object}
  * ITEM_NOT_FOUND is used for no result given from database
