@@ -2,7 +2,9 @@ const puppeteer = require('puppeteer');
 const axios = require('axios');
 const commons = require('./commons/commons');
 const Sentry = require('@sentry/node');
-
+import {
+  CONSTANTS
+} from '../config/constants'
 Sentry.init({
   dsn: process.env.SENTRY_API
 });
@@ -30,8 +32,10 @@ const vendors = {
   "bestbuy": new RegExp("bestbuy")
 };
 
-module.exports.scrapProduct = async (url, passedVendor) => {
+module.exports.scrapProduct = async (url, passedCategory, passedVendor) => {
   return new Promise(async (resolve, reject) => {
+    const headlessActive = (process.env.GENERATED_WITH_KUE ? true : false)
+    settings.headless = headlessActive
     const browser = await puppeteer.launch(settings)
     try {
       const page = await browser.newPage()
@@ -40,20 +44,27 @@ module.exports.scrapProduct = async (url, passedVendor) => {
       await page.goto(url)
 
       // get vendor if is not provided
-      if (typeof passedVendor === "undefined") {
+      if (typeof passedVendor === "undefined" || passedVendor.length === 0) {
         passedVendor = Object.keys(vendors).filter((e) => {
           if (vendors[e].test(url)) {
             return e
           }
         })[0]
       }
+
       // TODO: introduce some noise here
 
       // get data
       const price = await commons.getPrice(passedVendor, page);
       const name = await commons.getName(passedVendor, page);
       const image = await commons.getImage(passedVendor, page);
-      let meta = await commons.getMeta(passedVendor, page);
+      let meta;
+      try {
+        meta = await commons.getMeta(passedVendor, page);
+      } catch (error) {
+        meta = {}
+      }
+      const category = passedCategory
       const status = PRODUCT_STATUSES.UNPUBLISHED
 
       // meta data
@@ -65,16 +76,16 @@ module.exports.scrapProduct = async (url, passedVendor) => {
         image: image,
         currentPrice: price,
         status: status,
-        meta: meta
+        meta: meta,
+        category: category
       };
 
-      axios.defaults.baseURL = "http://localhost:3000"
+      await browser.close()
+      axios.defaults.baseURL = CONSTANTS.BACKEND_BASE_API
       axios.post('products/new', options)
         .then(async (res) => {
-          await browser.close()
           resolve(res)
         }).catch(async (err) => {
-          await browser.close()
           Sentry.captureException(new Error(err));
           reject(err)
         })

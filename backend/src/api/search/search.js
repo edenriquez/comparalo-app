@@ -1,4 +1,7 @@
 var service = require('../../services/search');
+import {
+  resultsNotFound
+} from '../../services/errors';
 
 
 module.exports.startCommitOnSearchEngine = async (req, res, next) => {

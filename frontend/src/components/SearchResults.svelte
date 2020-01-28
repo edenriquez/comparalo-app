@@ -17,7 +17,7 @@
     var btnOpen = document.querySelector(".js-open");
     var modal = document.querySelector(".js-modal");
     var wrap = document.querySelector(".wrap");
-
+    var modalBackground = document.getElementById("animated-modal");
     var modalChildren = modal.children;
 
     function hideModal() {
@@ -89,7 +89,9 @@
     }
 
     function toggleClasses() {
+      document.body.style.overflowY = "hidden";
       wrap.style.display = "block";
+      modalBackground.style.display = "block";
       btnOpen.classList.toggle("is-active");
       modal.classList.remove("not-active");
       modal.classList.toggle("is-active");
@@ -185,7 +187,7 @@
                   class="result pl-4 pr-4 pt-2 mb-4 text-left relative flex-grow">
                   <img
                     class="inline-block"
-                    src={result.image || 'https://picsum.photos/200'}
+                    src={result.product_image || 'https://picsum.photos/200'}
                     alt="" />
                   <div class="inline-block w-4/5">
                     <span class="block h-5 w-1/2 mx-2 my-2">
