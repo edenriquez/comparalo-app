@@ -46,9 +46,14 @@
   afterUpdate(async () => {
     if (resetSteps) {
       let steps = document.querySelectorAll(".step");
+      steps[currentStep].classList.remove("step-is-active");
       steps[currentStep].classList.add("step-not-active");
       currentStep = 0;
       steps[currentStep].classList.remove("step-not-active");
+      steps[currentStep].classList.add("step-is-active");
+      setPrevButtonOpacity();
+      setNextButtonOpacity(steps.length);
+      resetSteps = false;
     }
   });
 
@@ -95,6 +100,7 @@
       steps[currentStep].classList.add("step-not-active");
       currentStep -= 1;
       steps[currentStep].classList.remove("step-not-active");
+      steps[currentStep].classList.add("step-is-active");
     }
     setPrevButtonOpacity();
     setNextButtonOpacity(steps.length);
