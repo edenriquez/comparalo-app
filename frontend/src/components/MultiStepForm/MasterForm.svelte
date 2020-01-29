@@ -1,7 +1,9 @@
 <script>
   export let multiStepOptions;
+  export let resetSteps;
   let currentStep = 0;
-  import { onMount } from "svelte";
+
+  import { onMount, afterUpdate } from "svelte";
   // TODO: think about it if this is nedeed or useless
   const uuidv4 = () => {
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
@@ -40,6 +42,16 @@
     setPrevButtonOpacity();
     setNextButtonOpacity(steps.length);
   });
+
+  afterUpdate(async () => {
+    if (resetSteps) {
+      let steps = document.querySelectorAll(".step");
+      steps[currentStep].classList.add("step-not-active");
+      currentStep = 0;
+      steps[currentStep].classList.remove("step-not-active");
+    }
+  });
+
   const formHasError = step => {
     const requiredFields = step.querySelectorAll("[required]");
     let hasError = false;
