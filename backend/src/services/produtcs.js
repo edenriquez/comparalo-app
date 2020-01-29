@@ -36,7 +36,7 @@ module.exports.createProduct = (body) => {
       const entityHistory = new models.ProducHistory(dataHistory)
       if (await entityHistory.save()) {
         // TODO: update with logger 
-        console.log('product history updated for ', response.id)
+        console.log('product history updated for ', response.id, ' name ', data.name)
       } else {
         console.log('product history cannot be updated for ', response.id)
       }
