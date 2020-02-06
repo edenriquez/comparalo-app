@@ -6,6 +6,8 @@
   import { CONSTANTS } from "../config/constants";
   let productUrl,
     subscribeEmail,
+    selected,
+    resetSteps = false,
     multiStepOptions = {
       formTitle: "Nuevo Producto",
       formSubtitle: "Ingresa el producto que deseas seguir",
@@ -23,8 +25,7 @@
       { id: "videogames", text: `Videojuegos` },
       { id: "food", text: `Alimentos` },
       { id: "other", text: `otra` }
-    ],
-    selected;
+    ];
 
   const handleSubmit = () => {
     const options = {
@@ -40,11 +41,17 @@
       .catch(async err => {
         console.log("ERROR SENDING PRODUCT ", err);
       });
+    productUrl = "";
+    selected.id = "electronic";
+    selected.text = "Electronica";
+    subscribeEmail = "";
+    resetSteps = true;
   };
+
   onMount(async () => {
     var btnClose = document.querySelector(".js-close");
     var modalBackground = document.getElementById("animated-modal");
-
+    var lastBtnClose = document.querySelector(".button-close");
     window.onclick = function(event) {
       if (event.target == modalBackground) {
         modalBackground.style.display = "none";
@@ -83,6 +90,10 @@
     }
     // Open nav when clicking sandwich button
     btnClose.addEventListener("click", function(e) {
+      hideModal();
+      dynamics.setTimeout(toggleClasses, 500);
+    });
+    lastBtnClose.addEventListener("click", function(e) {
       hideModal();
       dynamics.setTimeout(toggleClasses, 500);
     });
@@ -178,7 +189,7 @@
 <div class="wrap bg-white shadow-outline">
   <div class="tag-remove js-close" />
   <div class="modal js-modal not-active ">
-    <Form {multiStepOptions}>
+    <Form {multiStepOptions} bind:resetSteps>
       <Step>
         <div class="flex flex-wrap -mx-3 mb-6">
           <div class="w-full px-3 mb-6 md:mb-0">
@@ -336,9 +347,9 @@
 
           <div class="my-8 w-full px-3 mb-6 md:mb-0">
             <button
-              class="w-full bg-transparent hover:bg-blue-500 text-blue-700
-              font-semibold hover:text-white py-2 px-4 border border-blue-500
-              hover:border-transparent rounded"
+              class="button-close w-full bg-transparent hover:bg-blue-500
+              text-blue-700 font-semibold hover:text-white py-2 px-4 border
+              border-blue-500 hover:border-transparent rounded"
               on:click|preventDefault={handleSubmit}>
               Guardar
             </button>

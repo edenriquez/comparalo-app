@@ -2,24 +2,25 @@ var errors = require('../services/errors')
 const kue = require("kue");
 import {
   Job,
-  DoneCallback
 } from 'kue';
 import {
   scrapProduct
 } from './product';
 
 const PRIORITY_HIGH = "high"
-
+const RETRY_ATTEMPS = 3
 
 module.exports.generateProduct = async (req, res) => {
-  // queue setup
   let message;
   const queue = kue.createQueue()
   const productName = req.body.name || '[new product]'
   const queueName = `PROD/${productName}`
   const description = `Attemp to scrap product ${productName}`
-  const url = req.body.url;
-  const category = req.body.category;
+  const {
+    url,
+    category
+  } = req.body;
+
   process.env.GENERATED_WITH_KUE = true;
   // queue creation
   queue.create(description, {
@@ -30,25 +31,31 @@ module.exports.generateProduct = async (req, res) => {
       }
     })
     .priority(PRIORITY_HIGH)
+    .attempts(RETRY_ATTEMPS)
+    .backoff({
+      delay: 2 * 1000,
+      type: 'fixed'
+    })
     .save()
 
+  message = "job successfully created"
+  res.status(200).json({
+    "message": message
+  });
+
   // queue process
-  queue.process(description, async (Job, DoneCallback) => {
+  queue.process(description, async (Job) => {
     scrapProduct(url, category, '')
       .then((res) => {
         if (res) {
-          DoneCallback(res)
+          Job.complete()
         }
       }).catch((err) => {
         // TODO: treat this case to report to some tool
         console.log('ERROR EXECUTING JOB', err);
       })
+  });
 
-  });
-  message = "job successfully created"
-  res.status(200).json({
-    "message": message
-  });
 }
 
 /**
