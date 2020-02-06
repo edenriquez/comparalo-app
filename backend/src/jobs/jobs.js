@@ -2,7 +2,6 @@ var errors = require('../services/errors')
 const kue = require("kue");
 import {
   Job,
-  DoneCallback
 } from 'kue';
 import {
   scrapProduct
@@ -12,14 +11,16 @@ const PRIORITY_HIGH = "high"
 const RETRY_ATTEMPS = 3
 
 module.exports.generateProduct = async (req, res) => {
-  // queue setup
   let message;
   const queue = kue.createQueue()
   const productName = req.body.name || '[new product]'
   const queueName = `PROD/${productName}`
   const description = `Attemp to scrap product ${productName}`
-  const url = req.body.url;
-  const category = req.body.category;
+  const {
+    url,
+    category
+  } = req.body;
+
   process.env.GENERATED_WITH_KUE = true;
   // queue creation
   queue.create(description, {

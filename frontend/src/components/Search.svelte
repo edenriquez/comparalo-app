@@ -19,7 +19,7 @@
 
   const handleSearch = event => {
     // backspace
-    if (event.keyCode === 8) {
+    if (event.keyCode === 8 || event.keyCode === 9) {
       resultShouldRender = false;
       return;
     }
