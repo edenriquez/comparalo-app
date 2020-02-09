@@ -32,7 +32,7 @@
       url: productUrl,
       category: selected.id
     };
-    axios.defaults.baseURL = CONSTANTS.BACKEND_BASE_API;
+    axios.defaults.baseURL = CONSTANTS.RECOVER_BASE_API;
     axios
       .post("jobs/product/new", options)
       .then(async res => {

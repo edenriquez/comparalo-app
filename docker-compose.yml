@@ -5,8 +5,3 @@ services:
     container_name: "amazon-bot"
     ports:
       - 27017:27017
-  redis:
-    image: 'healthcheck/redis'
-    container_name: "amazon-bot-redis"
-    ports:
-      - 6379:6379
