@@ -5,9 +5,22 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const constants = require('./config/constants');
+var passport = require('passport'),
+  FacebookStrategy = require('passport-facebook').Strategy;
 import models, {
-  connectDb
+  connectDb,
 } from './models';
+
+passport.use(new FacebookStrategy(
+  constants.FacebookConfig, async (accessToken, refreshToken, profile, done) => {
+    const result = await models.User.findUSer(profile.emails[0])
+    if (!result) {
+      done(result)
+    }
+    done(null, result)
+  }
+));
 
 // adding Helmet to enhance your API's security
 app.use(helmet());
