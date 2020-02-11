@@ -1,19 +1,20 @@
 require('dotenv').config();
+process.env["NODE_CONFIG_DIR"] = __dirname + "/config/";
+const config = require('config');
 var express = require('express');
 var app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
-const constants = require('./config/constants');
-var passport = require('passport'),
-  FacebookStrategy = require('passport-facebook').Strategy;
 import models, {
   connectDb,
 } from './models';
+var passport = require('passport'),
+  FacebookStrategy = require('passport-facebook').Strategy;
 
 passport.use(new FacebookStrategy(
-  constants.FacebookConfig, async (accessToken, refreshToken, profile, done) => {
+  config.facebookAuth, async (accessToken, refreshToken, profile, done) => {
     const result = await models.User.findUSer(profile.emails[0])
     if (!result) {
       done(result)

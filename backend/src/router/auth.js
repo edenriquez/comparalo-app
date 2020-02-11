@@ -7,6 +7,7 @@ const AuthRouter = () => {
   router.get('/facebook', passport.authenticate('facebook'));
   router.get('/auth/facebook/callback',
     passport.authenticate('facebook', {
+      display: 'popup',
       scope: 'read_stream',
       successRedirect: '/',
       failureRedirect: '/login'
