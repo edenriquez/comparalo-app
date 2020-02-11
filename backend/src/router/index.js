@@ -5,6 +5,7 @@ const allRoutes = () => {
   app.use('/search', require('./search')());
   app.use('/products', require('./products')());
   app.use('/categories', require('./categories')());
+  app.use('/auth', require('./auth')());
 
   return app
 }
