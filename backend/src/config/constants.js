@@ -7,11 +7,6 @@ module.exports.CONSTANTS = {
   BACKEND_BASE_API: "http://localhost:3000",
   RECOVER_BASE_API: "http://localhost:3001"
 }
-module.exports.FacebookConfig = {
-  clientID: process.env.CLIENT_ID,
-  clientSecret: process.env.CLIENT_SECRET,
-  callbackURL: process.env.CALLBACK_URL
-}
 /**
  * Error constant messages {object}
  * ITEM_NOT_FOUND is used for no result given from database
