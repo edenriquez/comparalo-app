@@ -5,6 +5,7 @@ import Vendor from './vendors';
 import Bot from './bot';
 import Category from './categories';
 import Search from './search';
+import Users from './users';
 
 const connectDb = () => {
   return mongoose.connect(
@@ -19,7 +20,8 @@ const models = {
   Vendor,
   Bot,
   Category,
-  Search
+  Search,
+  Users
 };
 
 export {

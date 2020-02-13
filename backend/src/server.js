@@ -1,4 +1,6 @@
 require('dotenv').config();
+process.env["NODE_CONFIG_DIR"] = __dirname + "/config/";
+const config = require('config');
 var express = require('express');
 var app = express();
 const bodyParser = require('body-parser');
@@ -6,8 +8,20 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 import models, {
-  connectDb
+  connectDb,
 } from './models';
+var passport = require('passport'),
+  FacebookStrategy = require('passport-facebook').Strategy;
+
+passport.use(new FacebookStrategy(
+  config.facebookAuth, async (accessToken, refreshToken, profile, done) => {
+    const result = await models.User.findUSer(profile.emails[0])
+    if (!result) {
+      done(result)
+    }
+    done(null, result)
+  }
+));
 
 // adding Helmet to enhance your API's security
 app.use(helmet());

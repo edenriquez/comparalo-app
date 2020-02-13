@@ -12,7 +12,6 @@ module.exports.CONSTANTS = {
  * ITEM_NOT_FOUND is used for no result given from database
  * UNABLE_SAVE_PRODUCT is used as result when a validation is triggered 
  */
-
 module.exports.ERRORS = {
   CATEGORY_NOT_FOUND: "error category not found",
   ITEM_NOT_FOUND: "error item not found",

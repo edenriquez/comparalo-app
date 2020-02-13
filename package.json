@@ -9,8 +9,10 @@
         "task": "./scripts/run-task.sh"
     },
     "dependencies": {
+        "config": "^3.2.5",
         "dynamics.js": "^1.1.5",
         "kue": "^0.11.6",
-        "kue-scheduler": "^0.9.15"
+        "kue-scheduler": "^0.9.15",
+        "passport": "^0.4.1"
     }
 }

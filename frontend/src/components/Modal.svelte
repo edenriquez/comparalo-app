@@ -48,6 +48,9 @@
     resetSteps = true;
   };
 
+  const handleFacebookLogin = () => {
+    window.location.href = CONSTANTS.BACKEND_BASE_API + "/auth/facebook";
+  };
   onMount(async () => {
     var btnClose = document.querySelector(".js-close");
     var modalBackground = document.getElementById("animated-modal");
@@ -261,7 +264,8 @@
           <div class="flex w-full px-3 mb-6 md:mb-0">
             <button
               class="w-1/2 bg-white hover:bg-gray-100 text-gray-800
-              font-semibold py-2 px-4 border border-gray-400 rounded shadow m-1">
+              font-semibold py-2 px-4 border border-gray-400 rounded shadow m-1"
+              on:click|preventDefault={handleFacebookLogin}>
               <svg
                 class="svg-facebook"
                 xmlns="http://www.w3.org/2000/svg"
