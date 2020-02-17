@@ -5,7 +5,8 @@ module.exports.PRODUCT_STATUSES = {
 
 module.exports.CONSTANTS = {
   BACKEND_BASE_API: "http://localhost:3000",
-  RECOVER_BASE_API: "http://localhost:3001"
+  RECOVER_BASE_API: "http://localhost:3001",
+  FRONTEND_BASE_API: "http://localhost:4002"
 }
 /**
  * Error constant messages {object}

@@ -13,6 +13,15 @@ const newId = (prefix) => {
   return `${prefix}_${Types.ObjectId()}`
 };
 
+const buildUserObject = (body) => {
+  const firstEmail = body.emails ? body.emails[0].value : body.email
+  return {
+    user_id: newId('user'),
+    username: body.first_name,
+    email: firstEmail,
+    password: 'password1'
+  }
+}
 
 
 const updateProductObject = (body) => {
@@ -73,5 +82,6 @@ module.exports = {
   updateProductObject,
   buildProductObject,
   buildSearchObject,
-  buildProductHistoryObjetc
+  buildProductHistoryObjetc,
+  buildUserObject
 }
