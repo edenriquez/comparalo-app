@@ -1,5 +1,6 @@
 require('dotenv').config();
 process.env["NODE_CONFIG_DIR"] = __dirname + "/config/";
+const all_routes = require('express-list-endpoints');
 const config = require('config');
 var express = require('express');
 var app = express();
@@ -7,21 +8,40 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+import {
+  buildUserObject
+} from './api/utils/utils'
+const passport = require('passport'),
+  FacebookStrategy = require('passport-facebook').Strategy;
 import models, {
   connectDb,
 } from './models';
-var passport = require('passport'),
-  FacebookStrategy = require('passport-facebook').Strategy;
 
-passport.use(new FacebookStrategy(
-  config.facebookAuth, async (accessToken, refreshToken, profile, done) => {
-    const result = await models.User.findUSer(profile.emails[0])
-    if (!result) {
-      done(result)
+passport.use(new FacebookStrategy({
+    ...config.facebookAuth,
+    ...{
+      profileFields: ["emails", "name"]
+    },
+  },
+  async (accessToken, refreshToken, profile, done) => {
+    console.log(profile._json)
+    const data = buildUserObject(profile._json)
+    const entity = new models.Users(data)
+    const response = await entity.save()
+    if (response.id) {
+      return done(null, response)
     }
-    done(null, result)
   }
 ));
+
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function (obj, done) {
+  done(null, obj);
+});
+
 
 // adding Helmet to enhance your API's security
 app.use(helmet());
@@ -38,8 +58,11 @@ app.use(cors());
 // adding morgan to log HTTP requests
 app.use(morgan('combined'));
 
+app.use(passport.initialize());
+
 app.use('/', require('./router')())
 
 connectDb().then(async () => {
+  console.log(all_routes(app));
   app.listen(process.env.PORT);
 });

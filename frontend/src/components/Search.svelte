@@ -2,7 +2,6 @@
   import axios from "axios";
   import SearchResults from "./SearchResults.svelte";
   import { CONSTANTS } from "../config/constants";
-
   export let placeholderText;
   let results;
   let resultShouldRender;
