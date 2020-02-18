@@ -12,7 +12,8 @@ import {
   buildUserObject
 } from './api/utils/utils'
 const passport = require('passport'),
-  FacebookStrategy = require('passport-facebook').Strategy;
+  FacebookStrategy = require('passport-facebook').Strategy,
+  GoogleStrategy = require('passport-google-oauth20').Strategy;
 import models, {
   connectDb,
 } from './models';
@@ -42,6 +43,17 @@ passport.deserializeUser(function (obj, done) {
   done(null, obj);
 });
 
+
+passport.use(new GoogleStrategy(
+  config.googleAuth,
+  function (accessToken, refreshToken, profile, cb) {
+    User.findOrCreate({
+      googleId: profile.id
+    }, function (err, user) {
+      return cb(err, user);
+    });
+  }
+));
 
 // adding Helmet to enhance your API's security
 app.use(helmet());
