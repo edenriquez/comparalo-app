@@ -48,8 +48,22 @@
     resetSteps = true;
   };
 
+  function facebookLogin() {
+    var facebookLoginWindow;
+    var popupWidth = 500;
+    var popupHeight = 500;
+    var xPosition = (window.outerWidth - popupWidth) / 2;
+    var yPosition = (window.outerHeight - popupHeight) / 2;
+    let loginUrl = CONSTANTS.BACKEND_BASE_API + "/auth/facebook";
+
+    facebookLoginWindow = window.open(
+      loginUrl,
+      "LoginWindow",
+      `location=1,scrollbars=1,width=${popupWidth},height=${popupWidth},left=${xPosition},top=${yPosition}`
+    );
+  }
   const handleFacebookLogin = () => {
-    window.location.href = CONSTANTS.BACKEND_BASE_API + "/auth/facebook";
+    facebookLogin();
   };
   onMount(async () => {
     var btnClose = document.querySelector(".js-close");
