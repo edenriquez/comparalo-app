@@ -25,7 +25,6 @@ passport.use(new FacebookStrategy({
     },
   },
   async (accessToken, refreshToken, profile, done) => {
-    console.log(profile._json)
     const data = buildUserObject(profile._json)
     const entity = new models.Users(data)
     const response = await entity.save()
@@ -46,12 +45,13 @@ passport.deserializeUser(function (obj, done) {
 
 passport.use(new GoogleStrategy(
   config.googleAuth,
-  function (accessToken, refreshToken, profile, cb) {
-    User.findOrCreate({
-      googleId: profile.id
-    }, function (err, user) {
-      return cb(err, user);
-    });
+  async (accessToken, refreshToken, profile, done) => {
+    const data = buildUserObject(profile._json)
+    const entity = new models.Users(data)
+    const response = await entity.save()
+    if (response.id) {
+      return done(null, response)
+    }
   }
 ));
 

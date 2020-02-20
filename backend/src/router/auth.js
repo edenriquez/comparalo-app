@@ -23,7 +23,7 @@ const AuthRouter = () => {
 
   router.get('/google/callback',
     passport.authenticate('google', {
-      successRedirect: CONSTANTS.FRONTEND_BASE_API + '/%23/auth/google/success',
+      successRedirect: CONSTANTS.FRONTEND_BASE_API + '/#/auth/google/success',
       failureRedirect: CONSTANTS.FRONTEND_BASE_API + '/#/auth/google/failure',
     }));
 
