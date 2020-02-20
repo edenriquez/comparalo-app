@@ -8,7 +8,9 @@ const routes = {
     '/index': Main,
     '/product/:search_id': Product,
     '/auth/facebook/success': FacebookSuccess,
-    '/auth/facebook/failure': FacebookSuccess, // TODO: changeto Facebook Failure 
+    '/auth/facebook/failure': FacebookSuccess, // TODO: change to Facebook Failure 
+    '/auth/google/success': FacebookSuccess, // TODO: change google
+    '/auth/google/failure': FacebookSuccess, // TODO: change to google Failure 
     '*': NotFound,
 };
 
