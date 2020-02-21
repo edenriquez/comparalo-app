@@ -2,10 +2,16 @@
 var express = require('express');
 const passport = require('passport');
 import {
+  createUser
+} from '../api/auth/auth';
+import {
   CONSTANTS
 } from '../config/constants'
 const AuthRouter = () => {
   var router = express.Router();
+
+  router.post('/new', createUser);
+
   router.get('/facebook', passport.authenticate('facebook', {
     scope: ['email']
   }));

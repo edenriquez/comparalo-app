@@ -28,18 +28,45 @@
     ];
 
   const handleSubmit = () => {
-    const options = {
+    const productOptions = {
       url: productUrl,
       category: selected.id
     };
-    axios.defaults.baseURL = CONSTANTS.RECOVER_BASE_API;
+
+    const userOptions = {
+      email: subscribeEmail
+    };
+
     axios
-      .post("jobs/product/new", options)
-      .then(async res => {
-        console.log("NEW PRODUCT ", res);
-      })
-      .catch(async err => {
-        console.log("ERROR SENDING PRODUCT ", err);
+      .all([
+        axios.post(
+          CONSTANTS.RECOVER_BASE_API + "/jobs/product/new",
+          productOptions
+        ),
+        axios.post(CONSTANTS.BACKEND_BASE_API + "/auth/new", userOptions)
+      ])
+      .then(
+        axios.spread((...responses) => {
+          const product = responses[0];
+          const user = responses[1];
+          product
+            .then(async res => {
+              console.log("NEW PRODUCT ", res);
+            })
+            .catch(async err => {
+              console.log("ERROR SENDING PRODUCT ", err);
+            });
+          user
+            .then(async res => {
+              console.log("NEW USER ", res);
+            })
+            .catch(async err => {
+              console.log("ERROR SENDING USER ", err);
+            });
+        })
+      )
+      .catch(err => {
+        console.log("ERROR ", err);
       });
     productUrl = "";
     selected.id = "electronic";
