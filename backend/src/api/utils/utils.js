@@ -1,5 +1,6 @@
 import {
-  PRODUCT_STATUSES
+  PRODUCT_STATUSES,
+  USER_STATUSES
 } from "../../config/constants";
 import {
   Types
@@ -19,7 +20,8 @@ const buildUserObject = (body) => {
     user_id: newId('user'),
     username: body.first_name,
     email: firstEmail,
-    password: 'password1'
+    password: 'password1',
+    status: USER_STATUSES.INACTIVE
   }
 }
 

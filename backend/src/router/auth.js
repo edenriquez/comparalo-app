@@ -18,7 +18,7 @@ const AuthRouter = () => {
 
   router.get('/google',
     passport.authenticate('google', {
-      scope: ['profile']
+      scope: ['profile', 'email']
     }));
 
   router.get('/facebook/callback',
