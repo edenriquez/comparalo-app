@@ -1,7 +1,8 @@
 import models from '../models';
+
 import {
   buildUserObject
-} from '../api/utils/utils'
+} from '../api/utils/utils';
 
 module.exports.createUser = (body) => {
   return new Promise(async (resolve, reject) => {

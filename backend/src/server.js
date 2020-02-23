@@ -10,7 +10,12 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 import {
   buildUserObject
-} from './api/utils/utils'
+} from './api/utils/utils';
+
+import {
+  USER_STATUSES
+} from './config/constants';
+
 const passport = require('passport'),
   FacebookStrategy = require('passport-facebook').Strategy,
   GoogleStrategy = require('passport-google-oauth20').Strategy;
@@ -27,6 +32,7 @@ passport.use(new FacebookStrategy({
   async (accessToken, refreshToken, profile, done) => {
     const data = buildUserObject(profile._json)
     const entity = new models.Users(data)
+    entity.status = USER_STATUSES.ACTIVE
     const response = await entity.save()
     if (response.id) {
       return done(null, response)
@@ -48,6 +54,7 @@ passport.use(new GoogleStrategy(
   async (accessToken, refreshToken, profile, done) => {
     const data = buildUserObject(profile._json)
     const entity = new models.Users(data)
+    entity.status = USER_STATUSES.ACTIVE
     const response = await entity.save()
     if (response.id) {
       return done(null, response)

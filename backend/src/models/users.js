@@ -17,6 +17,9 @@ var userSchema = new mongoose.Schema({
   password: {
     type: String,
     index: true
+  },
+  status: {
+    type: String
   }
 });
 
@@ -27,6 +30,10 @@ userSchema.methods.isValid = (data) => {
     username: Joi.string().required(),
     email: Joi.string().required().unique(),
     password: Joi.string().required(),
+    status: Joi.string().valid(
+      "activated",
+      "inactive"
+    )
   });
   return schema.validate(data);
 };
