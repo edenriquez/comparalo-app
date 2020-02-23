@@ -33,3 +33,10 @@ module.exports.couldNotSave = () => {
     details: `Cannot save product object, try again later`,
   }
 }
+
+module.exports.couldNotSaveUser = () => {
+  return {
+    message: ERRORS.COULD_NOT_SAVE_USER,
+    details: `Cannot save user object, try again later`,
+  }
+}
