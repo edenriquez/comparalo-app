@@ -10,9 +10,15 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 import {
   buildUserObject
-} from './api/utils/utils'
+} from './api/utils/utils';
+
+import {
+  USER_STATUSES
+} from './config/constants';
+
 const passport = require('passport'),
-  FacebookStrategy = require('passport-facebook').Strategy;
+  FacebookStrategy = require('passport-facebook').Strategy,
+  GoogleStrategy = require('passport-google-oauth20').Strategy;
 import models, {
   connectDb,
 } from './models';
@@ -24,9 +30,9 @@ passport.use(new FacebookStrategy({
     },
   },
   async (accessToken, refreshToken, profile, done) => {
-    console.log(profile._json)
     const data = buildUserObject(profile._json)
     const entity = new models.Users(data)
+    entity.status = USER_STATUSES.ACTIVE
     const response = await entity.save()
     if (response.id) {
       return done(null, response)
@@ -42,6 +48,19 @@ passport.deserializeUser(function (obj, done) {
   done(null, obj);
 });
 
+
+passport.use(new GoogleStrategy(
+  config.googleAuth,
+  async (accessToken, refreshToken, profile, done) => {
+    const data = buildUserObject(profile._json)
+    const entity = new models.Users(data)
+    entity.status = USER_STATUSES.ACTIVE
+    const response = await entity.save()
+    if (response.id) {
+      return done(null, response)
+    }
+  }
+));
 
 // adding Helmet to enhance your API's security
 app.use(helmet());

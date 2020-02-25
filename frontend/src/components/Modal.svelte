@@ -28,18 +28,45 @@
     ];
 
   const handleSubmit = () => {
-    const options = {
+    const productOptions = {
       url: productUrl,
       category: selected.id
     };
-    axios.defaults.baseURL = CONSTANTS.RECOVER_BASE_API;
+
+    const userOptions = {
+      email: subscribeEmail
+    };
+
     axios
-      .post("jobs/product/new", options)
-      .then(async res => {
-        console.log("NEW PRODUCT ", res);
-      })
-      .catch(async err => {
-        console.log("ERROR SENDING PRODUCT ", err);
+      .all([
+        axios.post(
+          CONSTANTS.RECOVER_BASE_API + "/jobs/product/new",
+          productOptions
+        ),
+        axios.post(CONSTANTS.BACKEND_BASE_API + "/auth/new", userOptions)
+      ])
+      .then(
+        axios.spread((...responses) => {
+          const product = responses[0];
+          const user = responses[1];
+          product
+            .then(async res => {
+              console.log("NEW PRODUCT ", res);
+            })
+            .catch(async err => {
+              console.log("ERROR SENDING PRODUCT ", err);
+            });
+          user
+            .then(async res => {
+              console.log("NEW USER ", res);
+            })
+            .catch(async err => {
+              console.log("ERROR SENDING USER ", err);
+            });
+        })
+      )
+      .catch(err => {
+        console.log("ERROR ", err);
       });
     productUrl = "";
     selected.id = "electronic";
@@ -62,6 +89,24 @@
       `location=1,scrollbars=1,width=${popupWidth},height=${popupWidth},left=${xPosition},top=${yPosition}`
     );
   }
+  function googleLogin() {
+    var googleLoginWindow;
+    var popupWidth = 500;
+    var popupHeight = 500;
+    var xPosition = (window.outerWidth - popupWidth) / 2;
+    var yPosition = (window.outerHeight - popupHeight) / 2;
+    let loginUrl = CONSTANTS.BACKEND_BASE_API + "/auth/google";
+
+    googleLoginWindow = window.open(
+      loginUrl,
+      "LoginWindow",
+      `location=1,scrollbars=1,width=${popupWidth},height=${popupWidth},left=${xPosition},top=${yPosition}`
+    );
+  }
+  const handleGoogleLogin = () => {
+    googleLogin();
+  };
+
   const handleFacebookLogin = () => {
     facebookLogin();
   };
@@ -300,7 +345,8 @@
 
             <button
               class="w-1/2 bg-white hover:bg-gray-100 text-gray-800
-              font-semibold py-2 px-4 border border-gray-400 rounded shadow m-1">
+              font-semibold py-2 px-4 border border-gray-400 rounded shadow m-1"
+              on:click|preventDefault={handleGoogleLogin}>
               <svg
                 version="1.1"
                 id="Livello_1"
