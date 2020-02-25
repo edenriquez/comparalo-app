@@ -1,16 +1,19 @@
 <script>
   import axios from "axios";
   import { CONSTANTS } from "../config/constants";
+  let userInfo;
   axios.defaults.baseURL = CONSTANTS.BACKEND_BASE_API;
   axios
-    .get("auth/facebook/callback")
+    .get("user/info")
     .then(async res => {
-      // TODO: handle sucess resposne
-      console.log("success", res);
+      userInfo = res;
     })
     .catch(async err => {
-      // TODO: handle error response
       console.log("err", err);
     });
-  window.close();
 </script>
+
+<div>
+  <h1>User Profile</h1>
+  {userInfo}
+</div>
