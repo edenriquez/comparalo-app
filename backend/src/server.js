@@ -35,6 +35,7 @@ passport.use(new FacebookStrategy({
     entity.status = USER_STATUSES.ACTIVE
     const response = await entity.save()
     if (response.id) {
+      req.usedStrategy = 'facebook';
       return done(null, response)
     }
   }
@@ -57,6 +58,7 @@ passport.use(new GoogleStrategy(
     entity.status = USER_STATUSES.ACTIVE
     const response = await entity.save()
     if (response.id) {
+      req.usedStrategy = 'google';
       return done(null, response)
     }
   }
@@ -78,6 +80,8 @@ app.use(cors());
 app.use(morgan('combined'));
 
 app.use(passport.initialize());
+
+app.use(passport.session());
 
 app.use('/', require('./router')())
 
