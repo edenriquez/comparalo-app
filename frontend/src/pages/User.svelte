@@ -7,6 +7,7 @@
     .get("user/info")
     .then(async res => {
       userInfo = res;
+      console.log(userInfo);
     })
     .catch(async err => {
       console.log("err", err);

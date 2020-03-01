@@ -2,7 +2,9 @@ require('dotenv').config();
 process.env["NODE_CONFIG_DIR"] = __dirname + "/config/";
 const all_routes = require('express-list-endpoints');
 const config = require('config');
-var express = require('express');
+var express = require('express'),
+  cookieParser = require('cookie-parser'),
+  session = require('express-session');
 var app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -19,9 +21,24 @@ import {
 const passport = require('passport'),
   FacebookStrategy = require('passport-facebook').Strategy,
   GoogleStrategy = require('passport-google-oauth20').Strategy;
+
 import models, {
   connectDb,
 } from './models';
+
+app.use(cookieParser());
+app.use(session({
+  secret: 'crackalackin',
+  resave: true,
+  saveUninitialized: true,
+  cookie: {
+    secure: false,
+    maxAge: (4 * 60 * 60 * 1000)
+  }, // 4 hours
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 passport.use(new FacebookStrategy({
     ...config.facebookAuth,
@@ -35,18 +52,22 @@ passport.use(new FacebookStrategy({
     entity.status = USER_STATUSES.ACTIVE
     const response = await entity.save()
     if (response.id) {
-      req.usedStrategy = 'facebook';
       return done(null, response)
     }
   }
 ));
 
 passport.serializeUser(function (user, done) {
-  done(null, user);
+  console.log('SERIALIZE ', user);
+  done(null, user.email);
 });
 
-passport.deserializeUser(function (obj, done) {
-  done(null, obj);
+passport.deserializeUser(async function (email, done) {
+  console.log('DESERIALIZE ', email);
+  const user = await models.Users.findUser(email)
+  console.log('USER ', user);
+
+  done(null, user);
 });
 
 
@@ -58,7 +79,6 @@ passport.use(new GoogleStrategy(
     entity.status = USER_STATUSES.ACTIVE
     const response = await entity.save()
     if (response.id) {
-      req.usedStrategy = 'google';
       return done(null, response)
     }
   }
@@ -78,10 +98,6 @@ app.use(cors());
 
 // adding morgan to log HTTP requests
 app.use(morgan('combined'));
-
-app.use(passport.initialize());
-
-app.use(passport.session());
 
 app.use('/', require('./router')())
 

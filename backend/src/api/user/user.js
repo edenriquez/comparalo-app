@@ -3,11 +3,8 @@ import {
   resultsNotFound
 } from '../../services/errors';
 
-
-
-
 module.exports.getUserInformation = async (req, res) => {
-  service.getUserInformation(req.user)
+  service.getUserInformation(req.user.email)
     .then((result) => {
       res.status(200).json(result)
     })
@@ -17,13 +14,13 @@ module.exports.getUserInformation = async (req, res) => {
 }
 
 module.exports.isAuthenticated = async (req, res, next) => {
-  console.log('[authentication middleware] starting')
-  if (req.usedStrategy) {
+  console.log('[authentication middleware] starting', req.user)
+  if (req.user) {
     console.log('[authentication middleware] user session exists')
     next();
   } else {
     console.log('[authentication middleware] no user sesion')
-    res.redirect('/auth/facebook');
+    res.redirect('/etc'); // placeholder
     // TODO: check how to identify user type
     // res.redirect('/auth/google');
   }
