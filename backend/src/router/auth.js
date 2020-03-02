@@ -7,14 +7,15 @@ import {
 import {
   CONSTANTS
 } from '../config/constants'
+
 const AuthRouter = () => {
   var router = express.Router();
-
   router.post('/new', createUser);
 
-  router.get('/facebook', passport.authenticate('facebook', {
-    scope: ['email']
-  }));
+  router.get('/facebook',
+    passport.authenticate('facebook', {
+      scope: ['email']
+    }));
 
   router.get('/google',
     passport.authenticate('google', {

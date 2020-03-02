@@ -1,5 +1,5 @@
 'use strict'
-
+const passport = require('passport')
 var express = require('express');
 import {
   isAuthenticated,
