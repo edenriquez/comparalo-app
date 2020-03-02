@@ -82,6 +82,11 @@
     var xPosition = (window.outerWidth - popupWidth) / 2;
     var yPosition = (window.outerHeight - popupHeight) / 2;
     let loginUrl = CONSTANTS.BACKEND_BASE_API + "/auth/facebook";
+    console.log(
+      loginUrl,
+      "LoginWindow",
+      `location=1,scrollbars=1,width=${popupWidth},height=${popupWidth},left=${xPosition},top=${yPosition}`
+    );
 
     facebookLoginWindow = window.open(
       loginUrl,
