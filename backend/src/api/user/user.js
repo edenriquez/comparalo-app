@@ -4,8 +4,11 @@ import {
 } from '../../services/errors';
 
 module.exports.getUserInformation = async (req, res) => {
-  service.getUserInformation(req.user.email)
+
+  service.getUserInformation(req.user)
     .then((result) => {
+      console.log('ABOUT TO RETURN ', result);
+
       res.status(200).json(result)
     })
     .catch((err) => {
@@ -20,8 +23,6 @@ module.exports.isAuthenticated = async (req, res, next) => {
     next();
   } else {
     console.log('[authentication middleware] no user sesion')
-    res.redirect('/etc'); // placeholder
-    // TODO: check how to identify user type
-    // res.redirect('/auth/google');
+    res.redirect('/'); // placeholder
   }
 }
