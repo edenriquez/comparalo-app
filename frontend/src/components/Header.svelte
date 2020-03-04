@@ -1,5 +1,4 @@
 <script>
-  import { link } from "svelte-spa-router";
   export let headerFirstText;
   export let headerSecondText;
   export let headerThirdText;
@@ -16,7 +15,6 @@
 </style>
 
 <header class="px-3 flex flex-wrap w-full">
-  <a href="/user/profile" use:link>user/profile</a>
   <h1 class="w-full text-center font-bold ">
     <span class="text-5xl text-black-100">{headerFirstText}</span>
     <span class="text-5xl text-green-500">{headerSecondText}</span>

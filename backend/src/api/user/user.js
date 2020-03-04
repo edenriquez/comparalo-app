@@ -7,8 +7,6 @@ module.exports.getUserInformation = async (req, res) => {
 
   service.getUserInformation(req.user)
     .then((result) => {
-      console.log('ABOUT TO RETURN ', result);
-
       res.status(200).json(result)
     })
     .catch((err) => {
