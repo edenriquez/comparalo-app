@@ -7,12 +7,10 @@
     .then(async res => {
       // TODO: handle sucess resposne
       console.log("success", res);
-      alert("success");
     })
     .catch(async err => {
       // TODO: handle error response
       console.log("err", err);
-      alert("error");
     });
   window.close();
 </script>
