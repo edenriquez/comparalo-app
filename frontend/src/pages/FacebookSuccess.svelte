@@ -4,13 +4,14 @@
   axios.defaults.baseURL = CONSTANTS.BACKEND_BASE_API;
   axios
     .get("auth/facebook/callback")
-    .then(async res => {
-      // TODO: handle sucess resposne
-      console.log("success", res);
+    .then(res => {
+      console.log(res);
+      window.r = res;
+      window.opener.parent.postMessage(res.data, "*");
     })
-    .catch(async err => {
-      // TODO: handle error response
-      console.log("err", err);
+    .catch(err => {
+      console.log(err);
     });
+  window.opener.parent.posstMessage(res.data, "*");
   window.close();
 </script>

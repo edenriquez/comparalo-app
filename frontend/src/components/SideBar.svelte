@@ -1,6 +1,7 @@
 <script>
   import { link } from "svelte-spa-router";
-  export let userSession;
+  import { readable, get } from "svelte/store";
+  import { username } from "../store/user.js";
 </script>
 
 <style>
@@ -10,8 +11,8 @@
 </style>
 
 <div class="navigator">
-  {#if userSession}
-    <div>Navigation</div>
+  <div>{$username}</div>
+  {#if $username}
     <a href="/user/profile" use:link>profile</a>
   {/if}
 </div>

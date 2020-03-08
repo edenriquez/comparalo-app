@@ -9,8 +9,6 @@
   export let headerSecondText = getContext("HeaderProps").headerSecondText;
   export let headerThirdText = getContext("HeaderProps").headerThirdText;
   export let placeholderText = getContext("HeaderProps").placeholderText;
-
-  let userSession = true;
 </script>
 
 <style>
@@ -19,7 +17,7 @@
 
 <div class="flex flex-wrap">
   <Header {headerFirstText} {headerSecondText} {headerThirdText} />
-  <Search {placeholderText} bind:userSession />
-  <SideBar userSession />
+  <Search {placeholderText} />
+  <SideBar />
   <Categories />
 </div>
