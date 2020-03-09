@@ -58,15 +58,11 @@ passport.use(new FacebookStrategy({
 ));
 
 passport.serializeUser(function (user, done) {
-  console.log('SERIALIZE ', user);
   done(null, user.email);
 });
 
 passport.deserializeUser(async function (email, done) {
-  console.log('DESERIALIZE ', email);
   const user = await models.Users.findUser(email)
-  console.log('USER ', user);
-
   done(null, user);
 });
 
