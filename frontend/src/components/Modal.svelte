@@ -4,6 +4,7 @@
   import dynamics from "dynamics.js";
   import { Form, Step } from "./MultiStepForm";
   import { CONSTANTS } from "../config/constants";
+  import { username } from "../store/user.js";
   let productUrl,
     subscribeEmail,
     selected,
@@ -91,12 +92,9 @@
 
     window.onmessage = function(e) {
       if (e.data) {
-        console.log("RETURN VAL", e);
-        //Code for true
+        username.set(e.data.username || e.data.email);
       } else {
-        console.log("RETURN VAL", e);
-
-        //Code for false
+        console.log("Error ", e);
       }
     };
   }
