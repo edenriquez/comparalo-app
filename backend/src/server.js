@@ -111,11 +111,6 @@ app.use(morgan('combined'));
 
 app.use('/', require('./router')())
 
-// app.all('*', function (req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   next();
-// });
 connectDb().then(async () => {
   console.log(all_routes(app));
   app.listen(process.env.PORT);
