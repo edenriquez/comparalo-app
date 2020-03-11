@@ -21,6 +21,7 @@
   });
 </script>
 
+<!-- SHOULD RENDER SUCCESS WINDOW... -->
 <div class="flex flex-wrap">
   <div class="w-full text-center">
     <h1 class="text-gray-500">
