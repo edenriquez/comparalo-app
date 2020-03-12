@@ -4,6 +4,7 @@
   import dynamics from "dynamics.js";
   import { Form, Step } from "./MultiStepForm";
   import { CONSTANTS } from "../config/constants";
+  import { username, userSession } from "../store/user.js";
   let productUrl,
     subscribeEmail,
     selected,
@@ -82,17 +83,21 @@
     var xPosition = (window.outerWidth - popupWidth) / 2;
     var yPosition = (window.outerHeight - popupHeight) / 2;
     let loginUrl = CONSTANTS.BACKEND_BASE_API + "/auth/facebook";
-    console.log(
-      loginUrl,
-      "LoginWindow",
-      `location=1,scrollbars=1,width=${popupWidth},height=${popupWidth},left=${xPosition},top=${yPosition}`
-    );
 
     facebookLoginWindow = window.open(
       loginUrl,
       "LoginWindow",
       `location=1,scrollbars=1,width=${popupWidth},height=${popupWidth},left=${xPosition},top=${yPosition}`
     );
+
+    window.onmessage = function(e) {
+      if (e.data) {
+        username.set(e.data.username || e.data.email);
+        userSession.set(1);
+      } else {
+        console.log("Error ", e);
+      }
+    };
   }
   function googleLogin() {
     var googleLoginWindow;
@@ -115,6 +120,7 @@
   const handleFacebookLogin = () => {
     facebookLogin();
   };
+
   onMount(async () => {
     var btnClose = document.querySelector(".js-close");
     var modalBackground = document.getElementById("animated-modal");
@@ -250,6 +256,11 @@
     width: 13px;
     display: inline-block;
   }
+  .success-step {
+    min-width: 400px;
+    vertical-align: center;
+    min-height: 200px;
+  }
 </style>
 
 <div id="animated-modal" class="modal-background" />
@@ -302,118 +313,127 @@
         </div>
       </Step>
       <Step>
-        <div class="flex flex-wrap -mx-3 mb-6">
-          <div class="w-full px-3 mb-6 md:mb-0">
-            <label
-              class="block uppercase tracking-wide text-gray-700 text-xs
-              font-bold mb-2"
-              for="form-email-field">
-              Email:
-              <span class="text-gray-500">(opcional)</span>
-            </label>
-            <input
-              class="appearance-none block w-full text-gray-700 rounded py-3
-              px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-              id="form-email-field"
-              type="email"
-              placeholder="Suscribete para recibir mas informacion!"
-              bind:value={subscribeEmail} />
+        <div id="social-auth" class="flex flex-wrap -mx-3 mb-6">
+          <div class="success-step w-full flex flex-wrap items-center">
+            {#if $userSession}
+              <div class="w-full px-3 mb-6 md:mb-0">
+                <h1 class="text-center text-green-600">Success</h1>
+              </div>
+            {:else}
+              <div class="w-full px-3 mb-6 md:mb-0">
+                <label
+                  class="block uppercase tracking-wide text-gray-700 text-xs
+                  font-bold mb-2"
+                  for="form-email-field">
+                  Email:
+                  <span class="text-gray-500">(opcional)</span>
+                </label>
+                <input
+                  class="appearance-none block w-full text-gray-700 rounded py-3
+                  px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                  id="form-email-field"
+                  type="email"
+                  placeholder="Suscribete para recibir mas informacion!"
+                  bind:value={subscribeEmail} />
+              </div>
+              <div class="flex w-full px-3 mb-6 md:mb-0 my-2">
+                <div class="right-separator" />
+                <span class="or-separator">OR</span>
+                <div class="left-separator" />
+              </div>
+
+              <div class="flex w-full px-3 mb-6 md:mb-0">
+                <button
+                  class="w-1/2 bg-white hover:bg-gray-100 text-gray-800
+                  font-semibold py-2 px-4 border border-gray-400 rounded shadow
+                  m-1"
+                  on:click|preventDefault={handleFacebookLogin}>
+                  <svg
+                    class="svg-facebook"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="13"
+                    height="13"
+                    viewBox="88.428 12.828 107.543 207.085">
+                    <path
+                      d="M158.232
+                      219.912v-94.461h31.707l4.747-36.813h-36.454V65.134c0-10.658
+                      2.96-17.922
+                      18.245-17.922l19.494-.009V14.278c-3.373-.447-14.944-1.449-28.406-1.449-28.106
+                      0-47.348 17.155-47.348
+                      48.661v27.149H88.428v36.813h31.788v94.461l38.016-.001z"
+                      fill="#3c5a9a" />
+                  </svg>
+                  <span class="font-light">Facebook</span>
+                </button>
+
+                <button
+                  class="w-1/2 bg-white hover:bg-gray-100 text-gray-800
+                  font-semibold py-2 px-4 border border-gray-400 rounded shadow
+                  m-1"
+                  on:click|preventDefault={handleGoogleLogin}>
+                  <svg
+                    version="1.1"
+                    id="Livello_1"
+                    xmlns:x="&ns_extend;"
+                    xmlns:i="&ns_ai;"
+                    xmlns:graph="&ns_graphs;"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    x="0px"
+                    y="0px"
+                    class="svg-google"
+                    viewBox="0 0 533.5 544.3"
+                    style="enable-background:new 0 0 533.5 544.3;"
+                    xml:space="preserve">
+                    <style type="text/css">
+                      .st0 {
+                        fill: #4285f4;
+                      }
+                      .st1 {
+                        fill: #34a853;
+                      }
+                      .st2 {
+                        fill: #fbbc04;
+                      }
+                      .st3 {
+                        fill: #ea4335;
+                      }
+                    </style>
+                    <metadata>
+                      <sfw xmlns="&ns_sfw;">
+                        <slices />
+                        <sliceSourceBounds
+                          bottomLeftOrigin="true"
+                          height="544.3"
+                          width="533.5"
+                          x="0.1"
+                          y="110.1" />
+                      </sfw>
+                    </metadata>
+                    <g>
+                      <path
+                        class="st0"
+                        d="M533.5,278.4c0-18.5-1.5-37.1-4.7-55.3H272.1v104.8h147c-6.1,33.8-25.7,63.7-54.4,82.7v68h87.7
+                        C503.9,431.2,533.5,361.2,533.5,278.4z" />
+                      <path
+                        class="st1"
+                        d="M272.1,544.3c73.4,0,135.3-24.1,180.4-65.7l-87.7-68c-24.4,16.6-55.9,26-92.6,26c-71,0-131.2-47.9-152.8-112.3
+                        H28.9v70.1C75.1,486.3,169.2,544.3,272.1,544.3z" />
+                      <path
+                        class="st2"
+                        d="M119.3,324.3c-11.4-33.8-11.4-70.4,0-104.2V150H28.9c-38.6,76.9-38.6,167.5,0,244.4L119.3,324.3z" />
+                      <path
+                        class="st3"
+                        d="M272.1,107.7c38.8-0.6,76.3,14,104.4,40.8l0,0l77.7-77.7C405,24.6,339.7-0.8,272.1,0C169.2,0,75.1,58,28.9,150
+                        l90.4,70.1C140.8,155.6,201.1,107.7,272.1,107.7z" />
+                    </g>
+                  </svg>
+
+                  <span class="font-light">Google</span>
+                </button>
+              </div>
+            {/if}
           </div>
-          <div class="flex w-full px-3 mb-6 md:mb-0 my-2">
-            <div class="right-separator" />
-            <span class="or-separator">OR</span>
-            <div class="left-separator" />
-          </div>
-
-          <div class="flex w-full px-3 mb-6 md:mb-0">
-            <button
-              class="w-1/2 bg-white hover:bg-gray-100 text-gray-800
-              font-semibold py-2 px-4 border border-gray-400 rounded shadow m-1"
-              on:click|preventDefault={handleFacebookLogin}>
-              <svg
-                class="svg-facebook"
-                xmlns="http://www.w3.org/2000/svg"
-                width="13"
-                height="13"
-                viewBox="88.428 12.828 107.543 207.085">
-                <path
-                  d="M158.232
-                  219.912v-94.461h31.707l4.747-36.813h-36.454V65.134c0-10.658
-                  2.96-17.922
-                  18.245-17.922l19.494-.009V14.278c-3.373-.447-14.944-1.449-28.406-1.449-28.106
-                  0-47.348 17.155-47.348
-                  48.661v27.149H88.428v36.813h31.788v94.461l38.016-.001z"
-                  fill="#3c5a9a" />
-              </svg>
-              <span class="font-light">Facebook</span>
-            </button>
-
-            <button
-              class="w-1/2 bg-white hover:bg-gray-100 text-gray-800
-              font-semibold py-2 px-4 border border-gray-400 rounded shadow m-1"
-              on:click|preventDefault={handleGoogleLogin}>
-              <svg
-                version="1.1"
-                id="Livello_1"
-                xmlns:x="&ns_extend;"
-                xmlns:i="&ns_ai;"
-                xmlns:graph="&ns_graphs;"
-                xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-                x="0px"
-                y="0px"
-                class="svg-google"
-                viewBox="0 0 533.5 544.3"
-                style="enable-background:new 0 0 533.5 544.3;"
-                xml:space="preserve">
-                <style type="text/css">
-                  .st0 {
-                    fill: #4285f4;
-                  }
-                  .st1 {
-                    fill: #34a853;
-                  }
-                  .st2 {
-                    fill: #fbbc04;
-                  }
-                  .st3 {
-                    fill: #ea4335;
-                  }
-                </style>
-                <metadata>
-                  <sfw xmlns="&ns_sfw;">
-                    <slices />
-                    <sliceSourceBounds
-                      bottomLeftOrigin="true"
-                      height="544.3"
-                      width="533.5"
-                      x="0.1"
-                      y="110.1" />
-                  </sfw>
-                </metadata>
-                <g>
-                  <path
-                    class="st0"
-                    d="M533.5,278.4c0-18.5-1.5-37.1-4.7-55.3H272.1v104.8h147c-6.1,33.8-25.7,63.7-54.4,82.7v68h87.7
-                    C503.9,431.2,533.5,361.2,533.5,278.4z" />
-                  <path
-                    class="st1"
-                    d="M272.1,544.3c73.4,0,135.3-24.1,180.4-65.7l-87.7-68c-24.4,16.6-55.9,26-92.6,26c-71,0-131.2-47.9-152.8-112.3
-                    H28.9v70.1C75.1,486.3,169.2,544.3,272.1,544.3z" />
-                  <path
-                    class="st2"
-                    d="M119.3,324.3c-11.4-33.8-11.4-70.4,0-104.2V150H28.9c-38.6,76.9-38.6,167.5,0,244.4L119.3,324.3z" />
-                  <path
-                    class="st3"
-                    d="M272.1,107.7c38.8-0.6,76.3,14,104.4,40.8l0,0l77.7-77.7C405,24.6,339.7-0.8,272.1,0C169.2,0,75.1,58,28.9,150
-                    l90.4,70.1C140.8,155.6,201.1,107.7,272.1,107.7z" />
-                </g>
-              </svg>
-
-              <span class="font-light">Google</span>
-            </button>
-          </div>
-
           <div class="my-8 w-full px-3 mb-6 md:mb-0">
             <button
               class="button-close w-full bg-transparent hover:bg-blue-500

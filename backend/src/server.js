@@ -58,15 +58,11 @@ passport.use(new FacebookStrategy({
 ));
 
 passport.serializeUser(function (user, done) {
-  console.log('SERIALIZE ', user);
   done(null, user.email);
 });
 
 passport.deserializeUser(async function (email, done) {
-  console.log('DESERIALIZE ', email);
   const user = await models.Users.findUser(email)
-  console.log('USER ', user);
-
   done(null, user);
 });
 
@@ -111,11 +107,6 @@ app.use(morgan('combined'));
 
 app.use('/', require('./router')())
 
-// app.all('*', function (req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   next();
-// });
 connectDb().then(async () => {
   console.log(all_routes(app));
   app.listen(process.env.PORT);

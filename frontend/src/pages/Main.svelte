@@ -2,6 +2,7 @@
   import { getContext } from "svelte";
   import Search from "../components/Search.svelte";
   import Header from "../components/Header.svelte";
+  import SideBar from "../components/SideBar.svelte";
   import Categories from "../components/Categories.svelte";
 
   export let headerFirstText = getContext("HeaderProps").headerFirstText;
@@ -17,5 +18,6 @@
 <div class="flex flex-wrap">
   <Header {headerFirstText} {headerSecondText} {headerThirdText} />
   <Search {placeholderText} />
+  <SideBar />
   <Categories />
 </div>
