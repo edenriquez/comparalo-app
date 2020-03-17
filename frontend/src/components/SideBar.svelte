@@ -20,6 +20,7 @@
   }
 
   .navbar {
+    z-index: 11;
     position: fixed;
     background-color: var(--bg-primary);
     transition: width 600ms ease;
@@ -148,27 +149,27 @@
   }
 </style>
 
-{#if $userSession}
-  <!-- should be userValidSession instead userSession-->
-  <nav class="navbar">
-    <ul class="navbar-nav">
-      <li class="logo">
-        <a class="nav-link mx-6" href="/user/profile" use:link>
-          <Icon
-            icon={faUserCircle}
-            class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
-          <span class="link-text logo-text">Profile</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="/" class="nav-link" use:link>
-          <Icon
-            icon={faUserCircle}
-            class="mx-6 svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
-          <span class="link-text">Home</span>
-        </a>
-      </li>
-    </ul>
+<!-- {#if $userSession} -->
+<!-- should be userValidSession instead userSession-->
+<nav class="navbar">
+  <ul class="navbar-nav">
+    <li class="logo">
+      <a class="nav-link mx-6" href="/user/profile" use:link>
+        <Icon
+          icon={faUserCircle}
+          class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
+        <span class="link-text logo-text">Profile</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="/" class="nav-link" use:link>
+        <Icon
+          icon={faUserCircle}
+          class="mx-6 svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
+        <span class="link-text">Home</span>
+      </a>
+    </li>
+  </ul>
 
-  </nav>
-{/if}
+</nav>
+<!-- {/if} -->

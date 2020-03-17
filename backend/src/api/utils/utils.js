@@ -16,11 +16,13 @@ const newId = (prefix) => {
 
 const buildUserObject = (body) => {
   const firstEmail = body.emails ? body.emails[0].value : body.email
+  const profilePhoto = body.photos ? body.photos[0].value : 'unknonw-profile.jpg'
   return {
     user_id: newId('user'),
     username: body.first_name,
     email: firstEmail,
     password: 'password1',
+    photo: profilePhoto,
     status: USER_STATUSES.INACTIVE
   }
 }
