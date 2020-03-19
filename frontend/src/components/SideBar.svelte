@@ -19,31 +19,8 @@
     --transition-speed: 600ms;
   }
 
-  body {
-    color: black;
-    background-color: white;
-    margin: 0;
-    padding: 0;
-  }
-
-  body::-webkit-scrollbar {
-    width: 0.25rem;
-  }
-
-  body::-webkit-scrollbar-track {
-    background: #1e1e24;
-  }
-
-  body::-webkit-scrollbar-thumb {
-    background: #6649b8;
-  }
-
-  main {
-    margin-left: 5rem;
-    padding: 1rem;
-  }
-
   .navbar {
+    z-index: 11;
     position: fixed;
     background-color: var(--bg-primary);
     transition: width 600ms ease;
@@ -86,26 +63,7 @@
 
   .link-text {
     display: none;
-    margin-left: 1rem;
-  }
-
-  .nav-link svg {
-    width: 2rem;
-    min-width: 2rem;
-    margin: 0 1.5rem;
-  }
-
-  .fa-primary {
-    color: #ff7eee;
-  }
-
-  .fa-secondary {
-    color: #df49a6;
-  }
-
-  .fa-primary,
-  .fa-secondary {
-    transition: var(--transition-speed);
+    margin-left: 2rem;
   }
 
   .logo {
@@ -120,20 +78,11 @@
     width: 100%;
   }
 
-  .logo svg {
-    transform: rotate(0deg);
-    transition: var(--transition-speed);
-  }
-
   .logo-text {
     display: inline;
     position: absolute;
     left: -999px;
     transition: var(--transition-speed);
-  }
-
-  .navbar:hover .logo svg {
-    transform: rotate(-180deg);
   }
 
   /* Small screens */
@@ -155,10 +104,6 @@
     .nav-link {
       justify-content: center;
     }
-
-    main {
-      margin: 0;
-    }
   }
 
   /* Large screens */
@@ -175,10 +120,6 @@
 
     .navbar:hover .link-text {
       display: inline;
-    }
-
-    .navbar:hover .logo svg {
-      margin-left: 11rem;
     }
 
     .navbar:hover .logo-text {
@@ -206,22 +147,6 @@
     --bg-primary: #fdf6e3;
     --bg-secondary: #f5e5b8;
   }
-
-  .theme-icon {
-    display: none;
-  }
-
-  .dark #darkIcon {
-    display: block;
-  }
-
-  .light #lightIcon {
-    display: block;
-  }
-
-  .solar #solarIcon {
-    display: block;
-  }
 </style>
 
 <!-- {#if $userSession} -->
@@ -229,7 +154,7 @@
 <nav class="navbar">
   <ul class="navbar-nav">
     <li class="logo">
-      <a class="nav-link" href="/user/profile" use:link>
+      <a class="nav-link mx-6" href="/user/profile" use:link>
         <Icon
           icon={faUserCircle}
           class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
@@ -237,11 +162,11 @@
       </a>
     </li>
     <li class="nav-item">
-      <a href="#" class="nav-link">
+      <a href="/" class="nav-link" use:link>
         <Icon
           icon={faUserCircle}
-          class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
-        <span class="link-text">other</span>
+          class="mx-6 svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
+        <span class="link-text">Home</span>
       </a>
     </li>
   </ul>

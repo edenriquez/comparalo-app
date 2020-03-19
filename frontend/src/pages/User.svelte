@@ -1,8 +1,9 @@
 <script>
   import axios from "axios";
+  import Header from "../components/Header.svelte";
+  import SideBar from "../components/SideBar.svelte";
   import { CONSTANTS } from "../config/constants";
   import { onMount, getContext } from "svelte";
-  import Header from "../components/Header.svelte";
   export let headerFirstText = getContext("HeaderProps").headerFirstText;
   export let headerSecondText = getContext("HeaderProps").headerSecondText;
   export let headerThirdText = getContext("HeaderProps").headerThirdText;
@@ -26,6 +27,7 @@
 
 <div class="flex flex-wrap">
   <Header {headerFirstText} {headerSecondText} {headerThirdText} />
+  <SideBar />
   <div class="w-full text-center">
     <h1 class="text-gray-500">
       Welcome {userInfo.username || userInfo.email}! to your profile

@@ -18,6 +18,9 @@ var userSchema = new mongoose.Schema({
     type: String,
     index: true
   },
+  photo: {
+    type: String,
+  },
   status: {
     type: String
   }
@@ -30,6 +33,7 @@ userSchema.methods.isValid = (data) => {
     username: Joi.string().required(),
     email: Joi.string().required().unique(),
     password: Joi.string().required(),
+    photo: Joi.string().required(),
     status: Joi.string().valid(
       "activated",
       "inactive"

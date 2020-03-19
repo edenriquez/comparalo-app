@@ -47,6 +47,11 @@ passport.use(new FacebookStrategy({
     },
   },
   async (accessToken, refreshToken, profile, done) => {
+    profile._json = Object.assign(profile._json, {
+      photos: [{
+        value: `https://graph.facebook.com/${profile.id}/picture?width=200&height=200&access_token=${accessToken}`,
+      }],
+    })
     const data = buildUserObject(profile._json)
     const entity = new models.Users(data)
     entity.status = USER_STATUSES.ACTIVE
