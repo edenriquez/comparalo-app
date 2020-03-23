@@ -3,9 +3,13 @@
   import { readable, get } from "svelte/store";
   import { username, userSession } from "../store/user.js";
   import Icon from "fa-svelte";
-  import { faUserCircle } from "@fortawesome/free-solid-svg-icons/faUserCircle";
-
-  let icon = faUserCircle;
+  import {
+    faUserAlt,
+    faBell,
+    faSync,
+    faCommentDollar,
+    faRobot
+  } from "@fortawesome/free-solid-svg-icons";
 </script>
 
 <style>
@@ -14,35 +18,25 @@
     font-family: "Open Sans";
     --text-primary: #b6b6b6;
     --text-secondary: #ececec;
-    --bg-primary: #23232e;
-    --bg-secondary: #141418;
+    --bg-primary: #2e47ae;
+    --bg-secondary: #263fae;
     --transition-speed: 600ms;
   }
 
-  .navbar {
+  .nav-explorer {
     z-index: 11;
     position: fixed;
-    background-color: var(--bg-primary);
+    background-color: var(--bg-secondary);
     transition: width 600ms ease;
     overflow: scroll;
   }
-
-  .navbar-nav {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100%;
+  .nav-element li:first-child {
+    margin-bottom: 100px;
   }
-
-  .nav-item {
-    width: 100%;
-  }
-
-  .nav-item:last-child {
-    margin-top: auto;
+  .nav-element {
+    background: var(--bg-primary);
+    max-width: 5em;
+    height: 100vh;
   }
 
   .nav-link {
@@ -54,51 +48,20 @@
     filter: grayscale(100%) opacity(0.7);
     transition: var(--transition-speed);
   }
-
   .nav-link:hover {
-    filter: grayscale(0%) opacity(1);
-    background: var(--bg-secondary);
-    color: var(--text-secondary);
+    color: #fff;
   }
 
-  .link-text {
-    display: none;
-    margin-left: 2rem;
-  }
-
-  .logo {
-    font-weight: bold;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-    text-align: center;
-    color: var(--text-secondary);
-    background: var(--bg-secondary);
-    font-size: 1.5rem;
-    letter-spacing: 0.3ch;
-    width: 100%;
-  }
-
-  .logo-text {
-    display: inline;
-    position: absolute;
-    left: -999px;
-    transition: var(--transition-speed);
+  .active {
+    color: #fff;
   }
 
   /* Small screens */
   @media only screen and (max-width: 600px) {
-    .navbar {
+    .nav-explorer {
       bottom: 0;
       width: 100vw;
       height: 5rem;
-    }
-
-    .logo {
-      display: none;
-    }
-
-    .navbar-nav {
-      flex-direction: row;
     }
 
     .nav-link {
@@ -108,68 +71,57 @@
 
   /* Large screens */
   @media only screen and (min-width: 600px) {
-    .navbar {
+    .nav-explorer {
       top: 0;
       width: 5rem;
-      height: 100vh;
+      height: 102vh;
     }
 
-    .navbar:hover {
-      width: 16rem;
+    .nav-explorer:hover {
+      width: 20rem;
     }
-
-    .navbar:hover .link-text {
-      display: inline;
-    }
-
-    .navbar:hover .logo-text {
-      left: 0px;
-    }
-  }
-
-  .dark {
-    --text-primary: #b6b6b6;
-    --text-secondary: #ececec;
-    --bg-primary: #23232e;
-    --bg-secondary: #141418;
-  }
-
-  .light {
-    --text-primary: #1f1f1f;
-    --text-secondary: #000000;
-    --bg-primary: #ffffff;
-    --bg-secondary: #e4e4e4;
-  }
-
-  .solar {
-    --text-primary: #576e75;
-    --text-secondary: #35535c;
-    --bg-primary: #fdf6e3;
-    --bg-secondary: #f5e5b8;
   }
 </style>
 
 <!-- {#if $userSession} -->
 <!-- should be userValidSession instead userSession-->
-<nav class="navbar">
-  <ul class="navbar-nav">
-    <li class="logo">
-      <a class="nav-link mx-6" href="/user/profile" use:link>
+<nav class="nav-explorer">
+  <ul class="nav-element">
+    <li>
+      <a class="nav-link active mx-6" href="/" use:link>
         <Icon
-          icon={faUserCircle}
+          icon={faCommentDollar}
           class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
-        <span class="link-text logo-text">Profile</span>
       </a>
     </li>
-    <li class="nav-item">
-      <a href="/" class="nav-link" use:link>
+    <li>
+      <a class="nav-link active mx-6" href="/user/profile" use:link>
         <Icon
-          icon={faUserCircle}
-          class="mx-6 svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
-        <span class="link-text">Home</span>
+          icon={faUserAlt}
+          class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
+      </a>
+    </li>
+    <li>
+      <a class="nav-link mx-6" href="/user/notifications" use:link>
+        <Icon
+          icon={faBell}
+          class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
+      </a>
+    </li>
+    <li>
+      <a class="nav-link mx-6" href="/user/sync" use:link>
+        <Icon
+          icon={faSync}
+          class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
+      </a>
+    </li>
+    <li>
+      <a class="nav-link mx-6" href="/user/bot" use:link>
+        <Icon
+          icon={faRobot}
+          class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
       </a>
     </li>
   </ul>
-
 </nav>
 <!-- {/if} -->
