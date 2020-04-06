@@ -17,8 +17,6 @@ const isAuthenticated = async (req, res, next) => {
 const getUserInformation = async (req, res) => {
   service.getUserInformation(req.user)
     .then((result) => {
-      console.log('RESULT', result);
-
       res.status(200).json(result)
     })
     .catch((err) => {
