@@ -28,7 +28,7 @@
     position: fixed;
     background-color: var(--bg-secondary);
     transition: width 600ms ease;
-    overflow: scroll;
+    overflow: hidden;
   }
   .nav-element li:first-child {
     margin-bottom: 100px;
@@ -83,45 +83,45 @@
   }
 </style>
 
-<!-- {#if $userSession} -->
-<!-- should be userValidSession instead userSession-->
-<nav class="nav-explorer">
-  <ul class="nav-element">
-    <li>
-      <a class="nav-link active mx-6" href="/" use:link>
-        <Icon
-          icon={faCommentDollar}
-          class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
-      </a>
-    </li>
-    <li>
-      <a class="nav-link active mx-6" href="/user/profile" use:link>
-        <Icon
-          icon={faUserAlt}
-          class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
-      </a>
-    </li>
-    <li>
-      <a class="nav-link mx-6" href="/user/notifications" use:link>
-        <Icon
-          icon={faBell}
-          class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
-      </a>
-    </li>
-    <li>
-      <a class="nav-link mx-6" href="/user/sync" use:link>
-        <Icon
-          icon={faSync}
-          class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
-      </a>
-    </li>
-    <li>
-      <a class="nav-link mx-6" href="/user/bot" use:link>
-        <Icon
-          icon={faRobot}
-          class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
-      </a>
-    </li>
-  </ul>
-</nav>
-<!-- {/if} -->
+{#if $userSession}
+  <!-- should be userValidSession instead userSession-->
+  <nav class="nav-explorer">
+    <ul class="nav-element">
+      <li>
+        <a class="nav-link active mx-6" href="/" use:link>
+          <Icon
+            icon={faCommentDollar}
+            class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
+        </a>
+      </li>
+      <li>
+        <a class="nav-link active mx-6" href="/user/profile" use:link>
+          <Icon
+            icon={faUserAlt}
+            class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
+        </a>
+      </li>
+      <li>
+        <a class="nav-link mx-6" href="/user/notifications" use:link>
+          <Icon
+            icon={faBell}
+            class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
+        </a>
+      </li>
+      <li>
+        <a class="nav-link mx-6" href="/user/sync" use:link>
+          <Icon
+            icon={faSync}
+            class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
+        </a>
+      </li>
+      <li>
+        <a class="nav-link mx-6" href="/user/bot" use:link>
+          <Icon
+            icon={faRobot}
+            class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
+        </a>
+      </li>
+    </ul>
+  </nav>
+{/if}
