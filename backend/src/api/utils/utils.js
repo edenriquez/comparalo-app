@@ -16,7 +16,7 @@ const newId = (prefix) => {
 
 const buildUserObject = (body) => {
   const firstEmail = body.emails ? body.emails[0].value : body.email
-  const profilePhoto = body.photos ? body.photos[0].value : 'unknonw-profile.jpg'
+  const profilePhoto = body.photos ? body.photos[0].value : 'https://covitalidad.edu.umh.es/wp-content/uploads/sites/1352/2018/06/default-user.png'
   return {
     user_id: newId('user'),
     username: body.first_name,
