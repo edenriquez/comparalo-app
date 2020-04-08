@@ -1,14 +1,15 @@
 <script>
   import { link } from "svelte-spa-router";
   import { readable, get } from "svelte/store";
-  import { username, userSession } from "../store/user.js";
+  import { username, userSession, userProfilePicture } from "../store/user.js";
   import Icon from "fa-svelte";
   import {
     faUserAlt,
     faBell,
     faSync,
     faCommentDollar,
-    faRobot
+    faRobot,
+    faUser
   } from "@fortawesome/free-solid-svg-icons";
 </script>
 
@@ -20,7 +21,7 @@
     --text-secondary: #ececec;
     --bg-primary: #2e47ae;
     --bg-secondary: #263fae;
-    --transition-speed: 600ms;
+    --transition-speed: 200ms;
   }
 
   .nav-explorer {
@@ -34,6 +35,7 @@
     margin-bottom: 100px;
   }
   .nav-element {
+    float: left;
     background: var(--bg-primary);
     max-width: 5em;
     height: 100vh;
@@ -81,6 +83,19 @@
       width: 20rem;
     }
   }
+  .quick-profile {
+    display: inline-block;
+    color: #fff;
+    font-size: 51px;
+    border: 1px dashed;
+    border-radius: 50%;
+    margin-top: 70px;
+    padding: 13px;
+    margin-left: 50px;
+  }
+  .quick-profile img {
+    width: 100px;
+  }
 </style>
 
 {#if $userSession}
@@ -123,5 +138,8 @@
         </a>
       </li>
     </ul>
+    <div class="quick-profile">
+      <img src={$userProfilePicture.photo} alt="" />
+    </div>
   </nav>
 {/if}

@@ -4,7 +4,9 @@
   import dynamics from "dynamics.js";
   import { Form, Step } from "./MultiStepForm";
   import { CONSTANTS } from "../config/constants";
-  import { username, userSession } from "../store/user.js";
+  import { readable, get } from "svelte/store";
+
+  import { username, userSession, userProfilePicture } from "../store/user.js";
   let productUrl,
     subscribeEmail,
     selected,
@@ -92,8 +94,10 @@
 
     window.onmessage = function(e) {
       if (e.data) {
-        username.set(e.data.username || e.data.email);
+        const usernameOrEmail = e.data.username || e.data.email
+        username.set(usernameOrEmail);
         userSession.set(1);
+        userProfilePicture.set({ photo: e.data.photo });
       } else {
         console.log("Error ", e);
       }
