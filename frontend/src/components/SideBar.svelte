@@ -90,10 +90,11 @@
     border: 1px dashed;
     border-radius: 50%;
     margin-top: 70px;
-    padding: 13px;
-    margin-left: 50px;
+    padding: 10px;
+    margin-left: 20%;
   }
   .quick-profile img {
+    border-radius: 50%;
     width: 100px;
   }
 </style>
@@ -141,5 +142,6 @@
     <div class="quick-profile">
       <img src={$userProfilePicture.photo} alt="" />
     </div>
+    <h1 class="text-center text-white">{$username}</h1>
   </nav>
 {/if}
