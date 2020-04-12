@@ -182,7 +182,7 @@
         <div class=" w-full flex flex-wrap">
           <div class="w-full md:w-1/3 lg:w-full p-2">
             {#each results as result}
-              <a href="/product/{result.search_id}" use:link>
+              <a href="/product/{result.product_id}" use:link>
                 <div
                   class="result pl-4 pr-4 pt-2 mb-4 text-left relative flex-grow">
                   <img

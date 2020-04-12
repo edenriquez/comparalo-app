@@ -48,13 +48,12 @@ module.exports.startCommitRegistry = async (body) => {
 
 module.exports.endCommitRegistry = async (productId, searchId) => {
   return new Promise(async (resolve, reject) => {
-    const search = new models.Search()
-    const result = search.findById(searchId)
+    const result = await models.Search.findById(searchId.search_id)
     if (!result) {
       reject(result)
     }
     result.product_id = productId
-    if (await result.update()) {
+    if (await result.save()) {
       resolve(result)
     }
     reject(result)
