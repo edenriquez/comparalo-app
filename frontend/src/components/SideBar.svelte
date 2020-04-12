@@ -9,7 +9,9 @@
     faSync,
     faCommentDollar,
     faRobot,
-    faUser
+    faUser,
+    faHeart,
+    faShare
   } from "@fortawesome/free-solid-svg-icons";
 </script>
 
@@ -91,57 +93,112 @@
     border-radius: 50%;
     margin-top: 70px;
     padding: 10px;
-    margin-left: 20%;
+    margin-left: 25%;
   }
   .quick-profile img {
     border-radius: 50%;
     width: 100px;
   }
+
+  .inner-sidebar {
+    margin-left: 20%;
+  }
+
+  .quick-items > .item {
+    background: #f1f1f1;
+  }
+
+  .score-separator {
+    border-right: 1px solid #ccc;
+    margin: 0 auto;
+    position: relative;
+    width: 1px;
+    margin-bottom: 2px;
+    margin-top: 2px;
+  }
 </style>
 
-{#if $userSession}
-  <!-- should be userValidSession instead userSession-->
-  <nav class="nav-explorer">
-    <ul class="nav-element">
+<!-- {#if $userSession} -->
+<!-- should be userValidSession instead userSession-->
+<nav class="nav-explorer">
+  <ul class="nav-element">
+    <li>
+      <a class="nav-link active mx-6" href="/" use:link>
+        <Icon
+          icon={faCommentDollar}
+          class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
+      </a>
+    </li>
+    <li>
+      <a class="nav-link active mx-6" href="/user/profile" use:link>
+        <Icon
+          icon={faUserAlt}
+          class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
+      </a>
+    </li>
+    <li>
+      <a class="nav-link mx-6" href="/user/notifications" use:link>
+        <Icon
+          icon={faBell}
+          class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
+      </a>
+    </li>
+    <li>
+      <a class="nav-link mx-6" href="/user/sync" use:link>
+        <Icon
+          icon={faSync}
+          class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
+      </a>
+    </li>
+    <li>
+      <a class="nav-link mx-6" href="/user/bot" use:link>
+        <Icon
+          icon={faRobot}
+          class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
+      </a>
+    </li>
+  </ul>
+  <div class="inner-sidebar">
+    <ul>
       <li>
-        <a class="nav-link active mx-6" href="/" use:link>
-          <Icon
-            icon={faCommentDollar}
-            class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
-        </a>
+        <div class="quick-profile">
+          <img src={$userProfilePicture.photo} alt="" />
+        </div>
+        <h1 class="text-center text-white">{$username}</h1>
       </li>
       <li>
-        <a class="nav-link active mx-6" href="/user/profile" use:link>
-          <Icon
-            icon={faUserAlt}
-            class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
-        </a>
+        <h1 class="w-full text-center text-lg text-white mt-10">Puntuacion</h1>
+        <div class="mb-4 mt-10 text-white flex w-full">
+          <div class="w-1/2 text-center ">
+            <span>140</span>
+            <Icon icon={faHeart} class="fa-w-16 fa-5x" />
+          </div>
+          <div class="score-separator" />
+          <div class="w-1/2 text-center ">
+            <span>10</span>
+            <Icon icon={faShare} class="fa-w-16 fa-5x" />
+          </div>
+        </div>
       </li>
       <li>
-        <a class="nav-link mx-6" href="/user/notifications" use:link>
-          <Icon
-            icon={faBell}
-            class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
-        </a>
-      </li>
-      <li>
-        <a class="nav-link mx-6" href="/user/sync" use:link>
-          <Icon
-            icon={faSync}
-            class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
-        </a>
-      </li>
-      <li>
-        <a class="nav-link mx-6" href="/user/bot" use:link>
-          <Icon
-            icon={faRobot}
-            class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x" />
-        </a>
+        <div class="quick-items">
+          <h1 class="text-center text-lg text-white mt-10">
+            Agregados recientemente
+          </h1>
+          <div class="item md:flex rounded-lg m-6 p-4 shadow-lg">
+            <img
+              alt=""
+              class="h-16 w-16 rounded-full mx-auto md:mx-0 md:mr-3"
+              src="https://i.ya-webdesign.com/images/abstract-neon-cube-png-1.png" />
+            <div class="text-center md:text-left">
+              <h2 class="text-md">Product 1</h2>
+              <div class="text-sm text-gray-700">Amazon.com</div>
+              <div class="text-sm text-gray-600">Electronica</div>
+            </div>
+          </div>
+        </div>
       </li>
     </ul>
-    <div class="quick-profile">
-      <img src={$userProfilePicture.photo} alt="" />
-    </div>
-    <h1 class="text-center text-white">{$username}</h1>
-  </nav>
-{/if}
+  </div>
+</nav>
+<!-- {/if} -->
