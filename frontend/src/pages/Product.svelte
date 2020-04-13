@@ -7,18 +7,33 @@
     { name: "Monitor", price: "123", vendor: "ebay" },
     { name: "Monitor", price: "123", vendor: "elektra" }
   ];
-
+  import axios from "axios";
   import { location, link } from "svelte-spa-router";
   import { onMount } from "svelte";
+  import { CONSTANTS } from "../config/constants";
   import ApexCharts from "apexcharts";
 
   const getBeadCrumbRoutest = location => {
     return location.split("/").filter(i => i != "");
   };
 
+  let productInfo = [];
+
   let routes = ["index", ...getBeadCrumbRoutest($location)];
 
   onMount(async () => {
+    axios.defaults.baseURL = CONSTANTS.BACKEND_BASE_API;
+
+    await axios
+      .get(`products/${routes[2]}`)
+      .then(async res => {
+        productInfo = res.data;
+        console.log("RESPONSE ", productInfo);
+      })
+      .catch(async err => {
+        console.log("err", err);
+      });
+
     var options = {
       chart: {
         height: 350,
@@ -138,7 +153,7 @@
   <div class="w-full line-chart ">
     <div class="text-center">
       <span class="text-2xl text-gray-500">Lowest Price:</span>
-      <span class="text-5xl font-bold block">$500.00</span>
+      <span class="text-5xl font-bold block">{productInfo.currentPrice}</span>
     </div>
     <div id="chart" />
   </div>
