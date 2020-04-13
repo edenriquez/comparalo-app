@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 const productHistorySchema = new mongoose.Schema({
   product_id: {
     type: String,
-    unique: true,
   },
   price: {
     type: String,
@@ -42,6 +41,16 @@ productHistorySchema.methods.isValid = (data) => {
   });
   return schema.validate(data);
 };
+
+productHistorySchema.statics.getProductHistoric = async function (productId) {
+  return await this.find({
+      product_id: productId,
+    }).limit(10)
+    .sort({
+      stats: 'desc',
+    });
+}
+
 
 const ProducHistory = mongoose.model('ProducHistory', productHistorySchema);
 

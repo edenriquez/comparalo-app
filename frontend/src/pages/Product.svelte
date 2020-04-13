@@ -18,21 +18,23 @@
   };
 
   let productInfo = [];
+  let historicInfo = [];
 
   let routes = ["index", ...getBeadCrumbRoutest($location)];
 
   onMount(async () => {
     axios.defaults.baseURL = CONSTANTS.BACKEND_BASE_API;
-
-    await axios
-      .get(`products/${routes[2]}`)
-      .then(async res => {
-        productInfo = res.data;
-        console.log("RESPONSE ", productInfo);
-      })
-      .catch(async err => {
-        console.log("err", err);
-      });
+    const productRequest = axios.get(`products/${routes[2]}`);
+    const historicRequest = axios.get(`products/${routes[2]}/historic`);
+    await Promise.all([productRequest, historicRequest]).then(
+      async response => {
+        const product = await response[0];
+        const historic = await response[1];
+        productInfo = product.data;
+        historicInfo = historic.data;
+        window.his = historicInfo;
+      }
+    );
 
     var options = {
       chart: {
