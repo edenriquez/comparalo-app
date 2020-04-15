@@ -31,6 +31,7 @@ module.exports.createProduct = async (req, res, next) => {
     .then((product) => {
       req.productId = product.id // pass product id through middleware
       res.status(200).json(product)
+      next();
     })
     .catch((err) => {
       res.status(401).json(

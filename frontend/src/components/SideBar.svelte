@@ -1,14 +1,17 @@
 <script>
   import { link } from "svelte-spa-router";
   import { readable, get } from "svelte/store";
-  import { username, userSession } from "../store/user.js";
+  import { username, userSession, userProfilePicture } from "../store/user.js";
   import Icon from "fa-svelte";
   import {
     faUserAlt,
     faBell,
     faSync,
     faCommentDollar,
-    faRobot
+    faRobot,
+    faUser,
+    faHeart,
+    faShare
   } from "@fortawesome/free-solid-svg-icons";
 </script>
 
@@ -20,7 +23,7 @@
     --text-secondary: #ececec;
     --bg-primary: #2e47ae;
     --bg-secondary: #263fae;
-    --transition-speed: 600ms;
+    --transition-speed: 200ms;
   }
 
   .nav-explorer {
@@ -28,12 +31,13 @@
     position: fixed;
     background-color: var(--bg-secondary);
     transition: width 600ms ease;
-    overflow: scroll;
+    overflow: hidden;
   }
   .nav-element li:first-child {
     margin-bottom: 100px;
   }
   .nav-element {
+    float: left;
     background: var(--bg-primary);
     max-width: 5em;
     height: 100vh;
@@ -81,6 +85,37 @@
       width: 20rem;
     }
   }
+  .quick-profile {
+    display: inline-block;
+    color: #fff;
+    font-size: 51px;
+    border: 1px dashed;
+    border-radius: 50%;
+    margin-top: 70px;
+    padding: 10px;
+    margin-left: 25%;
+  }
+  .quick-profile img {
+    border-radius: 50%;
+    width: 100px;
+  }
+
+  .inner-sidebar {
+    margin-left: 20%;
+  }
+
+  .quick-items > .item {
+    background: #f1f1f1;
+  }
+
+  .score-separator {
+    border-right: 1px solid #ccc;
+    margin: 0 auto;
+    position: relative;
+    width: 1px;
+    margin-bottom: 2px;
+    margin-top: 2px;
+  }
 </style>
 
 <!-- {#if $userSession} -->
@@ -123,5 +158,47 @@
       </a>
     </li>
   </ul>
+  <div class="inner-sidebar">
+    <ul>
+      <li>
+        <div class="quick-profile">
+          <img src={$userProfilePicture.photo} alt="" />
+        </div>
+        <h1 class="text-center text-white">{$username}</h1>
+      </li>
+      <li>
+        <h1 class="w-full text-center text-lg text-white mt-10">Puntuacion</h1>
+        <div class="mb-4 mt-10 text-white flex w-full">
+          <div class="w-1/2 text-center ">
+            <span>140</span>
+            <Icon icon={faHeart} class="fa-w-16 fa-5x" />
+          </div>
+          <div class="score-separator" />
+          <div class="w-1/2 text-center ">
+            <span>10</span>
+            <Icon icon={faShare} class="fa-w-16 fa-5x" />
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="quick-items">
+          <h1 class="text-center text-lg text-white mt-10">
+            Agregados recientemente
+          </h1>
+          <div class="item md:flex rounded-lg m-6 p-4 shadow-lg">
+            <img
+              alt=""
+              class="h-16 w-16 rounded-full mx-auto md:mx-0 md:mr-3"
+              src="https://i.ya-webdesign.com/images/abstract-neon-cube-png-1.png" />
+            <div class="text-center md:text-left">
+              <h2 class="text-md">Product 1</h2>
+              <div class="text-sm text-gray-700">Amazon.com</div>
+              <div class="text-sm text-gray-600">Electronica</div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
 </nav>
 <!-- {/if} -->
