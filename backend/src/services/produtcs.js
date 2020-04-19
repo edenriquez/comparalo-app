@@ -54,25 +54,26 @@ module.exports.createProduct = (body) => {
       if (productHistory.length > 0) {
         toUpdate = true;
         productHistory = productHistory[0]
-        entityHistory.price = [...productHistory.price, response.currentPrice]
-        entityHistory.vendorRank = [...productHistory.vendorRank, (response.vendorRank || 0)]
+        entityHistory.metrics = productHistory.metrics
+        entityHistory.metrics.push({
+          price: response.currentPrice,
+          vendorRank: (response.vendorName || 0)
+        })
         entityHistory.installments = body.meta.installments || 0
         entityHistory.shippingDetails = body.meta.shippingDetails || 0
         entityHistory.vendorName = body.meta.vendorName || 0
       } else {
-        productHistory.price = [response.currentPrice]
-        productHistory.vendorRank = [(body.meta.vendorRank || 0)]
+        productHistory.metrics = [{
+          price: response.currentPrice,
+          vendorRank: (response.vendorName || 0)
+        }]
         productHistory.installments = body.meta.installments || 0
         productHistory.shippingDetails = body.meta.shippingDetails || 0
         productHistory.vendorName = body.meta.vendorName || 0
         productHistory.product_id = response.id
         entityHistory = new models.ProducHistory(productHistory)
       }
-      console.log('\n\n\nDESPUES', entityHistory);
-
       if (toUpdate) {
-        console.log('UPDATING...');
-
         result = productHistory.updateOne(entityHistory)
       } else {
         result = entityHistory.save()
