@@ -37,15 +37,20 @@ module.exports.findProductById = (id) => {
 module.exports.createProduct = (body) => {
   return new Promise(async (resolve, reject) => {
     const data = buildProductObject(body)
+    // check if given job id has relation with a product
+    // if not create new product
+    // then save product_id into job_id 
+    // job_id -> product_id
+    // if yes get that object and update it
+
     const entity = new models.Product(data)
     const response = await entity.save()
     if (body.meta && response.id) {
       const dataHistory = buildProductHistoryObjetc(body)
-      dataHistory.product_id = response.id
+      dataHistory.product_id = response.id // product ID is being generated every time
       const entityHistory = new models.ProducHistory(dataHistory)
       if (await entityHistory.save()) {
-        // TODO: update with logger 
-        console.log('product history updated for ', response.id, ' name ', data.name)
+        console.log("\x1b[33m", 'product history updated for ', response.id, ' name ', data.name)
       } else {
         console.log('product history cannot be updated for ', response.id)
       }
