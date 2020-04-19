@@ -6,7 +6,8 @@ import {
   createProduct,
   getProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  getProductHistoric
 }
 from '../api/product/products';
 import {
@@ -23,6 +24,7 @@ const ProductsRouter = () => {
   var router = express.Router();
   router.get('/', allProducts);
   router.get('/:id', getProduct);
+  router.get('/:id/historic', getProductHistoric);
   router.post('/new',
     productSchemaValidation,
     startCommitOnSearchEngine,

@@ -5,6 +5,15 @@ import {
   buildProductHistoryObjetc
 } from '../api/utils/utils'
 
+module.exports.getProductHistoric = async (productId) => {
+  return new Promise(async (resolve, reject) => {
+    const result = await models.ProducHistory.getProductHistoric(productId)
+    if (!result) {
+      reject(result)
+    }
+    resolve(result)
+  })
+}
 
 module.exports.allProducts = async () => {
   return new Promise(async (resolve, reject) => {

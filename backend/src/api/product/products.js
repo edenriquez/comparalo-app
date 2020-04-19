@@ -2,6 +2,19 @@ import models from '../../models';
 var errors = require('../../services/errors');
 var service = require('../../services/produtcs');
 
+
+module.exports.getProductHistoric = async (req, res) => {
+  service.getProductHistoric(req.params.id)
+    .then((product) => {
+      res.status(200).json(product)
+    })
+    .catch((err) => {
+      res.status(404).json(
+        errors.productNotFound()
+      )
+    })
+}
+
 module.exports.allProducts = async (req, res) => {
   service.allProducts()
     .then((product) => {
