@@ -36,21 +36,50 @@ module.exports.findProductById = (id) => {
 
 module.exports.createProduct = (body) => {
   return new Promise(async (resolve, reject) => {
-    const data = buildProductObject(body)
-    // check if given job id has relation with a product
-    // if not create new product
-    // then save product_id into job_id 
-    // job_id -> product_id
-    // if yes get that object and update it
-
-    const entity = new models.Product(data)
-    const response = await entity.save()
+    let response;
+    let data;
+    response = await models.Product.findById(body.id)
+    if (!response) {
+      data = buildProductObject(body)
+      const entity = new models.Product(data)
+      response = await entity.save()
+    }
     if (body.meta && response.id) {
-      const dataHistory = buildProductHistoryObjetc(body)
-      dataHistory.product_id = response.id // product ID is being generated every time
-      const entityHistory = new models.ProducHistory(dataHistory)
-      if (await entityHistory.save()) {
-        console.log("\x1b[33m", 'product history updated for ', response.id, ' name ', data.name)
+      let productHistory = await models.ProducHistory.getProductHistoric(response.id)
+      let entityHistory = {}
+      let toUpdate = false;
+      let result;
+      console.log('\n\n\ANTES', productHistory);
+
+      if (productHistory.length > 0) {
+        toUpdate = true;
+        productHistory = productHistory[0]
+        entityHistory.price = [...productHistory.price, response.currentPrice]
+        entityHistory.vendorRank = [...productHistory.vendorRank, (response.vendorRank || 0)]
+        entityHistory.installments = body.meta.installments || 0
+        entityHistory.shippingDetails = body.meta.shippingDetails || 0
+        entityHistory.vendorName = body.meta.vendorName || 0
+      } else {
+        productHistory.price = [response.currentPrice]
+        productHistory.vendorRank = [(body.meta.vendorRank || 0)]
+        productHistory.installments = body.meta.installments || 0
+        productHistory.shippingDetails = body.meta.shippingDetails || 0
+        productHistory.vendorName = body.meta.vendorName || 0
+        productHistory.product_id = response.id
+        entityHistory = new models.ProducHistory(productHistory)
+      }
+      console.log('\n\n\nDESPUES', entityHistory);
+
+      if (toUpdate) {
+        console.log('UPDATING...');
+
+        result = productHistory.updateOne(entityHistory)
+      } else {
+        result = entityHistory.save()
+      }
+
+      if (await result) {
+        console.log("\x1b[33m", 'product history updated for ', body.id, ' name ', body.name)
       } else {
         console.log('product history cannot be updated for ', response.id)
       }

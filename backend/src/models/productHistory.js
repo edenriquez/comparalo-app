@@ -5,7 +5,7 @@ const productHistorySchema = new mongoose.Schema({
     type: String,
   },
   price: {
-    type: String,
+    type: [String],
   },
   installments: {
     type: String,
@@ -14,7 +14,7 @@ const productHistorySchema = new mongoose.Schema({
     type: String,
   },
   vendorRank: { // product rank
-    type: Number,
+    type: [Number],
   },
   vendorName: { // optional
     type: String,

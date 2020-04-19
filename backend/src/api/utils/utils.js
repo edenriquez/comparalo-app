@@ -47,7 +47,7 @@ const buildProductObject = (body) => {
   // TODO: set category
 
   return {
-    id: newId('prod'),
+    id: body.id,
     name: body.name,
     image: body.image,
     link: body.link,
@@ -59,11 +59,9 @@ const buildProductObject = (body) => {
 
 const buildProductHistoryObjetc = (body) => {
   return {
-    price: body.currentPrice,
-    installments: body.meta.installments,
-    shippingDetails: body.meta.shippingDetails,
-    vendorRank: body.meta.vendorRank,
-    vendorName: body.meta.vendorName,
+    installments: body.meta.installments || 0,
+    shippingDetails: body.meta.shippingDetails || 0,
+    vendorName: body.meta.vendorName || 0,
     createdAt: Date.now()
   }
 }
