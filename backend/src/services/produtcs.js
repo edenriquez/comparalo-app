@@ -49,7 +49,6 @@ module.exports.createProduct = (body) => {
       let entityHistory = {}
       let toUpdate = false;
       let result;
-      console.log('\n\n\ANTES', productHistory);
 
       if (productHistory.length > 0) {
         toUpdate = true;
