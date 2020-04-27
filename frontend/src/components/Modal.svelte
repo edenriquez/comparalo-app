@@ -5,8 +5,8 @@
   import { Form, Step } from "./MultiStepForm";
   import { CONSTANTS } from "../config/constants";
   import { readable, get } from "svelte/store";
-
-  import { username, userSession, userProfilePicture } from "../store/user.js";
+  import { username, userSession, userProfilePicture, hasValueToPass } from "../store/user.js";
+  
   let productUrl,
     subscribeEmail,
     selected,
@@ -31,6 +31,8 @@
     ];
 
   const handleSubmit = () => {
+    productUrl = $hasValueToPass ? $hasValueToPass : productUrl
+    hasValueToPass.set(null)
     const productOptions = {
       url: productUrl,
       category: selected.id
@@ -125,7 +127,7 @@
     facebookLogin();
   };
 
-  onMount(async () => {
+  onMount(async () => { 
     var btnClose = document.querySelector(".js-close");
     var modalBackground = document.getElementById("animated-modal");
     var lastBtnClose = document.querySelector(".button-close");
@@ -289,6 +291,7 @@
               type="url"
               required
               data-multistep-error-message="El formato de la url es incorrecto"
+              value={$hasValueToPass}
               bind:value={productUrl}
               placeholder="http://example.com/iphone-x" />
           </div>
