@@ -24,6 +24,9 @@ const productSchema = new mongoose.Schema({
   status: { // published or unpublished, will help to control internally reviews
     type: String,
   },
+  userId: {
+    type: String,
+  },
   meta: {
     type: Object,
   }
@@ -43,6 +46,7 @@ productSchema.methods.isValid = (data) => {
     link: Joi.string().trim().required(),
     category: Joi.string().trim().required(),
     currentPrice: Joi.number().required(),
+    userId: Joi.string().optional(),
     status: Joi.string().valid(
       "published",
       "unpublished"

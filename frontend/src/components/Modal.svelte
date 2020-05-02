@@ -5,8 +5,14 @@
   import { Form, Step } from "./MultiStepForm";
   import { CONSTANTS } from "../config/constants";
   import { readable, get } from "svelte/store";
-  import { username, userSession, userProfilePicture, hasValueToPass } from "../store/user.js";
-  
+  import {
+    username,
+    userSession,
+    userId,
+    userProfilePicture,
+    hasValueToPass
+  } from "../store/user.js";
+
   let productUrl,
     subscribeEmail,
     selected,
@@ -31,11 +37,12 @@
     ];
 
   const handleSubmit = () => {
-    productUrl = $hasValueToPass ? $hasValueToPass : productUrl
-    hasValueToPass.set(null)
+    productUrl = $hasValueToPass ? $hasValueToPass : productUrl;
+    hasValueToPass.set(null);
     const productOptions = {
       url: productUrl,
-      category: selected.id
+      category: selected.id,
+      user: $userId
     };
 
     const userOptions = {
@@ -96,8 +103,9 @@
 
     window.onmessage = function(e) {
       if (e.data) {
-        const usernameOrEmail = e.data.username || e.data.email
+        const usernameOrEmail = e.data.username || e.data.email;
         username.set(usernameOrEmail);
+        userId.set(e.data.user_id);
         userSession.set(1);
         userProfilePicture.set({ photo: e.data.photo });
       } else {
@@ -127,7 +135,7 @@
     facebookLogin();
   };
 
-  onMount(async () => { 
+  onMount(async () => {
     var btnClose = document.querySelector(".js-close");
     var modalBackground = document.getElementById("animated-modal");
     var lastBtnClose = document.querySelector(".button-close");

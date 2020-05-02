@@ -44,9 +44,8 @@ const updateProductObject = (body) => {
  */
 
 const buildProductObject = (body) => {
-  // TODO: set category
-
-  return {
+  const isUserPresent = body.userId ? body.userId : false
+  let resultObject = {
     id: body.id,
     name: body.name,
     image: body.image,
@@ -55,6 +54,11 @@ const buildProductObject = (body) => {
     category: body.category,
     status: PRODUCT_STATUSES.UNPUBLISHED
   };
+
+  if (isUserPresent) {
+    return resultObject.userId = isUserPresent
+  }
+  return resultObject
 }
 
 const buildProductHistoryObjetc = (body) => {
