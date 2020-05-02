@@ -2,6 +2,13 @@ import {
   ERRORS
 } from '../config/constants';
 
+module.exports.cannotLinkProduct = (context) => {
+  return {
+    message: `error cannot link the product with user`,
+    context: JSON.stringify(context)
+  }
+}
+
 module.exports.malformedRequest = (field, context) => {
   return {
     message: `error malformed request`,
