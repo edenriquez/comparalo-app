@@ -2,10 +2,12 @@
   import axios from "axios";
   import SearchResults from "./SearchResults.svelte";
   import { CONSTANTS } from "../config/constants";
+  import {hasValueToPass  } from '../store/user.js'
   export let placeholderText;
   let results;
   let resultShouldRender;
   let isHoveringResults;
+  let searchValue;
   const debounce = (func, delay) => {
     let debounceTimer;
     return function() {
@@ -25,7 +27,7 @@
     results = [];
     resultShouldRender = true;
 
-    const searchValue = event.target.value;
+    searchValue = event.target.value;
     axios
       .get(
         `${CONSTANTS.BACKEND_BASE_API}/search/options?q=${searchValue}&max=10?`
@@ -62,6 +64,9 @@
     searchInput.style.boxShadow = "";
     searchInput.style.marginTop = "25px";
     searchInput.value = "";
+    // TODO: validate if is a domain
+    hasValueToPass.set(searchValue.length > 17? searchValue: "")
+    searchValue = null
     // if mouse is not on any result should hide results
     resultShouldRender = !isHoveringResults ? false : true;
   };
@@ -244,6 +249,9 @@
     <div class="search">
       <span class="search__text">click to search</span>
     </div>
-    <SearchResults {results} bind:resultShouldRender bind:isHoveringResults />
+    <SearchResults
+      {results}
+      bind:resultShouldRender
+      bind:isHoveringResults />
   </div>
 </div>

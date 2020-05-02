@@ -5,7 +5,7 @@
   export let resultShouldRender;
   export let isHoveringResults = false;
   import dynamics from "dynamics.js";
-  import { onMount } from "svelte";
+  
   const hoverOutHandler = () => {
     isHoveringResults = false;
   };
@@ -14,7 +14,7 @@
   };
   const showModalHandler = () => {
     resultShouldRender = false;
-    var btnOpen = document.querySelector(".js-open");
+      var btnOpen = document.querySelector(".js-open");
     var modal = document.querySelector(".js-modal");
     var wrap = document.querySelector(".wrap");
     var modalBackground = document.getElementById("animated-modal");

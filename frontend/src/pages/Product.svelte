@@ -1,12 +1,6 @@
 <script>
   // export let params;
-  let items = [
-    { name: "Monitor", price: "123", vendor: "mercado libre" },
-    { name: "Monitor", price: "123", vendor: "amazon" },
-    { name: "Monitor", price: "123", vendor: "liverpool" },
-    { name: "Monitor", price: "123", vendor: "ebay" },
-    { name: "Monitor", price: "123", vendor: "elektra" }
-  ];
+
   import axios from "axios";
   import { location, link } from "svelte-spa-router";
   import { onMount } from "svelte";
@@ -18,21 +12,42 @@
   };
 
   let productInfo = [];
-
+  let historicInfo = [];
+  let items = [];
   let routes = ["index", ...getBeadCrumbRoutest($location)];
 
   onMount(async () => {
+    let itemsFromApi = [];
     axios.defaults.baseURL = CONSTANTS.BACKEND_BASE_API;
+    const productRequest = axios.get(`products/${routes[2]}`);
+    const historicRequest = axios.get(`products/${routes[2]}/historic`);
+    await Promise.all([productRequest, historicRequest]).then(
+      async response => {
+        const product = await response[0];
+        const historic = await response[1];
+        productInfo = product.data;
+        historicInfo = historic.data;
+      }
+    );
+    itemsFromApi.push({
+      name: productInfo.name,
+      price: productInfo.currentPrice,
+      vendor: "amazon"
+    });
 
-    await axios
-      .get(`products/${routes[2]}`)
-      .then(async res => {
-        productInfo = res.data;
-        console.log("RESPONSE ", productInfo);
-      })
-      .catch(async err => {
-        console.log("err", err);
-      });
+    items = itemsFromApi;
+
+    const sortedPrices = historicInfo[0].metrics.sort(function(a, b) {
+      a = new Date(a.datetime);
+      b = new Date(b.datetime);
+      return a > b ? -1 : a < b ? 1 : 0;
+    });
+    const amazonPrices = [];
+    sortedPrices.splice(0, 5).forEach(element => {
+      amazonPrices.push(element.price);
+    });
+    const mercadoLibrePrices = [35, 41, 62, 42, 13];
+    const elektraPrices = [87, 57, 74, 99, 75];
 
     var options = {
       chart: {
@@ -51,15 +66,15 @@
       series: [
         {
           name: "Amazon",
-          data: [45, 52, 38, 24, 33, 26, 21, 20, 6, 8, 15, 10]
+          data: amazonPrices
         },
         {
           name: "Mercado libre",
-          data: [35, 41, 62, 42, 13, 18, 29, 37, 36, 51, 32, 35]
+          data: mercadoLibrePrices
         },
         {
           name: "Elektra",
-          data: [87, 57, 74, 99, 75, 38, 62, 47, 82, 56, 45, 47]
+          data: elektraPrices
         }
       ],
       title: {
@@ -134,7 +149,7 @@
   } */
 </style>
 
-<div class="beadcrumb shadow-lg rounded p-4 my-4 mx-4">
+<!-- <div class="beadcrumb shadow-lg rounded p-4 my-4 mx-4">
   {#each routes as route, i}
     {#if i == 0}
       <a class="beadcrumb-gray" href="/{route}" use:link>{route}</a>
@@ -147,13 +162,16 @@
     {/if}
   {/each}
 
-</div>
+</div> -->
 
-<div class=" justify-center flex flex-wrap w-full">
+<div class=" justify-center flex flex-wrap w-full mt-24">
   <div class="w-full line-chart ">
     <div class="text-center">
-      <span class="text-2xl text-gray-500">Lowest Price:</span>
-      <span class="text-5xl font-bold block">{productInfo.currentPrice}</span>
+      <span class="text-2xl text-gray-500">Precio mas bajo:</span>
+      <p class="text-1xl text-blue-400">{productInfo.name}</p>
+      <span class="text-5xl font-bold block">
+        $ {productInfo.currentPrice} MXN
+      </span>
     </div>
     <div id="chart" />
   </div>
@@ -162,8 +180,8 @@
 <div class="w-full">
   {#each items as item}
     <div class="product-item rounded shadow-lg my-8 mx-4 p-4">
-      <p class="text-gray-5000">{item.name}</p>
-      <p>{item.price}</p>
+      <p class="text-gray-500">{item.name}</p>
+      <p>$ {item.price} MXN</p>
       <p class="text-gray-400">{item.vendor}</p>
     </div>
   {/each}

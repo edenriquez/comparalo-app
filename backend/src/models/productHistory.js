@@ -1,21 +1,27 @@
 import mongoose from 'mongoose';
-
+const metricsSchema = new mongoose.Schema({
+  price: {
+    type: String
+  },
+  vendorRank: {
+    type: Number
+  },
+  datetime: {
+    type: Date,
+    required: true,
+    default: Date.now
+  }
+})
 const productHistorySchema = new mongoose.Schema({
   product_id: {
     type: String,
-    unique: true,
   },
-  price: {
-    type: String,
-  },
+  metrics: [metricsSchema],
   installments: {
     type: String,
   },
   shippingDetails: { // shipping details
     type: String,
-  },
-  vendorRank: { // product rank
-    type: Number,
   },
   vendorName: { // optional
     type: String,
@@ -42,6 +48,16 @@ productHistorySchema.methods.isValid = (data) => {
   });
   return schema.validate(data);
 };
+
+productHistorySchema.statics.getProductHistoric = async function (productId) {
+  return await this.find({
+      product_id: productId,
+    }).limit(10)
+    .sort({
+      stats: 'desc',
+    });
+}
+
 
 const ProducHistory = mongoose.model('ProducHistory', productHistorySchema);
 

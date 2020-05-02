@@ -5,6 +5,15 @@ import {
   buildProductHistoryObjetc
 } from '../api/utils/utils'
 
+module.exports.getProductHistoric = async (productId) => {
+  return new Promise(async (resolve, reject) => {
+    const result = await models.ProducHistory.getProductHistoric(productId)
+    if (!result) {
+      reject(result)
+    }
+    resolve(result)
+  })
+}
 
 module.exports.allProducts = async () => {
   return new Promise(async (resolve, reject) => {
@@ -27,16 +36,50 @@ module.exports.findProductById = (id) => {
 
 module.exports.createProduct = (body) => {
   return new Promise(async (resolve, reject) => {
-    const data = buildProductObject(body)
-    const entity = new models.Product(data)
-    const response = await entity.save()
+    let response;
+    let data;
+    response = await models.Product.findById(body.id)
+    if (!response) {
+      data = buildProductObject(body)
+      const entity = new models.Product(data)
+      response = await entity.save()
+    }
     if (body.meta && response.id) {
-      const dataHistory = buildProductHistoryObjetc(body)
-      dataHistory.product_id = response.id
-      const entityHistory = new models.ProducHistory(dataHistory)
-      if (await entityHistory.save()) {
-        // TODO: update with logger 
-        console.log('product history updated for ', response.id, ' name ', data.name)
+      let productHistory = await models.ProducHistory.getProductHistoric(response.id)
+      let entityHistory = {}
+      let toUpdate = false;
+      let result;
+
+      if (productHistory.length > 0) {
+        toUpdate = true;
+        productHistory = productHistory[0]
+        entityHistory.metrics = productHistory.metrics
+        entityHistory.metrics.push({
+          price: response.currentPrice,
+          vendorRank: (response.vendorName || 0)
+        })
+        entityHistory.installments = body.meta.installments || 0
+        entityHistory.shippingDetails = body.meta.shippingDetails || 0
+        entityHistory.vendorName = body.meta.vendorName || 0
+      } else {
+        productHistory.metrics = [{
+          price: response.currentPrice,
+          vendorRank: (response.vendorName || 0)
+        }]
+        productHistory.installments = body.meta.installments || 0
+        productHistory.shippingDetails = body.meta.shippingDetails || 0
+        productHistory.vendorName = body.meta.vendorName || 0
+        productHistory.product_id = response.id
+        entityHistory = new models.ProducHistory(productHistory)
+      }
+      if (toUpdate) {
+        result = productHistory.updateOne(entityHistory)
+      } else {
+        result = entityHistory.save()
+      }
+
+      if (await result) {
+        console.log("\x1b[33m", 'product history updated for ', body.id, ' name ', body.name)
       } else {
         console.log('product history cannot be updated for ', response.id)
       }
