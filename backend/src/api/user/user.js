@@ -1,6 +1,7 @@
 var service = require('../../services/user');
 import {
-  resultsNotFound
+  resultsNotFound,
+  userHasNoProducts,
 } from '../../services/errors';
 
 const isAuthenticated = async (req, res, next) => {
@@ -24,7 +25,18 @@ const getUserInformation = async (req, res) => {
     })
 }
 
+const getUserProduct = async (req, res) => {
+  service.getUserProduct(req.params.userid)
+    .then((result) => {
+      res.status(200).json(result)
+    })
+    .catch((err) => {
+      res.status(401).json(userHasNoProducts())
+    })
+}
+
 module.exports = {
   isAuthenticated,
   getUserInformation,
+  getUserProduct,
 }

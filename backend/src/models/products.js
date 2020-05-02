@@ -68,6 +68,11 @@ productSchema.statics.filterProductsByCategory = async function (categoryName) {
   }, productProjection)
 }
 
+productSchema.statics.userProducts = async function (userId) {
+  return await this.find({
+    userId: userId
+  }).limit(3)
+}
 productSchema.statics.getProductByCategory = async function (categoryName, id) {
   return await this.find({
     category: categoryName,

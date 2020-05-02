@@ -34,6 +34,12 @@ module.exports.resultsNotFound = () => {
     details: `Search params not match in our records`,
   }
 }
+module.exports.userHasNoProducts = () => {
+  return {
+    message: ERRORS.RESULTS_NOT_FOUND,
+    details: `user id doesn't have products linked`,
+  }
+}
 module.exports.couldNotSave = () => {
   return {
     message: ERRORS.COULD_NOT_SAVE_PRODUCT,
