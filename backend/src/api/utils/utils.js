@@ -56,7 +56,7 @@ const buildProductObject = (body) => {
   };
 
   if (isUserPresent) {
-    return resultObject.userId = isUserPresent
+    resultObject.userId = isUserPresent
   }
   return resultObject
 }
