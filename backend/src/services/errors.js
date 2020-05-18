@@ -2,6 +2,13 @@ import {
   ERRORS
 } from '../config/constants';
 
+module.exports.cannotLinkProduct = (context) => {
+  return {
+    message: `error cannot link the product with user`,
+    context: JSON.stringify(context)
+  }
+}
+
 module.exports.malformedRequest = (field, context) => {
   return {
     message: `error malformed request`,
@@ -25,6 +32,12 @@ module.exports.resultsNotFound = () => {
   return {
     message: ERRORS.RESULTS_NOT_FOUND,
     details: `Search params not match in our records`,
+  }
+}
+module.exports.userHasNoProducts = () => {
+  return {
+    message: ERRORS.RESULTS_NOT_FOUND,
+    details: `user id doesn't have products linked`,
   }
 }
 module.exports.couldNotSave = () => {

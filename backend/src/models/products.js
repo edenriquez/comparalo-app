@@ -24,6 +24,9 @@ const productSchema = new mongoose.Schema({
   status: { // published or unpublished, will help to control internally reviews
     type: String,
   },
+  userId: {
+    type: String,
+  },
   meta: {
     type: Object,
   }
@@ -43,6 +46,7 @@ productSchema.methods.isValid = (data) => {
     link: Joi.string().trim().required(),
     category: Joi.string().trim().required(),
     currentPrice: Joi.number().required(),
+    userId: Joi.string().optional(),
     status: Joi.string().valid(
       "published",
       "unpublished"
@@ -64,6 +68,11 @@ productSchema.statics.filterProductsByCategory = async function (categoryName) {
   }, productProjection)
 }
 
+productSchema.statics.userProducts = async function (userId) {
+  return await this.find({
+    userId: userId
+  }).limit(3)
+}
 productSchema.statics.getProductByCategory = async function (categoryName, id) {
   return await this.find({
     category: categoryName,

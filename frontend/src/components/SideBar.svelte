@@ -1,7 +1,16 @@
 <script>
   import { link } from "svelte-spa-router";
+  import axios from "axios";
+  import { CONSTANTS } from "../config/constants";
   import { readable, get } from "svelte/store";
-  import { username, userSession, userProfilePicture } from "../store/user.js";
+  import { onMount } from "svelte";
+  import {
+    username,
+    userSession,
+    userProfilePicture,
+    userProducts,
+    userId
+  } from "../store/user.js";
   import Icon from "fa-svelte";
   import {
     faUserAlt,
@@ -13,6 +22,16 @@
     faHeart,
     faShare
   } from "@fortawesome/free-solid-svg-icons";
+  const search = () => {
+    // onMount(async () => {
+    axios
+      .get(`${CONSTANTS.BACKEND_BASE_API}/user/products/${$userId}`)
+      .then(response => {
+        userProducts.set(response.data);
+      })
+      .catch(console.warn);
+  };
+  // });
 </script>
 
 <style>
@@ -185,17 +204,25 @@
           <h1 class="text-center text-lg text-white mt-10">
             Agregados recientemente
           </h1>
-          <div class="item md:flex rounded-lg m-6 p-4 shadow-lg">
-            <img
-              alt=""
-              class="h-16 w-16 rounded-full mx-auto md:mx-0 md:mr-3"
-              src="https://i.ya-webdesign.com/images/abstract-neon-cube-png-1.png" />
-            <div class="text-center md:text-left">
-              <h2 class="text-md">Product 1</h2>
-              <div class="text-sm text-gray-700">Amazon.com</div>
-              <div class="text-sm text-gray-600">Electronica</div>
+          <button class="btn bg-white" on:click={search}>
+            Get products 🤖
+          </button>
+          {#each $userProducts as product}
+            <div class="item md:flex rounded-lg m-6 p-4 shadow-lg">
+              <img
+                alt=""
+                class="h-16 w-16 rounded-full mx-auto md:mx-0 md:mr-3"
+                src={product.img || 'https://i.ya-webdesign.com/images/abstract-neon-cube-png-1.png'} />
+              <div class="text-center md:text-left">
+                <h2 class="text-md">{product.name.slice(0, 10)}</h2>
+                <div class="text-sm text-gray-700">
+                  {product.vendor || 'amazon.com'}
+                </div>
+                <div class="text-sm text-gray-600">{product.status}</div>
+                <div class="text-sm text-gray-600">{product.category}</div>
+              </div>
             </div>
-          </div>
+          {/each}
         </div>
       </li>
     </ul>
