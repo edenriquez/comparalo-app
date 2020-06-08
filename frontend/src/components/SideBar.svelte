@@ -22,6 +22,35 @@
     faHeart,
     faShare
   } from "@fortawesome/free-solid-svg-icons";
+  function facebookLogout() {
+    console.log("LOGOUT");
+  }
+  function facebookLogin() {
+    var facebookLoginWindow;
+    var popupWidth = 500;
+    var popupHeight = 500;
+    var xPosition = (window.outerWidth - popupWidth) / 2;
+    var yPosition = (window.outerHeight - popupHeight) / 2;
+    let loginUrl = CONSTANTS.BACKEND_BASE_API + "/auth/facebook";
+
+    facebookLoginWindow = window.open(
+      loginUrl,
+      "LoginWindow",
+      `location=1,scrollbars=1,width=${popupWidth},height=${popupWidth},left=${xPosition},top=${yPosition}`
+    );
+
+    window.onmessage = function(e) {
+      if (e.data) {
+        const usernameOrEmail = e.data.username || e.data.email;
+        username.set(usernameOrEmail);
+        userId.set(e.data.user_id);
+        userSession.set(1);
+        userProfilePicture.set({ photo: e.data.photo });
+      } else {
+        console.log("Error ", e);
+      }
+    };
+  }
   const search = () => {
     // onMount(async () => {
     axios
@@ -104,6 +133,29 @@
       width: 20rem;
     }
   }
+  .sign-in button {
+    width: 220px;
+    margin-left: 20px;
+    margin-top: 20px;
+  }
+
+  .sign-in svg {
+    display: inline-block;
+  }
+
+  .sign-in {
+    margin-top: 10px;
+  }
+
+  .sign-out {
+    position: absolute;
+    bottom: 50px;
+  }
+  .sign-out button {
+    width: 200px;
+    margin-left: 20px;
+  }
+
   .quick-profile {
     display: inline-block;
     color: #fff;
@@ -137,7 +189,6 @@
   }
 </style>
 
-<!-- {#if $userSession} -->
 <!-- should be userValidSession instead userSession-->
 <nav class="nav-explorer">
   <ul class="nav-element">
@@ -178,54 +229,108 @@
     </li>
   </ul>
   <div class="inner-sidebar">
-    <ul>
-      <li>
-        <div class="quick-profile">
-          <img src={$userProfilePicture.photo} alt="" />
-        </div>
-        <h1 class="text-center text-white">{$username}</h1>
-      </li>
-      <li>
-        <h1 class="w-full text-center text-lg text-white mt-10">Puntuacion</h1>
-        <div class="mb-4 mt-10 text-white flex w-full">
-          <div class="w-1/2 text-center ">
-            <span>140</span>
-            <Icon icon={faHeart} class="fa-w-16 fa-5x" />
+    {#if $userSession}
+      <ul>
+        <li>
+          <div class="quick-profile">
+            <img src={$userProfilePicture.photo} alt="" />
           </div>
-          <div class="score-separator" />
-          <div class="w-1/2 text-center ">
-            <span>10</span>
-            <Icon icon={faShare} class="fa-w-16 fa-5x" />
-          </div>
-        </div>
-      </li>
-      <li>
-        <div class="quick-items">
-          <h1 class="text-center text-lg text-white mt-10">
-            Agregados recientemente
+          <h1 class="text-center text-white">{$username}</h1>
+        </li>
+        <li>
+          <h1 class="w-full text-center text-lg text-white mt-10">
+            Puntuacion
           </h1>
-          <button class="btn bg-white" on:click={search}>
-            Get products 🤖
-          </button>
-          {#each $userProducts as product}
-            <div class="item md:flex rounded-lg m-6 p-4 shadow-lg">
-              <img
-                alt=""
-                class="h-16 w-16 rounded-full mx-auto md:mx-0 md:mr-3"
-                src={product.img || 'https://i.ya-webdesign.com/images/abstract-neon-cube-png-1.png'} />
-              <div class="text-center md:text-left">
-                <h2 class="text-md">{product.name.slice(0, 10)}</h2>
-                <div class="text-sm text-gray-700">
-                  {product.vendor || 'amazon.com'}
-                </div>
-                <div class="text-sm text-gray-600">{product.status}</div>
-                <div class="text-sm text-gray-600">{product.category}</div>
-              </div>
+          <div class="mb-4 mt-10 text-white flex w-full">
+            <div class="w-1/2 text-center ">
+              <span>140</span>
+              <Icon icon={faHeart} class="fa-w-16 fa-5x" />
             </div>
-          {/each}
-        </div>
-      </li>
-    </ul>
+            <div class="score-separator" />
+            <div class="w-1/2 text-center ">
+              <span>10</span>
+              <Icon icon={faShare} class="fa-w-16 fa-5x" />
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="quick-items">
+            <h1 class="text-center text-lg text-white mt-10">
+              Agregados recientemente
+            </h1>
+            <button class="btn bg-white" on:click={search}>
+              Get products 🤖
+            </button>
+            {#each $userProducts as product}
+              <a href="/product/{product.id}" use:link>
+                <div
+                  class=" bg-white item md:flex rounded-lg m-6 p-4 shadow-lg">
+                  <img
+                    alt=""
+                    class="h-16 w-16 rounded-full mx-auto md:mx-0 md:mr-3"
+                    src={product.img || 'https://i.ya-webdesign.com/images/abstract-neon-cube-png-1.png'} />
+                  <div class="text-center md:text-left">
+                    <h2 class="text-md">{product.name.slice(0, 10)}</h2>
+                    <div class="text-sm text-gray-700">
+                      {product.vendor || 'amazon.com'}
+                    </div>
+                    <div class="text-sm text-gray-600">{product.status}</div>
+                    <div class="text-sm text-gray-600">{product.category}</div>
+                  </div>
+                </div>
+              </a>
+            {/each}
+          </div>
+        </li>
+      </ul>
+      <div class="sign-out">
+        <button
+          class="w-1/2 bg-black hover:bg-whtie-100 text-white font-semibold py-2
+          px-4 border border-gray-400 rounded shadow m-1"
+          on:click|preventDefault={facebookLogout}>
+          <svg
+            class="svg-facebook"
+            xmlns="http://www.w3.org/2000/svg"
+            width="13"
+            height="13"
+            viewBox="88.428 12.828 107.543 207.085">
+            <path
+              d="M158.232
+              219.912v-94.461h31.707l4.747-36.813h-36.454V65.134c0-10.658
+              2.96-17.922
+              18.245-17.922l19.494-.009V14.278c-3.373-.447-14.944-1.449-28.406-1.449-28.106
+              0-47.348 17.155-47.348
+              48.661v27.149H88.428v36.813h31.788v94.461l38.016-.001z"
+              fill="#3c5a9a" />
+          </svg>
+          <span class="font-light">sign out</span>
+        </button>
+      </div>
+    {:else}
+      <div class="sign-in">
+        <h2 class="text-center text-white">Sign in</h2>
+        <button
+          class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2
+          px-4 border border-gray-400 rounded shadow m-1"
+          on:click|preventDefault={facebookLogin}>
+          <svg
+            class="svg-facebook"
+            xmlns="http://www.w3.org/2000/svg"
+            width="13"
+            height="13"
+            viewBox="88.428 12.828 107.543 207.085">
+            <path
+              d="M158.232
+              219.912v-94.461h31.707l4.747-36.813h-36.454V65.134c0-10.658
+              2.96-17.922
+              18.245-17.922l19.494-.009V14.278c-3.373-.447-14.944-1.449-28.406-1.449-28.106
+              0-47.348 17.155-47.348
+              48.661v27.149H88.428v36.813h31.788v94.461l38.016-.001z"
+              fill="#3c5a9a" />
+          </svg>
+          <span class="font-light">Facebook</span>
+        </button>
+      </div>
+    {/if}
   </div>
 </nav>
-<!-- {/if} -->
