@@ -145,15 +145,16 @@
 
   .sign-in {
     margin-top: 10px;
+    width: 250px;
   }
 
   .sign-out {
-    position: absolute;
-    bottom: 50px;
+    margin-top: auto;
   }
   .sign-out button {
     width: 200px;
     margin-left: 20px;
+    margin-bottom: 25px;
   }
 
   .quick-profile {
@@ -173,6 +174,14 @@
 
   .inner-sidebar {
     margin-left: 20%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .inner-sidebar ul {
+    margin: 0;
+    width: 250px;
   }
 
   .quick-items > .item {
