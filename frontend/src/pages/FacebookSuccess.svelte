@@ -2,7 +2,7 @@
   import axios from "axios";
   import { CONSTANTS } from "../config/constants";
   import { onMount } from "svelte";
-  import { username } from "../store/user.js";
+  import { sessionInformation } from "../store/user.js";
 
   let userInfo = [];
   onMount(async () => {
