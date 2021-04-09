@@ -34,6 +34,11 @@ const AuthRouter = () => {
       failureRedirect: CONSTANTS.FRONTEND_BASE_API + '/#/auth/google/failure',
     }));
 
+    router.get('/google/logout', (req, res)=>{
+      req.logout();
+      res.redirect('/');
+    });
+    
   return router
 }
 module.exports = AuthRouter;

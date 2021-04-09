@@ -39,7 +39,6 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
-
 passport.use(new FacebookStrategy({
     ...config.facebookAuth,
     ...{
@@ -114,5 +113,6 @@ app.use('/', require('./router')())
 
 connectDb().then(async () => {
   console.log(all_routes(app));
+  console.log('RUNNING ON PORT ',process.env.PORT)
   app.listen(process.env.PORT);
 });
